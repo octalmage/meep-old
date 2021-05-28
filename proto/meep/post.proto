@@ -1,0 +1,12 @@
+syntax = "proto3";
+package octalmage.meep.meep;
+
+option go_package = "github.com/octalmage/meep/x/meep/types";
+
+import "gogoproto/gogo.proto";
+
+message Post {
+  string creator = 1;
+  uint64 id = 2;
+  string body = 3; 
+}
