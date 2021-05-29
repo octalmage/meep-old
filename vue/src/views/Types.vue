@@ -136,7 +136,7 @@ export default {
         ]
       };
 
-      await fetch(`http://${window.location.host.replace('8081','4500')}`, {
+      await fetch(`http://${window.location.host.replace('8081','4500').replace('8888','4500')}`, {
        method: 'post',
         body: JSON.stringify(options)
       });
