@@ -134,7 +134,7 @@ export default {
         ]
       };
 
-      await fetch('http://localhost:4500', {
+      await fetch('http://159.65.103.150:4500', {
        method: 'post',
         body: JSON.stringify(options)
       });
