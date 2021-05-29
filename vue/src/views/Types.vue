@@ -4,6 +4,12 @@
       <!-- this line is used by starport scaffolding # 4 -->
       <h3>MEEP</h3>
       <div class="sp-voter__main sp-box sp-shadow sp-form-group">
+        <div
+          class="sp-voter__main sp-box sp-shadow sp-form-group"
+          v-show="!hasFunds && currentAccount"
+        >
+          <sp-button :disabled="submitting" @click="getMEEP">Get 5 MEEP for free!</sp-button>
+        </div>
         <form class="sp-voter__main__form">
           <div class="sp-voter__main__rcpt__header sp-box-header">
             Post a new update
@@ -12,20 +18,26 @@
           <textarea
             :disabled="submitting"
             class="sp-input"
-            placeholder="bio"
+            placeholder=""
             v-model="body"
           />
-          <!-- <div v-for="(option, index) in options" v-bind:key="'option' + index">
-            <input class="sp-input" placeholder="Option" v-model="option.title" />
-          </div> -->
-          <!-- <sp-button @click="add">+ Add option</sp-button> -->
-          <sp-button :disabled="submitting" @click="submit">Post</sp-button>
+
+          <sp-button v-show="hasFunds" :disabled="submitting" @click="submit">Post</sp-button>
+          <sp-button v-show="!currentAccount" disabled @click="submit"
+            >Sign in</sp-button
+          >
+          <sp-button
+            v-show="!hasFunds && currentAccount"
+            disabled
+            @click="submit"
+            >You need MEEP</sp-button
+          >
         </form>
       </div>
 
       <div class="sp-type-list sp-type__list">
         <h3>Posts</h3>
-				<br />
+        <br />
         <div class="sp-type-list__main sp-box sp-shadow">
           <div class="sp-type-list__header sp-box-header">POSTS</div>
           <div v-for="post in posts" v-bind:key="'post' + post.id">
@@ -36,15 +48,15 @@
               <div class="sp-type-list__item__details">
                 <div class="sp-type-list__item__details__field">
                   <strong>Creator</strong><br />
-									{{post.creator}}
+                  {{ post.creator }}
                 </div>
                 <div class="sp-type-list__item__details__field">
                   <strong>Body</strong><br />
-                  {{post.body}}
+                  {{ post.body }}
                 </div>
               </div>
             </div>
-						<div class="sp-dashed-line">&nbsp;</div>
+            <div class="sp-dashed-line">&nbsp;</div>
           </div>
         </div>
       </div>
@@ -60,9 +72,19 @@ export default {
     return {
       body: "",
       submitting: false,
+      balances: [],
     };
   },
+   watch: {
+    // whenever question changes, this function will run
+    currentAccount: async function () {
+      this.updateBalances();
+    }
+  },
   computed: {
+    hasFunds() {
+      return this.balances.length > 0;
+    },
     posts() {
       const posts =
         this.$store.getters["octalmage.meep.meep/getPostAll"]({
@@ -91,6 +113,35 @@ export default {
     },
   },
   methods: {
+    async updateBalances() {
+      	if (this.currentAccount) {
+        await this.$store.dispatch("cosmos.bank.v1beta1/QueryAllBalances",{options:{subscribe:true, all:true},params: { address: this.currentAccount }})
+				this.balances = this.$store.getters['cosmos.bank.v1beta1/getAllBalances']({
+						params: { address: this.currentAccount },
+					})?.balances ?? [];
+
+			} else {
+				this.balances = [];
+			}
+    
+    },
+    async getMEEP() {
+      this.submitting = true;
+      const options = {
+        "address": this.currentAccount,
+        "coins": [
+          "5meep"
+        ]
+      };
+
+      await fetch('http://localhost:4500', {
+       method: 'post',
+        body: JSON.stringify(options)
+      });
+
+      await this.updateBalances();
+      this.submitting = false;
+    },
     async submit() {
 			if (!this.loggedIn) {
 				alert('Unlock your wallet!');
