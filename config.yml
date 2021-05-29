@@ -1,24 +1,40 @@
 accounts:
   - name: octalmage
-    coins: ["1000000000meep", "1000000000stake"]
+    coins: ["10000000000meep"]
     # address: cosmos10tumxa8rsy4lu5q8x6f73wu4s4j7wpkk4mjwcp
+
 validator:
   name: octalmage
-  staked: "100000000stake"
+  staked: "1000000000meep"
 client:
   vuex:
     path: "vue/src/store"
 faucet:
   name: octalmage 
   coins: ["5meep"]
-  host: "159.65.103.150:4500"
+  # host: "159.65.103.150:4500"
 genesis:
-  chain_id: "meep"
+  chain_id: "meep-1"
+  app_state:
+    staking:
+      params:
+        bond_denom: "meep"
+    mint:
+      params:
+        mint_denom: "meep"
+    crisis:
+      constant_fee:
+        denom: "meep"
+    gov:
+      deposit_params:
+        min_deposit:
+          - amount: "1000"
+            denom: "meep" 
 host:
-  rpc: "159.65.103.150:26657"
-  # p2p: ":26658"
-  # prof: ":6061"
-  # grpc: ":9091"
-  api: "159.65.103.150:1317"
-  frontend: "159.65.103.150:8888"
-  dev-ui: "159.65.103.150:12345"
+  # rpc: "159.65.103.150:26657"
+  # # p2p: ":26658"
+  # # prof: ":6061"
+  # # grpc: ":9091"
+  # api: "159.65.103.150:1317"
+  # frontend: "159.65.103.150:8888"
+  # dev-ui: "159.65.103.150:12345"

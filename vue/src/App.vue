@@ -38,7 +38,9 @@ export default {
 		}
 	},
 	async created() {
-		await this.$store.dispatch('common/env/init')
+		await this.$store.dispatch('common/env/init', {  chainId: 'meep-1',
+  addrPrefix: 'meep',
+  sdkVersion: 'Stargate',})
 		this.initialized = true
 
 		await this.$store.dispatch("octalmage.meep.meep/QueryPostAll",{options:{subscribe:true, all:true},params:{}})
