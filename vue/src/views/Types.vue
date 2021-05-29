@@ -1,15 +1,121 @@
 <template>
-	<div>
-		<div class="container">
-      	<!-- this line is used by starport scaffolding # 4 -->
-		<SpType modulePath="octalmage.meep.meep" moduleType="Post"  />
-		</div>
-	</div>
+  <div>
+    <div class="container">
+      <!-- this line is used by starport scaffolding # 4 -->
+      <h3>MEEP</h3>
+      <div class="sp-voter__main sp-box sp-shadow sp-form-group">
+        <form class="sp-voter__main__form">
+          <div class="sp-voter__main__rcpt__header sp-box-header">
+            Post a new update
+          </div>
+
+          <textarea
+            :disabled="submitting"
+            class="sp-input"
+            placeholder="bio"
+            v-model="body"
+          />
+          <!-- <div v-for="(option, index) in options" v-bind:key="'option' + index">
+            <input class="sp-input" placeholder="Option" v-model="option.title" />
+          </div> -->
+          <!-- <sp-button @click="add">+ Add option</sp-button> -->
+          <sp-button :disabled="submitting" @click="submit">Post</sp-button>
+        </form>
+      </div>
+
+      <div class="sp-type-list sp-type__list">
+        <h3>Posts</h3>
+				<br />
+        <div class="sp-type-list__main sp-box sp-shadow">
+          <div class="sp-type-list__header sp-box-header">POSTS</div>
+          <div v-for="post in posts" v-bind:key="'post' + post.id">
+            <div class="sp-type-list__item">
+              <div class="sp-type-list__item__icon">
+                <div class="sp-icon sp-icon-Docs"></div>
+              </div>
+              <div class="sp-type-list__item__details">
+                <div class="sp-type-list__item__details__field">
+                  <strong>Creator</strong><br />
+									{{post.creator}}
+                </div>
+                <div class="sp-type-list__item__details__field">
+                  <strong>Body</strong><br />
+                  {{post.body}}
+                </div>
+              </div>
+            </div>
+						<div class="sp-dashed-line">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
 
 <script>
 export default {
-	name: 'Types'
-}
+  name: "Types",
+  data() {
+    return {
+      body: "",
+      submitting: false,
+    };
+  },
+  computed: {
+    posts() {
+      const posts =
+        this.$store.getters["octalmage.meep.meep/getPostAll"]({
+          params: {},
+        })?.Post ?? [];
+      posts.reverse();
+      return posts;
+    },
+    currentAccount() {
+      if (this._depsLoaded) {
+        if (this.loggedIn) {
+          return this.$store.getters["common/wallet/address"];
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    },
+    loggedIn() {
+      if (this._depsLoaded) {
+        return this.$store.getters["common/wallet/loggedIn"];
+      } else {
+        return false;
+      }
+    },
+  },
+  methods: {
+    async submit() {
+			if (!this.loggedIn) {
+				alert('Unlock your wallet!');
+				return;
+			}
+      this.submitting = true;
+      const value = {
+        creator: this.currentAccount,
+        body: this.body,
+      };
+
+      await this.$store.dispatch("octalmage.meep.meep/sendMsgCreatePost", {
+        value,
+        fee: [],
+      });
+      this.body = "";
+      this.submitting = false;
+    },
+  },
+	errorCaptured(err) {
+		alert('error!');
+		console.error(err)
+		this.submitting = false;
+		return false
+	}
+};
 </script>
 

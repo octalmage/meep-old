@@ -4,10 +4,10 @@
 					v-on:sidebar-close="sidebarOpen = false"
 				>
 					<template v-slot:default>
-						<SpLinkIcon link="/" text="Dashboard" icon="Dashboard" />
-						<SpLinkIcon link="/types" text="Custom Type" icon="Form" />
-						<div class="sp-dash"></div>
-						<SpLinkIcon href="https://github.com/tendermint/starport" target="_blank" text="Documentation" icon="Docs" />
+						<SpLinkIcon link="/" text="Home" icon="Home" />
+						<SpLinkIcon link="/wallet" text="Wallet" icon="Money" />
+						<!-- <div class="sp-dash"></div> -->
+						<!-- <SpLinkIcon href="https://github.com/tendermint/starport" target="_blank" text="Documentation" icon="Docs" />-->
 					</template>
 					<template v-slot:footer>
 						<SpStatusAPI :showText="sidebarOpen" />

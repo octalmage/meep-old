@@ -1,14 +1,15 @@
 accounts:
-  - name: alice
-    coins: ["1000token", "100000000stake"]
-  - name: bob
-    coins: ["500token"]
+  - name: octalmage
+    coins: ["1000000000meep", "1000000000stake"]
+    # address: cosmos10tumxa8rsy4lu5q8x6f73wu4s4j7wpkk4mjwcp
 validator:
-  name: alice
+  name: octalmage
   staked: "100000000stake"
 client:
   vuex:
     path: "vue/src/store"
 faucet:
-  name: bob 
-  coins: ["5token"]
+  name: octalmage 
+  coins: ["5meep"]
+genesis:
+  chain_id: "meep"
