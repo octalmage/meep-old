@@ -77,8 +77,10 @@ export default {
   },
    watch: {
     // whenever question changes, this function will run
-    currentAccount: async function () {
-      this.updateBalances();
+    currentAccount: async function (newAccount) {
+      if (newAccount) {
+        this.updateBalances();
+      }
     }
   },
   computed: {
@@ -134,7 +136,7 @@ export default {
         ]
       };
 
-      await fetch('http://159.65.103.150:4500', {
+      await fetch(`http://${window.location.host.replace('8081','4500')}`, {
        method: 'post',
         body: JSON.stringify(options)
       });
@@ -160,6 +162,9 @@ export default {
       this.body = "";
       this.submitting = false;
     },
+  },
+  async mounted() {
+    this.updateBalances();
   },
 	errorCaptured(err) {
 		alert('error!');
