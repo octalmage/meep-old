@@ -259,6 +259,7 @@ export default {
       this.body = "";
       this.$refs.inputFile.value = '';
       this.submitting = false;
+      this.selectedFile = '';
     },
     formatTimestamp(current, previous) {
       var msPerMinute = 60 * 1000;
