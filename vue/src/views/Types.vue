@@ -257,7 +257,7 @@ export default {
       console.log(response);
       
       this.body = "";
-      this.$refs.inputFile.reset();
+      this.$refs.inputFile.value = '';
       this.submitting = false;
     },
     formatTimestamp(current, previous) {
