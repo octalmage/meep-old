@@ -4,21 +4,21 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgUpdatePost } from "./types/meep/tx";
-import { MsgUpdateThread } from "./types/meep/tx";
-import { MsgCreatePost } from "./types/meep/tx";
 import { MsgDeletePost } from "./types/meep/tx";
 import { MsgCreateThread } from "./types/meep/tx";
 import { MsgDeleteThread } from "./types/meep/tx";
+import { MsgUpdatePost } from "./types/meep/tx";
+import { MsgCreatePost } from "./types/meep/tx";
+import { MsgUpdateThread } from "./types/meep/tx";
 
 
 const types = [
-  ["/octalmage.meep.meep.MsgUpdatePost", MsgUpdatePost],
-  ["/octalmage.meep.meep.MsgUpdateThread", MsgUpdateThread],
-  ["/octalmage.meep.meep.MsgCreatePost", MsgCreatePost],
   ["/octalmage.meep.meep.MsgDeletePost", MsgDeletePost],
   ["/octalmage.meep.meep.MsgCreateThread", MsgCreateThread],
   ["/octalmage.meep.meep.MsgDeleteThread", MsgDeleteThread],
+  ["/octalmage.meep.meep.MsgUpdatePost", MsgUpdatePost],
+  ["/octalmage.meep.meep.MsgCreatePost", MsgCreatePost],
+  ["/octalmage.meep.meep.MsgUpdateThread", MsgUpdateThread],
   
 ];
 
@@ -26,7 +26,7 @@ const registry = new Registry(<any>types);
 
 const defaultFee = {
   amount: [],
-  gas: "200000",
+  gas: "5000000",
 };
 
 interface TxClientOptions {
@@ -46,12 +46,12 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee=defaultFee, memo=null }: SignAndBroadcastOptions) => memo?client.signAndBroadcast(address, msgs, fee,memo):client.signAndBroadcast(address, msgs, fee),
-    msgUpdatePost: (data: MsgUpdatePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdatePost", value: data }),
-    msgUpdateThread: (data: MsgUpdateThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdateThread", value: data }),
-    msgCreatePost: (data: MsgCreatePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreatePost", value: data }),
     msgDeletePost: (data: MsgDeletePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgDeletePost", value: data }),
     msgCreateThread: (data: MsgCreateThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreateThread", value: data }),
     msgDeleteThread: (data: MsgDeleteThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgDeleteThread", value: data }),
+    msgUpdatePost: (data: MsgUpdatePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdatePost", value: data }),
+    msgCreatePost: (data: MsgCreatePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreatePost", value: data }),
+    msgUpdateThread: (data: MsgUpdateThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdateThread", value: data }),
     
   };
 };

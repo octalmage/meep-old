@@ -12,7 +12,7 @@ client:
 faucet:
   name: octalmage 
   coins: ["5meep"]
-  coins_max: ["5meep"]
+  coins_max: ["10meep"]
   host: "159.65.103.150:4500"
 genesis:
   chain_id: "meep-1"

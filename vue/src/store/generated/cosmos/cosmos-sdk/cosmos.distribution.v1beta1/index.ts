@@ -317,7 +317,7 @@ export default {
 			try {
 				const msg = await (await initTxClient(rootGetters)).msgFundCommunityPool(value)
 				const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], {fee: { amount: fee, 
-  gas: "200000" }, memo})
+  gas: "5000000" }, memo})
 				return result
 			} catch (e) {
 				if (e.toString()=='wallet is required') {
@@ -331,7 +331,7 @@ export default {
 			try {
 				const msg = await (await initTxClient(rootGetters)).msgWithdrawValidatorCommission(value)
 				const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], {fee: { amount: fee, 
-  gas: "200000" }, memo})
+  gas: "5000000" }, memo})
 				return result
 			} catch (e) {
 				if (e.toString()=='wallet is required') {
@@ -345,7 +345,7 @@ export default {
 			try {
 				const msg = await (await initTxClient(rootGetters)).msgWithdrawDelegatorReward(value)
 				const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], {fee: { amount: fee, 
-  gas: "200000" }, memo})
+  gas: "5000000" }, memo})
 				return result
 			} catch (e) {
 				if (e.toString()=='wallet is required') {
@@ -359,7 +359,7 @@ export default {
 			try {
 				const msg = await (await initTxClient(rootGetters)).msgSetWithdrawAddress(value)
 				const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], {fee: { amount: fee, 
-  gas: "200000" }, memo})
+  gas: "5000000" }, memo})
 				return result
 			} catch (e) {
 				if (e.toString()=='wallet is required') {

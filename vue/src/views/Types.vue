@@ -24,7 +24,7 @@
             placeholder=""
             v-model="body"
           />
-
+          <input ref="inputFile" type="file" @change="onFileChanged" /> <br />
           <sp-button
             v-show="hasFunds"
             :disabled="submitting"
@@ -49,20 +49,27 @@
         >
           <div class="sp-type-list__header sp-box-header">POSTS</div>
           <div
-            v-for="(post, _, index) in postsForThread(thread.id)"
+            v-for="post in postsForThread(thread.id)"
             v-bind:key="'post' + post.id"
           >
             <div class="sp-type-list__item">
-              <div class="sp-type-list__item__icon">
+              <div  v-show="!post.image" class="sp-type-list__item__icon">
                 <div class="sp-icon sp-icon-Docs"></div>
+      
               </div>
+              <div style="width: 300px;  margin-right: 12px;" v-show="post.image" >
+                  <img @click="openImage(post.image)" style="max-width: 100%;" :src="post.image" v-show="post.image" />
+                </div>
               <div class="sp-type-list__item__details">
-                User <strong>{{ post.creator.substr(-8) }}</strong> said:<br /><br />
+                User
+                <strong>{{ post.creator.substr(-8) }}</strong> said:<br /><br />
                 <div class="sp-type-list__item__details__field">
                   {{ post.body }}
                 </div>
                 <br />
-                <strong>{{ formatTimestamp(Date.now(), post.createdAt) }}</strong>
+                <strong>{{
+                  formatTimestamp(Date.now(), post.createdAt)
+                }}</strong>
               </div>
             </div>
             <div class="sp-dashed-line">&nbsp;</div>
@@ -105,6 +112,7 @@ export default {
       body: "",
       submitting: false,
       balances: [],
+      selectedFile: '',
     };
   },
   watch: {
@@ -136,7 +144,7 @@ export default {
         this.$store.getters["octalmage.meep.meep/getPostAll"]({
           params: {},
         })?.Post ?? [];
-
+      console.log(posts);
       return posts;
     },
     currentAccount() {
@@ -159,6 +167,16 @@ export default {
     },
   },
   methods: {
+    onFileChanged(event) {
+      console.log('changed');
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      const vm = this;
+      reader.onloadend = function () {
+        vm.selectedFile = reader.result;
+      };
+      reader.readAsDataURL(file);
+    },
     async updateBalances() {
       if (this.currentAccount) {
         await this.$store.dispatch("cosmos.bank.v1beta1/QueryAllBalances", {
@@ -193,13 +211,16 @@ export default {
       await this.updateBalances();
       this.submitting = false;
     },
+    async openImage(image) {
+      const newTab = window.open();
+      newTab.document.body.innerHTML = `<img src="${image}">`;
+    },  
     async createThread() {
       this.submitting = true;
       const value = {
         creator: this.currentAccount,
       };
 
-      
       let threadId = 0;
 
       if (this.threads.length > 0) {
@@ -211,12 +232,6 @@ export default {
         fee: [],
       });
 
-      await this.$store.dispatch("octalmage.meep.meep/QueryThreadAll", {
-        options: { subscribe: true, all: true },
-        params: {},
-      });
-
-      
       await this.createPost(threadId);
     },
     async createPost(threadId) {
@@ -231,13 +246,18 @@ export default {
         creator: this.currentAccount,
         body: this.body,
         thread: Number(threadId),
+        image: this.selectedFile,
       };
 
-      await this.$store.dispatch("octalmage.meep.meep/sendMsgCreatePost", {
+      const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreatePost", {
         value,
         fee: [],
       });
+
+      console.log(response);
+      
       this.body = "";
+      this.$refs.inputFile.reset();
       this.submitting = false;
     },
     formatTimestamp(current, previous) {

@@ -475,7 +475,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgDelegate(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -491,7 +491,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgEditValidator(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -507,7 +507,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgCreateValidator(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -523,7 +523,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgUndelegate(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -539,7 +539,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgBeginRedelegate(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {

@@ -199,7 +199,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgConnectionOpenAck(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -215,7 +215,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgConnectionOpenConfirm(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -231,7 +231,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgConnectionOpenInit(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -247,7 +247,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgConnectionOpenTry(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {

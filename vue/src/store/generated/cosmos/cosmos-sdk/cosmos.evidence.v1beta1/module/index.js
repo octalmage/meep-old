@@ -9,7 +9,7 @@ const types = [
 const registry = new Registry(types);
 const defaultFee = {
     amount: [],
-    gas: "200000",
+    gas: "5000000",
 };
 const txClient = async (wallet, { addr: addr } = { addr: "http://159.65.103.150:26657" }) => {
     if (!wallet)

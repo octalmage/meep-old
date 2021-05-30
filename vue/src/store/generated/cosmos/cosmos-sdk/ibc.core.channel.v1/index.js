@@ -394,7 +394,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgChannelOpenInit(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -410,7 +410,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgTimeout(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -426,7 +426,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgChannelOpenAck(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -442,7 +442,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgChannelCloseInit(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -458,7 +458,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgChannelCloseConfirm(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -474,7 +474,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgChannelOpenConfirm(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -490,7 +490,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgChannelOpenTry(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -506,7 +506,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgRecvPacket(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -522,7 +522,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgTimeoutOnClose(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {
@@ -538,7 +538,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgAcknowledgement(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {

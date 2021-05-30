@@ -157,7 +157,7 @@ export default {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgUnjail(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                        gas: "5000000" }, memo });
                 return result;
             }
             catch (e) {

@@ -297,7 +297,7 @@ export default {
 			try {
 				const msg = await (await initTxClient(rootGetters)).msgSubmitProposal(value)
 				const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], {fee: { amount: fee, 
-  gas: "200000" }, memo})
+  gas: "5000000" }, memo})
 				return result
 			} catch (e) {
 				if (e.toString()=='wallet is required') {
@@ -311,7 +311,7 @@ export default {
 			try {
 				const msg = await (await initTxClient(rootGetters)).msgDeposit(value)
 				const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], {fee: { amount: fee, 
-  gas: "200000" }, memo})
+  gas: "5000000" }, memo})
 				return result
 			} catch (e) {
 				if (e.toString()=='wallet is required') {
@@ -325,7 +325,7 @@ export default {
 			try {
 				const msg = await (await initTxClient(rootGetters)).msgVote(value)
 				const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], {fee: { amount: fee, 
-  gas: "200000" }, memo})
+  gas: "5000000" }, memo})
 				return result
 			} catch (e) {
 				if (e.toString()=='wallet is required') {

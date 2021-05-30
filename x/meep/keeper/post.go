@@ -55,6 +55,7 @@ func (k Keeper) AppendPost(
 		Id:        count,
 		Thread:    thread,
 		Body:      body,
+		Image:     image,
 	}
 
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.PostKey))
