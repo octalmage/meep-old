@@ -8,6 +8,8 @@ export interface MeepPost {
     creator?: string;
     /** @format uint64 */
     id?: string;
+    /** @format uint64 */
+    thread?: string;
     body?: string;
 }
 export interface MeepQueryAllPostResponse {

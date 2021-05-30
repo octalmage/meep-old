@@ -2,14 +2,17 @@
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
 export const protobufPackage = "octalmage.meep.meep";
-const baseMsgCreatePost = { creator: "", body: "" };
+const baseMsgCreatePost = { creator: "", thread: 0, body: "" };
 export const MsgCreatePost = {
     encode(message, writer = Writer.create()) {
         if (message.creator !== "") {
             writer.uint32(10).string(message.creator);
         }
+        if (message.thread !== 0) {
+            writer.uint32(16).uint64(message.thread);
+        }
         if (message.body !== "") {
-            writer.uint32(18).string(message.body);
+            writer.uint32(26).string(message.body);
         }
         return writer;
     },
@@ -24,6 +27,9 @@ export const MsgCreatePost = {
                     message.creator = reader.string();
                     break;
                 case 2:
+                    message.thread = longToNumber(reader.uint64());
+                    break;
+                case 3:
                     message.body = reader.string();
                     break;
                 default:
@@ -41,6 +47,12 @@ export const MsgCreatePost = {
         else {
             message.creator = "";
         }
+        if (object.thread !== undefined && object.thread !== null) {
+            message.thread = Number(object.thread);
+        }
+        else {
+            message.thread = 0;
+        }
         if (object.body !== undefined && object.body !== null) {
             message.body = String(object.body);
         }
@@ -52,6 +64,7 @@ export const MsgCreatePost = {
     toJSON(message) {
         const obj = {};
         message.creator !== undefined && (obj.creator = message.creator);
+        message.thread !== undefined && (obj.thread = message.thread);
         message.body !== undefined && (obj.body = message.body);
         return obj;
     },
@@ -62,6 +75,12 @@ export const MsgCreatePost = {
         }
         else {
             message.creator = "";
+        }
+        if (object.thread !== undefined && object.thread !== null) {
+            message.thread = object.thread;
+        }
+        else {
+            message.thread = 0;
         }
         if (object.body !== undefined && object.body !== null) {
             message.body = object.body;

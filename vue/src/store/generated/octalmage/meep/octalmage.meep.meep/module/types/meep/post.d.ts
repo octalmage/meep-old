@@ -3,6 +3,7 @@ export declare const protobufPackage = "octalmage.meep.meep";
 export interface Post {
     creator: string;
     id: number;
+    thread: number;
     body: string;
 }
 export declare const Post: {

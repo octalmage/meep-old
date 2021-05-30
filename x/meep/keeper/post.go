@@ -2,10 +2,11 @@ package keeper
 
 import (
 	"encoding/binary"
+	"strconv"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/octalmage/meep/x/meep/types"
-	"strconv"
 )
 
 // GetPostCount get the total number of post
@@ -41,6 +42,7 @@ func (k Keeper) SetPostCount(ctx sdk.Context, count uint64) {
 func (k Keeper) AppendPost(
 	ctx sdk.Context,
 	creator string,
+	thread uint64,
 	body string,
 ) uint64 {
 	// Create the post
@@ -48,6 +50,7 @@ func (k Keeper) AppendPost(
 	var post = types.Post{
 		Creator: creator,
 		Id:      count,
+		Thread:  thread,
 		Body:    body,
 	}
 

@@ -15,6 +15,7 @@ import (
 type createPostRequest struct {
 	BaseReq rest.BaseReq `json:"base_req"`
 	Creator string       `json:"creator"`
+	Thread  uint64       `json:"thread"`
 	Body    string       `json:"body"`
 }
 
@@ -41,6 +42,7 @@ func createPostHandler(clientCtx client.Context) http.HandlerFunc {
 
 		msg := types.NewMsgCreatePost(
 			req.Creator,
+			req.Thread,
 			parsedBody,
 		)
 

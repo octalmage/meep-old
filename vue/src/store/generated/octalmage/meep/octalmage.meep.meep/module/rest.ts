@@ -23,6 +23,9 @@ export interface MeepPost {
 
   /** @format uint64 */
   id?: string;
+
+  /** @format uint64 */
+  thread?: string;
   body?: string;
 }
 

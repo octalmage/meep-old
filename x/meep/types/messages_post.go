@@ -7,9 +7,10 @@ import (
 
 var _ sdk.Msg = &MsgCreatePost{}
 
-func NewMsgCreatePost(creator string, body string) *MsgCreatePost {
+func NewMsgCreatePost(creator string, thread uint64, body string) *MsgCreatePost {
 	return &MsgCreatePost{
 		Creator: creator,
+		Thread:  thread,
 		Body:    body,
 	}
 }

@@ -3,6 +3,7 @@ export declare const protobufPackage = "octalmage.meep.meep";
 /** this line is used by starport scaffolding # proto/tx/message */
 export interface MsgCreatePost {
     creator: string;
+    thread: number;
     body: string;
 }
 export interface MsgCreatePostResponse {

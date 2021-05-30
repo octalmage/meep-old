@@ -93,6 +93,8 @@ export default {
           params: {},
         })?.Post ?? [];
       posts.reverse();
+
+      console.log(posts);
       return posts;
     },
     currentAccount() {
