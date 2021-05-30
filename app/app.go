@@ -450,6 +450,13 @@ func (app *App) Name() string { return app.BaseApp.Name() }
 
 // BeginBlocker application updates every begin block
 func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
+	posts := app.meepKeeper.GetAllPost(ctx)
+	logger := app.meepKeeper.Logger(ctx)
+
+	if len(posts) > 0 {
+		logger.Info(posts[0].Body)
+	}
+
 	return app.mm.BeginBlock(ctx, req)
 }
 
