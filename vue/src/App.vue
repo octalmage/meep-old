@@ -44,10 +44,11 @@ export default {
 		this.initialized = true
 
 		await this.$store.dispatch("octalmage.meep.meep/QueryPostAll",{options:{subscribe:true, all:true},params:{}})
+		await this.$store.dispatch("octalmage.meep.meep/QueryThreadAll",{options:{subscribe:true, all:true},params:{}})
 	},
-	errorCaptured(err) {
-		console.log(err)
-		return false
-	}
+	// errorCaptured(err) {
+	// 	console.log(err)
+	// 	return false
+	// }
 }
 </script>
