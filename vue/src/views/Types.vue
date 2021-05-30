@@ -199,8 +199,12 @@ export default {
         creator: this.currentAccount,
       };
 
+      
+      let threadId = 0;
 
-      const threadId = 1 + Number(this.threads[0].id);
+      if (this.threads.length > 0) {
+        threadId = 1 + Number(this.threads[0].id);
+      }
 
       await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateThread", {
         value,
