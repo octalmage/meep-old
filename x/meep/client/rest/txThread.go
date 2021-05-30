@@ -12,17 +12,14 @@ import (
 	"github.com/octalmage/meep/x/meep/types"
 )
 
-type createPostRequest struct {
+type createThreadRequest struct {
 	BaseReq rest.BaseReq `json:"base_req"`
 	Creator string       `json:"creator"`
-	Thread  uint64       `json:"thread"`
-	Body    string       `json:"body"`
-	Image   string       `json:"image"`
 }
 
-func createPostHandler(clientCtx client.Context) http.HandlerFunc {
+func createThreadHandler(clientCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req createPostRequest
+		var req createThreadRequest
 		if !rest.ReadRESTReq(w, r, clientCtx.LegacyAmino, &req) {
 			rest.WriteErrorResponse(w, http.StatusBadRequest, "failed to parse request")
 			return
@@ -39,34 +36,27 @@ func createPostHandler(clientCtx client.Context) http.HandlerFunc {
 			return
 		}
 
-		parsedBody := req.Body
-		parsedImage := req.Image
-
-		msg := types.NewMsgCreatePost(
+		msg := types.NewMsgCreateThread(
 			req.Creator,
-			req.Thread,
-			parsedBody,
-			parsedImage,
 		)
 
 		tx.WriteGeneratedTxResponse(clientCtx, w, req.BaseReq, msg)
 	}
 }
 
-type updatePostRequest struct {
+type updateThreadRequest struct {
 	BaseReq rest.BaseReq `json:"base_req"`
 	Creator string       `json:"creator"`
-	Body    string       `json:"body"`
 }
 
-func updatePostHandler(clientCtx client.Context) http.HandlerFunc {
+func updateThreadHandler(clientCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id, err := strconv.ParseUint(mux.Vars(r)["id"], 10, 64)
 		if err != nil {
 			return
 		}
 
-		var req updatePostRequest
+		var req updateThreadRequest
 		if !rest.ReadRESTReq(w, r, clientCtx.LegacyAmino, &req) {
 			rest.WriteErrorResponse(w, http.StatusBadRequest, "failed to parse request")
 			return
@@ -83,31 +73,28 @@ func updatePostHandler(clientCtx client.Context) http.HandlerFunc {
 			return
 		}
 
-		parsedBody := req.Body
-
-		msg := types.NewMsgUpdatePost(
+		msg := types.NewMsgUpdateThread(
 			req.Creator,
 			id,
-			parsedBody,
 		)
 
 		tx.WriteGeneratedTxResponse(clientCtx, w, req.BaseReq, msg)
 	}
 }
 
-type deletePostRequest struct {
+type deleteThreadRequest struct {
 	BaseReq rest.BaseReq `json:"base_req"`
 	Creator string       `json:"creator"`
 }
 
-func deletePostHandler(clientCtx client.Context) http.HandlerFunc {
+func deleteThreadHandler(clientCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id, err := strconv.ParseUint(mux.Vars(r)["id"], 10, 64)
 		if err != nil {
 			return
 		}
 
-		var req deletePostRequest
+		var req deleteThreadRequest
 		if !rest.ReadRESTReq(w, r, clientCtx.LegacyAmino, &req) {
 			rest.WriteErrorResponse(w, http.StatusBadRequest, "failed to parse request")
 			return
@@ -124,7 +111,7 @@ func deletePostHandler(clientCtx client.Context) http.HandlerFunc {
 			return
 		}
 
-		msg := types.NewMsgDeletePost(
+		msg := types.NewMsgDeleteThread(
 			req.Creator,
 			id,
 		)

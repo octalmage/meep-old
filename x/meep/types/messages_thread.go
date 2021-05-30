@@ -5,26 +5,23 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-var _ sdk.Msg = &MsgCreatePost{}
+var _ sdk.Msg = &MsgCreateThread{}
 
-func NewMsgCreatePost(creator string, thread uint64, body string, image string) *MsgCreatePost {
-	return &MsgCreatePost{
+func NewMsgCreateThread(creator string) *MsgCreateThread {
+	return &MsgCreateThread{
 		Creator: creator,
-		Thread:  thread,
-		Body:    body,
-		Image:   image,
 	}
 }
 
-func (msg *MsgCreatePost) Route() string {
+func (msg *MsgCreateThread) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgCreatePost) Type() string {
-	return "CreatePost"
+func (msg *MsgCreateThread) Type() string {
+	return "CreateThread"
 }
 
-func (msg *MsgCreatePost) GetSigners() []sdk.AccAddress {
+func (msg *MsgCreateThread) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -32,12 +29,12 @@ func (msg *MsgCreatePost) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgCreatePost) GetSignBytes() []byte {
+func (msg *MsgCreateThread) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgCreatePost) ValidateBasic() error {
+func (msg *MsgCreateThread) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
@@ -45,25 +42,24 @@ func (msg *MsgCreatePost) ValidateBasic() error {
 	return nil
 }
 
-var _ sdk.Msg = &MsgUpdatePost{}
+var _ sdk.Msg = &MsgUpdateThread{}
 
-func NewMsgUpdatePost(creator string, id uint64, body string) *MsgUpdatePost {
-	return &MsgUpdatePost{
+func NewMsgUpdateThread(creator string, id uint64) *MsgUpdateThread {
+	return &MsgUpdateThread{
 		Id:      id,
 		Creator: creator,
-		Body:    body,
 	}
 }
 
-func (msg *MsgUpdatePost) Route() string {
+func (msg *MsgUpdateThread) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgUpdatePost) Type() string {
-	return "UpdatePost"
+func (msg *MsgUpdateThread) Type() string {
+	return "UpdateThread"
 }
 
-func (msg *MsgUpdatePost) GetSigners() []sdk.AccAddress {
+func (msg *MsgUpdateThread) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -71,12 +67,12 @@ func (msg *MsgUpdatePost) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgUpdatePost) GetSignBytes() []byte {
+func (msg *MsgUpdateThread) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgUpdatePost) ValidateBasic() error {
+func (msg *MsgUpdateThread) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
@@ -84,23 +80,23 @@ func (msg *MsgUpdatePost) ValidateBasic() error {
 	return nil
 }
 
-var _ sdk.Msg = &MsgCreatePost{}
+var _ sdk.Msg = &MsgCreateThread{}
 
-func NewMsgDeletePost(creator string, id uint64) *MsgDeletePost {
-	return &MsgDeletePost{
+func NewMsgDeleteThread(creator string, id uint64) *MsgDeleteThread {
+	return &MsgDeleteThread{
 		Id:      id,
 		Creator: creator,
 	}
 }
-func (msg *MsgDeletePost) Route() string {
+func (msg *MsgDeleteThread) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgDeletePost) Type() string {
-	return "DeletePost"
+func (msg *MsgDeleteThread) Type() string {
+	return "DeleteThread"
 }
 
-func (msg *MsgDeletePost) GetSigners() []sdk.AccAddress {
+func (msg *MsgDeleteThread) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -108,12 +104,12 @@ func (msg *MsgDeletePost) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgDeletePost) GetSignBytes() []byte {
+func (msg *MsgDeleteThread) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgDeletePost) ValidateBasic() error {
+func (msg *MsgDeleteThread) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

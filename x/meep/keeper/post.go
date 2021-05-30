@@ -3,6 +3,7 @@ package keeper
 import (
 	"encoding/binary"
 	"strconv"
+	"time"
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -44,14 +45,16 @@ func (k Keeper) AppendPost(
 	creator string,
 	thread uint64,
 	body string,
+	image string,
 ) uint64 {
 	// Create the post
 	count := k.GetPostCount(ctx)
 	var post = types.Post{
-		Creator: creator,
-		Id:      count,
-		Thread:  thread,
-		Body:    body,
+		Creator:   creator,
+		CreatedAt: time.Now().UnixNano() / int64(time.Millisecond),
+		Id:        count,
+		Thread:    thread,
+		Body:      body,
 	}
 
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.PostKey))

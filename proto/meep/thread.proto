@@ -5,11 +5,8 @@ option go_package = "github.com/octalmage/meep/x/meep/types";
 
 import "gogoproto/gogo.proto";
 
-message Post {
+message Thread {
   string creator = 1;
-  int64 createdAt = 2;
-  uint64 id = 3;
-  uint64 thread = 4;
-  string body = 5; 
-  string image = 6; 
+  uint64 id = 2;
+  int64 createdAt = 3; 
 }

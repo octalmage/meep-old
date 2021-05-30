@@ -1,9 +1,12 @@
+import { Thread } from "../meep/thread";
 import { Post } from "../meep/post";
 import { Writer, Reader } from "protobufjs/minimal";
 export declare const protobufPackage = "octalmage.meep.meep";
 /** GenesisState defines the capability module's genesis state. */
 export interface GenesisState {
     /** this line is used by starport scaffolding # genesis/proto/state */
+    threadList: Thread[];
+    /** this line is used by starport scaffolding # genesis/proto/stateField */
     postList: Post[];
 }
 export declare const GenesisState: {

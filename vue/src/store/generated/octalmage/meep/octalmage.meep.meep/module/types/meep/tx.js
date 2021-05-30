@@ -2,7 +2,336 @@
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
 export const protobufPackage = "octalmage.meep.meep";
-const baseMsgCreatePost = { creator: "", thread: 0, body: "" };
+const baseMsgCreateThread = { creator: "" };
+export const MsgCreateThread = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgCreateThread };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgCreateThread };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgCreateThread };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        return message;
+    },
+};
+const baseMsgCreateThreadResponse = { id: 0 };
+export const MsgCreateThreadResponse = {
+    encode(message, writer = Writer.create()) {
+        if (message.id !== 0) {
+            writer.uint32(8).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgCreateThreadResponse,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = {
+            ...baseMsgCreateThreadResponse,
+        };
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = {
+            ...baseMsgCreateThreadResponse,
+        };
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+};
+const baseMsgUpdateThread = { creator: "", id: 0 };
+export const MsgUpdateThread = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.id !== 0) {
+            writer.uint32(16).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgUpdateThread };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgUpdateThread };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgUpdateThread };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+};
+const baseMsgUpdateThreadResponse = {};
+export const MsgUpdateThreadResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgUpdateThreadResponse,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = {
+            ...baseMsgUpdateThreadResponse,
+        };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = {
+            ...baseMsgUpdateThreadResponse,
+        };
+        return message;
+    },
+};
+const baseMsgDeleteThread = { creator: "", id: 0 };
+export const MsgDeleteThread = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.id !== 0) {
+            writer.uint32(16).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgDeleteThread };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgDeleteThread };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgDeleteThread };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+};
+const baseMsgDeleteThreadResponse = {};
+export const MsgDeleteThreadResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgDeleteThreadResponse,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = {
+            ...baseMsgDeleteThreadResponse,
+        };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = {
+            ...baseMsgDeleteThreadResponse,
+        };
+        return message;
+    },
+};
+const baseMsgCreatePost = {
+    creator: "",
+    thread: 0,
+    body: "",
+    image: "",
+};
 export const MsgCreatePost = {
     encode(message, writer = Writer.create()) {
         if (message.creator !== "") {
@@ -13,6 +342,9 @@ export const MsgCreatePost = {
         }
         if (message.body !== "") {
             writer.uint32(26).string(message.body);
+        }
+        if (message.image !== "") {
+            writer.uint32(34).string(message.image);
         }
         return writer;
     },
@@ -31,6 +363,9 @@ export const MsgCreatePost = {
                     break;
                 case 3:
                     message.body = reader.string();
+                    break;
+                case 4:
+                    message.image = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -59,6 +394,12 @@ export const MsgCreatePost = {
         else {
             message.body = "";
         }
+        if (object.image !== undefined && object.image !== null) {
+            message.image = String(object.image);
+        }
+        else {
+            message.image = "";
+        }
         return message;
     },
     toJSON(message) {
@@ -66,6 +407,7 @@ export const MsgCreatePost = {
         message.creator !== undefined && (obj.creator = message.creator);
         message.thread !== undefined && (obj.thread = message.thread);
         message.body !== undefined && (obj.body = message.body);
+        message.image !== undefined && (obj.image = message.image);
         return obj;
     },
     fromPartial(object) {
@@ -87,6 +429,12 @@ export const MsgCreatePost = {
         }
         else {
             message.body = "";
+        }
+        if (object.image !== undefined && object.image !== null) {
+            message.image = object.image;
+        }
+        else {
+            message.image = "";
         }
         return message;
     },
@@ -368,6 +716,21 @@ export const MsgDeletePostResponse = {
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
+    }
+    CreateThread(request) {
+        const data = MsgCreateThread.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Msg", "CreateThread", data);
+        return promise.then((data) => MsgCreateThreadResponse.decode(new Reader(data)));
+    }
+    UpdateThread(request) {
+        const data = MsgUpdateThread.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Msg", "UpdateThread", data);
+        return promise.then((data) => MsgUpdateThreadResponse.decode(new Reader(data)));
+    }
+    DeleteThread(request) {
+        const data = MsgDeleteThread.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Msg", "DeleteThread", data);
+        return promise.then((data) => MsgDeleteThreadResponse.decode(new Reader(data)));
     }
     CreatePost(request) {
         const data = MsgCreatePost.encode(request).finish();

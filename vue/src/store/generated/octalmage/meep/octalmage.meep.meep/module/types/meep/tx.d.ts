@@ -1,10 +1,29 @@
 import { Reader, Writer } from "protobufjs/minimal";
 export declare const protobufPackage = "octalmage.meep.meep";
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgCreateThread {
+    creator: string;
+}
+export interface MsgCreateThreadResponse {
+    id: number;
+}
+export interface MsgUpdateThread {
+    creator: string;
+    id: number;
+}
+export interface MsgUpdateThreadResponse {
+}
+export interface MsgDeleteThread {
+    creator: string;
+    id: number;
+}
+export interface MsgDeleteThreadResponse {
+}
 export interface MsgCreatePost {
     creator: string;
     thread: number;
     body: string;
+    image: string;
 }
 export interface MsgCreatePostResponse {
     id: number;
@@ -22,6 +41,48 @@ export interface MsgDeletePost {
 }
 export interface MsgDeletePostResponse {
 }
+export declare const MsgCreateThread: {
+    encode(message: MsgCreateThread, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateThread;
+    fromJSON(object: any): MsgCreateThread;
+    toJSON(message: MsgCreateThread): unknown;
+    fromPartial(object: DeepPartial<MsgCreateThread>): MsgCreateThread;
+};
+export declare const MsgCreateThreadResponse: {
+    encode(message: MsgCreateThreadResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateThreadResponse;
+    fromJSON(object: any): MsgCreateThreadResponse;
+    toJSON(message: MsgCreateThreadResponse): unknown;
+    fromPartial(object: DeepPartial<MsgCreateThreadResponse>): MsgCreateThreadResponse;
+};
+export declare const MsgUpdateThread: {
+    encode(message: MsgUpdateThread, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateThread;
+    fromJSON(object: any): MsgUpdateThread;
+    toJSON(message: MsgUpdateThread): unknown;
+    fromPartial(object: DeepPartial<MsgUpdateThread>): MsgUpdateThread;
+};
+export declare const MsgUpdateThreadResponse: {
+    encode(_: MsgUpdateThreadResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateThreadResponse;
+    fromJSON(_: any): MsgUpdateThreadResponse;
+    toJSON(_: MsgUpdateThreadResponse): unknown;
+    fromPartial(_: DeepPartial<MsgUpdateThreadResponse>): MsgUpdateThreadResponse;
+};
+export declare const MsgDeleteThread: {
+    encode(message: MsgDeleteThread, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeleteThread;
+    fromJSON(object: any): MsgDeleteThread;
+    toJSON(message: MsgDeleteThread): unknown;
+    fromPartial(object: DeepPartial<MsgDeleteThread>): MsgDeleteThread;
+};
+export declare const MsgDeleteThreadResponse: {
+    encode(_: MsgDeleteThreadResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeleteThreadResponse;
+    fromJSON(_: any): MsgDeleteThreadResponse;
+    toJSON(_: MsgDeleteThreadResponse): unknown;
+    fromPartial(_: DeepPartial<MsgDeleteThreadResponse>): MsgDeleteThreadResponse;
+};
 export declare const MsgCreatePost: {
     encode(message: MsgCreatePost, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreatePost;
@@ -67,6 +128,9 @@ export declare const MsgDeletePostResponse: {
 /** Msg defines the Msg service. */
 export interface Msg {
     /** this line is used by starport scaffolding # proto/tx/rpc */
+    CreateThread(request: MsgCreateThread): Promise<MsgCreateThreadResponse>;
+    UpdateThread(request: MsgUpdateThread): Promise<MsgUpdateThreadResponse>;
+    DeleteThread(request: MsgDeleteThread): Promise<MsgDeleteThreadResponse>;
     CreatePost(request: MsgCreatePost): Promise<MsgCreatePostResponse>;
     UpdatePost(request: MsgUpdatePost): Promise<MsgUpdatePostResponse>;
     DeletePost(request: MsgDeletePost): Promise<MsgDeletePostResponse>;
@@ -74,6 +138,9 @@ export interface Msg {
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
+    CreateThread(request: MsgCreateThread): Promise<MsgCreateThreadResponse>;
+    UpdateThread(request: MsgUpdateThread): Promise<MsgUpdateThreadResponse>;
+    DeleteThread(request: MsgDeleteThread): Promise<MsgDeleteThreadResponse>;
     CreatePost(request: MsgCreatePost): Promise<MsgCreatePostResponse>;
     UpdatePost(request: MsgUpdatePost): Promise<MsgUpdatePostResponse>;
     DeletePost(request: MsgDeletePost): Promise<MsgDeletePostResponse>;

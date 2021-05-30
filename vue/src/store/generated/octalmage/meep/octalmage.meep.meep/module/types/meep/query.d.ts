@@ -1,8 +1,22 @@
 import { Reader, Writer } from "protobufjs/minimal";
-import { Post } from "../meep/post";
+import { Thread } from "../meep/thread";
 import { PageRequest, PageResponse } from "../cosmos/base/query/v1beta1/pagination";
+import { Post } from "../meep/post";
 export declare const protobufPackage = "octalmage.meep.meep";
 /** this line is used by starport scaffolding # 3 */
+export interface QueryGetThreadRequest {
+    id: number;
+}
+export interface QueryGetThreadResponse {
+    Thread: Thread | undefined;
+}
+export interface QueryAllThreadRequest {
+    pagination: PageRequest | undefined;
+}
+export interface QueryAllThreadResponse {
+    Thread: Thread[];
+    pagination: PageResponse | undefined;
+}
 export interface QueryGetPostRequest {
     id: number;
 }
@@ -16,6 +30,34 @@ export interface QueryAllPostResponse {
     Post: Post[];
     pagination: PageResponse | undefined;
 }
+export declare const QueryGetThreadRequest: {
+    encode(message: QueryGetThreadRequest, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryGetThreadRequest;
+    fromJSON(object: any): QueryGetThreadRequest;
+    toJSON(message: QueryGetThreadRequest): unknown;
+    fromPartial(object: DeepPartial<QueryGetThreadRequest>): QueryGetThreadRequest;
+};
+export declare const QueryGetThreadResponse: {
+    encode(message: QueryGetThreadResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryGetThreadResponse;
+    fromJSON(object: any): QueryGetThreadResponse;
+    toJSON(message: QueryGetThreadResponse): unknown;
+    fromPartial(object: DeepPartial<QueryGetThreadResponse>): QueryGetThreadResponse;
+};
+export declare const QueryAllThreadRequest: {
+    encode(message: QueryAllThreadRequest, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryAllThreadRequest;
+    fromJSON(object: any): QueryAllThreadRequest;
+    toJSON(message: QueryAllThreadRequest): unknown;
+    fromPartial(object: DeepPartial<QueryAllThreadRequest>): QueryAllThreadRequest;
+};
+export declare const QueryAllThreadResponse: {
+    encode(message: QueryAllThreadResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryAllThreadResponse;
+    fromJSON(object: any): QueryAllThreadResponse;
+    toJSON(message: QueryAllThreadResponse): unknown;
+    fromPartial(object: DeepPartial<QueryAllThreadResponse>): QueryAllThreadResponse;
+};
 export declare const QueryGetPostRequest: {
     encode(message: QueryGetPostRequest, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): QueryGetPostRequest;
@@ -47,12 +89,16 @@ export declare const QueryAllPostResponse: {
 /** Query defines the gRPC querier service. */
 export interface Query {
     /** this line is used by starport scaffolding # 2 */
+    Thread(request: QueryGetThreadRequest): Promise<QueryGetThreadResponse>;
+    ThreadAll(request: QueryAllThreadRequest): Promise<QueryAllThreadResponse>;
     Post(request: QueryGetPostRequest): Promise<QueryGetPostResponse>;
     PostAll(request: QueryAllPostRequest): Promise<QueryAllPostResponse>;
 }
 export declare class QueryClientImpl implements Query {
     private readonly rpc;
     constructor(rpc: Rpc);
+    Thread(request: QueryGetThreadRequest): Promise<QueryGetThreadResponse>;
+    ThreadAll(request: QueryAllThreadRequest): Promise<QueryAllThreadResponse>;
     Post(request: QueryGetPostRequest): Promise<QueryGetPostResponse>;
     PostAll(request: QueryAllPostRequest): Promise<QueryAllPostResponse>;
 }

@@ -155,11 +155,38 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryPost
-         * @summary this line is used by starport scaffolding # 2
          * @request GET:/octalmage/meep/meep/post/{id}
          */
         this.queryPost = (id, params = {}) => this.request({
             path: `/octalmage/meep/meep/post/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryThreadAll
+         * @request GET:/octalmage/meep/meep/thread
+         */
+        this.queryThreadAll = (query, params = {}) => this.request({
+            path: `/octalmage/meep/meep/thread`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryThread
+         * @summary this line is used by starport scaffolding # 2
+         * @request GET:/octalmage/meep/meep/thread/{id}
+         */
+        this.queryThread = (id, params = {}) => this.request({
+            path: `/octalmage/meep/meep/thread/${id}`,
             method: "GET",
             format: "json",
             ...params,

@@ -25,3 +25,8 @@ const (
 	PostKey      = "Post-value-"
 	PostCountKey = "Post-count-"
 )
+
+const (
+	ThreadKey      = "Thread-value-"
+	ThreadCountKey = "Thread-count-"
+)

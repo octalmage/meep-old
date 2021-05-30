@@ -2,6 +2,7 @@
   <div>
     <div class="container">
       <!-- this line is used by starport scaffolding # 4 -->
+		<SpType modulePath="octalmage.meep.meep" moduleType="Thread"  />
       <h3>MEEP</h3>
       <div class="sp-voter__main sp-box sp-shadow sp-form-group">
         <div
