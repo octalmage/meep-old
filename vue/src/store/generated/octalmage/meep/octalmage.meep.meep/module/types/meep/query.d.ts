@@ -1,10 +1,24 @@
 import { Reader, Writer } from "protobufjs/minimal";
-import { Username } from "../meep/username";
+import { Tip } from "../meep/tip";
 import { PageRequest, PageResponse } from "../cosmos/base/query/v1beta1/pagination";
+import { Username } from "../meep/username";
 import { Thread } from "../meep/thread";
 import { Post } from "../meep/post";
 export declare const protobufPackage = "octalmage.meep.meep";
 /** this line is used by starport scaffolding # 3 */
+export interface QueryGetTipRequest {
+    id: number;
+}
+export interface QueryGetTipResponse {
+    Tip: Tip | undefined;
+}
+export interface QueryAllTipRequest {
+    pagination: PageRequest | undefined;
+}
+export interface QueryAllTipResponse {
+    Tip: Tip[];
+    pagination: PageResponse | undefined;
+}
 export interface QueryGetUsernameRequest {
     id: number;
 }
@@ -45,6 +59,34 @@ export interface QueryAllPostResponse {
     Post: Post[];
     pagination: PageResponse | undefined;
 }
+export declare const QueryGetTipRequest: {
+    encode(message: QueryGetTipRequest, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryGetTipRequest;
+    fromJSON(object: any): QueryGetTipRequest;
+    toJSON(message: QueryGetTipRequest): unknown;
+    fromPartial(object: DeepPartial<QueryGetTipRequest>): QueryGetTipRequest;
+};
+export declare const QueryGetTipResponse: {
+    encode(message: QueryGetTipResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryGetTipResponse;
+    fromJSON(object: any): QueryGetTipResponse;
+    toJSON(message: QueryGetTipResponse): unknown;
+    fromPartial(object: DeepPartial<QueryGetTipResponse>): QueryGetTipResponse;
+};
+export declare const QueryAllTipRequest: {
+    encode(message: QueryAllTipRequest, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryAllTipRequest;
+    fromJSON(object: any): QueryAllTipRequest;
+    toJSON(message: QueryAllTipRequest): unknown;
+    fromPartial(object: DeepPartial<QueryAllTipRequest>): QueryAllTipRequest;
+};
+export declare const QueryAllTipResponse: {
+    encode(message: QueryAllTipResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryAllTipResponse;
+    fromJSON(object: any): QueryAllTipResponse;
+    toJSON(message: QueryAllTipResponse): unknown;
+    fromPartial(object: DeepPartial<QueryAllTipResponse>): QueryAllTipResponse;
+};
 export declare const QueryGetUsernameRequest: {
     encode(message: QueryGetUsernameRequest, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): QueryGetUsernameRequest;
@@ -132,6 +174,8 @@ export declare const QueryAllPostResponse: {
 /** Query defines the gRPC querier service. */
 export interface Query {
     /** this line is used by starport scaffolding # 2 */
+    Tip(request: QueryGetTipRequest): Promise<QueryGetTipResponse>;
+    TipAll(request: QueryAllTipRequest): Promise<QueryAllTipResponse>;
     Username(request: QueryGetUsernameRequest): Promise<QueryGetUsernameResponse>;
     UsernameAll(request: QueryAllUsernameRequest): Promise<QueryAllUsernameResponse>;
     Thread(request: QueryGetThreadRequest): Promise<QueryGetThreadResponse>;
@@ -142,6 +186,8 @@ export interface Query {
 export declare class QueryClientImpl implements Query {
     private readonly rpc;
     constructor(rpc: Rpc);
+    Tip(request: QueryGetTipRequest): Promise<QueryGetTipResponse>;
+    TipAll(request: QueryAllTipRequest): Promise<QueryAllTipResponse>;
     Username(request: QueryGetUsernameRequest): Promise<QueryGetUsernameResponse>;
     UsernameAll(request: QueryAllUsernameRequest): Promise<QueryAllUsernameResponse>;
     Thread(request: QueryGetThreadRequest): Promise<QueryGetThreadResponse>;

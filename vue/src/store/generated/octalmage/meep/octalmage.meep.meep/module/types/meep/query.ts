@@ -1,17 +1,35 @@
 /* eslint-disable */
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
-import { Username } from "../meep/username";
+import { Tip } from "../meep/tip";
 import {
   PageRequest,
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
+import { Username } from "../meep/username";
 import { Thread } from "../meep/thread";
 import { Post } from "../meep/post";
 
 export const protobufPackage = "octalmage.meep.meep";
 
 /** this line is used by starport scaffolding # 3 */
+export interface QueryGetTipRequest {
+  id: number;
+}
+
+export interface QueryGetTipResponse {
+  Tip: Tip | undefined;
+}
+
+export interface QueryAllTipRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllTipResponse {
+  Tip: Tip[];
+  pagination: PageResponse | undefined;
+}
+
 export interface QueryGetUsernameRequest {
   id: number;
 }
@@ -63,6 +81,272 @@ export interface QueryAllPostResponse {
   Post: Post[];
   pagination: PageResponse | undefined;
 }
+
+const baseQueryGetTipRequest: object = { id: 0 };
+
+export const QueryGetTipRequest = {
+  encode(
+    message: QueryGetTipRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.id !== 0) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetTipRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetTipRequest } as QueryGetTipRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetTipRequest {
+    const message = { ...baseQueryGetTipRequest } as QueryGetTipRequest;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetTipRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = message.id);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryGetTipRequest>): QueryGetTipRequest {
+    const message = { ...baseQueryGetTipRequest } as QueryGetTipRequest;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+};
+
+const baseQueryGetTipResponse: object = {};
+
+export const QueryGetTipResponse = {
+  encode(
+    message: QueryGetTipResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.Tip !== undefined) {
+      Tip.encode(message.Tip, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetTipResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetTipResponse } as QueryGetTipResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Tip = Tip.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetTipResponse {
+    const message = { ...baseQueryGetTipResponse } as QueryGetTipResponse;
+    if (object.Tip !== undefined && object.Tip !== null) {
+      message.Tip = Tip.fromJSON(object.Tip);
+    } else {
+      message.Tip = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetTipResponse): unknown {
+    const obj: any = {};
+    message.Tip !== undefined &&
+      (obj.Tip = message.Tip ? Tip.toJSON(message.Tip) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryGetTipResponse>): QueryGetTipResponse {
+    const message = { ...baseQueryGetTipResponse } as QueryGetTipResponse;
+    if (object.Tip !== undefined && object.Tip !== null) {
+      message.Tip = Tip.fromPartial(object.Tip);
+    } else {
+      message.Tip = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllTipRequest: object = {};
+
+export const QueryAllTipRequest = {
+  encode(
+    message: QueryAllTipRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllTipRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllTipRequest } as QueryAllTipRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllTipRequest {
+    const message = { ...baseQueryAllTipRequest } as QueryAllTipRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllTipRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryAllTipRequest>): QueryAllTipRequest {
+    const message = { ...baseQueryAllTipRequest } as QueryAllTipRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllTipResponse: object = {};
+
+export const QueryAllTipResponse = {
+  encode(
+    message: QueryAllTipResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.Tip) {
+      Tip.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllTipResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllTipResponse } as QueryAllTipResponse;
+    message.Tip = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Tip.push(Tip.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllTipResponse {
+    const message = { ...baseQueryAllTipResponse } as QueryAllTipResponse;
+    message.Tip = [];
+    if (object.Tip !== undefined && object.Tip !== null) {
+      for (const e of object.Tip) {
+        message.Tip.push(Tip.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllTipResponse): unknown {
+    const obj: any = {};
+    if (message.Tip) {
+      obj.Tip = message.Tip.map((e) => (e ? Tip.toJSON(e) : undefined));
+    } else {
+      obj.Tip = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryAllTipResponse>): QueryAllTipResponse {
+    const message = { ...baseQueryAllTipResponse } as QueryAllTipResponse;
+    message.Tip = [];
+    if (object.Tip !== undefined && object.Tip !== null) {
+      for (const e of object.Tip) {
+        message.Tip.push(Tip.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
 
 const baseQueryGetUsernameRequest: object = { id: 0 };
 
@@ -934,6 +1218,8 @@ export const QueryAllPostResponse = {
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** this line is used by starport scaffolding # 2 */
+  Tip(request: QueryGetTipRequest): Promise<QueryGetTipResponse>;
+  TipAll(request: QueryAllTipRequest): Promise<QueryAllTipResponse>;
   Username(request: QueryGetUsernameRequest): Promise<QueryGetUsernameResponse>;
   UsernameAll(
     request: QueryAllUsernameRequest
@@ -949,6 +1235,22 @@ export class QueryClientImpl implements Query {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
   }
+  Tip(request: QueryGetTipRequest): Promise<QueryGetTipResponse> {
+    const data = QueryGetTipRequest.encode(request).finish();
+    const promise = this.rpc.request("octalmage.meep.meep.Query", "Tip", data);
+    return promise.then((data) => QueryGetTipResponse.decode(new Reader(data)));
+  }
+
+  TipAll(request: QueryAllTipRequest): Promise<QueryAllTipResponse> {
+    const data = QueryAllTipRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "octalmage.meep.meep.Query",
+      "TipAll",
+      data
+    );
+    return promise.then((data) => QueryAllTipResponse.decode(new Reader(data)));
+  }
+
   Username(
     request: QueryGetUsernameRequest
   ): Promise<QueryGetUsernameResponse> {

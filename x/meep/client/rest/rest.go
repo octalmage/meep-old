@@ -23,10 +23,16 @@ func RegisterRoutes(clientCtx client.Context, r *mux.Router) {
 	registerQueryRoutes(clientCtx, r)
 	registerTxHandlers(clientCtx, r)
 
+	registerQueryRoutes(clientCtx, r)
+	registerTxHandlers(clientCtx, r)
+
 }
 
 func registerQueryRoutes(clientCtx client.Context, r *mux.Router) {
 	// this line is used by starport scaffolding # 3
+	r.HandleFunc("/meep/tips/{id}", getTipHandler(clientCtx)).Methods("GET")
+	r.HandleFunc("/meep/tips", listTipHandler(clientCtx)).Methods("GET")
+
 	r.HandleFunc("/meep/usernames/{id}", getUsernameHandler(clientCtx)).Methods("GET")
 	r.HandleFunc("/meep/usernames", listUsernameHandler(clientCtx)).Methods("GET")
 
@@ -40,6 +46,10 @@ func registerQueryRoutes(clientCtx client.Context, r *mux.Router) {
 
 func registerTxHandlers(clientCtx client.Context, r *mux.Router) {
 	// this line is used by starport scaffolding # 4
+	r.HandleFunc("/meep/tips", createTipHandler(clientCtx)).Methods("POST")
+	r.HandleFunc("/meep/tips/{id}", updateTipHandler(clientCtx)).Methods("POST")
+	r.HandleFunc("/meep/tips/{id}", deleteTipHandler(clientCtx)).Methods("POST")
+
 	r.HandleFunc("/meep/usernames", createUsernameHandler(clientCtx)).Methods("POST")
 	r.HandleFunc("/meep/usernames/{id}", updateUsernameHandler(clientCtx)).Methods("POST")
 	r.HandleFunc("/meep/usernames/{id}", deleteUsernameHandler(clientCtx)).Methods("POST")

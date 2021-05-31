@@ -1,3 +1,4 @@
+import { Tip } from "../meep/tip";
 import { Username } from "../meep/username";
 import { Thread } from "../meep/thread";
 import { Post } from "../meep/post";
@@ -6,6 +7,8 @@ export declare const protobufPackage = "octalmage.meep.meep";
 /** GenesisState defines the capability module's genesis state. */
 export interface GenesisState {
     /** this line is used by starport scaffolding # genesis/proto/state */
+    tipList: Tip[];
+    /** this line is used by starport scaffolding # genesis/proto/stateField */
     usernameList: Username[];
     /** this line is used by starport scaffolding # genesis/proto/stateField */
     threadList: Thread[];

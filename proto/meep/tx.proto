@@ -8,6 +8,9 @@ option go_package = "github.com/octalmage/meep/x/meep/types";
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreateTip(MsgCreateTip) returns (MsgCreateTipResponse);
+  rpc UpdateTip(MsgUpdateTip) returns (MsgUpdateTipResponse);
+  rpc DeleteTip(MsgDeleteTip) returns (MsgDeleteTipResponse);
   rpc CreateUsername(MsgCreateUsername) returns (MsgCreateUsernameResponse);
   rpc UpdateUsername(MsgUpdateUsername) returns (MsgUpdateUsernameResponse);
   rpc DeleteUsername(MsgDeleteUsername) returns (MsgDeleteUsernameResponse);
@@ -20,6 +23,32 @@ service Msg {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
+message MsgCreateTip {
+  string creator = 1;
+  uint64 postId = 2;
+  int32 amount = 3;
+}
+
+message MsgCreateTipResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateTip {
+  string creator = 1;
+  uint64 id = 2;
+  uint64 postId = 3;
+  int32 amount = 4;
+}
+
+message MsgUpdateTipResponse { }
+
+message MsgDeleteTip {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteTipResponse { }
+
 message MsgCreateUsername {
   string creator = 1;
   string name = 2;

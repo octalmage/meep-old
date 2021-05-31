@@ -45,6 +45,8 @@ export default {
 
 		await this.$store.dispatch("octalmage.meep.meep/QueryPostAll",{options:{subscribe:true, all:true},params:{}})
 		await this.$store.dispatch("octalmage.meep.meep/QueryThreadAll",{options:{subscribe:true, all:true},params:{}})
+		await this.$store.dispatch("octalmage.meep.meep/QueryUsernameAll",{options:{subscribe:true, all:true},params:{}})
+		await this.$store.dispatch("octalmage.meep.meep/QueryTipAll",{options:{subscribe:true, all:true},params:{}})
 	},
 	// errorCaptured(err) {
 	// 	console.log(err)

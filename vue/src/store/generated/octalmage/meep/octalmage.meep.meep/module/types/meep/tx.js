@@ -2,6 +2,388 @@
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
 export const protobufPackage = "octalmage.meep.meep";
+const baseMsgCreateTip = { creator: "", postId: 0, amount: 0 };
+export const MsgCreateTip = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.postId !== 0) {
+            writer.uint32(16).uint64(message.postId);
+        }
+        if (message.amount !== 0) {
+            writer.uint32(24).int32(message.amount);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgCreateTip };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.postId = longToNumber(reader.uint64());
+                    break;
+                case 3:
+                    message.amount = reader.int32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgCreateTip };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.postId !== undefined && object.postId !== null) {
+            message.postId = Number(object.postId);
+        }
+        else {
+            message.postId = 0;
+        }
+        if (object.amount !== undefined && object.amount !== null) {
+            message.amount = Number(object.amount);
+        }
+        else {
+            message.amount = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.postId !== undefined && (obj.postId = message.postId);
+        message.amount !== undefined && (obj.amount = message.amount);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgCreateTip };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.postId !== undefined && object.postId !== null) {
+            message.postId = object.postId;
+        }
+        else {
+            message.postId = 0;
+        }
+        if (object.amount !== undefined && object.amount !== null) {
+            message.amount = object.amount;
+        }
+        else {
+            message.amount = 0;
+        }
+        return message;
+    },
+};
+const baseMsgCreateTipResponse = { id: 0 };
+export const MsgCreateTipResponse = {
+    encode(message, writer = Writer.create()) {
+        if (message.id !== 0) {
+            writer.uint32(8).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgCreateTipResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgCreateTipResponse };
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgCreateTipResponse };
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+};
+const baseMsgUpdateTip = { creator: "", id: 0, postId: 0, amount: 0 };
+export const MsgUpdateTip = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.id !== 0) {
+            writer.uint32(16).uint64(message.id);
+        }
+        if (message.postId !== 0) {
+            writer.uint32(24).uint64(message.postId);
+        }
+        if (message.amount !== 0) {
+            writer.uint32(32).int32(message.amount);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgUpdateTip };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                case 3:
+                    message.postId = longToNumber(reader.uint64());
+                    break;
+                case 4:
+                    message.amount = reader.int32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgUpdateTip };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        if (object.postId !== undefined && object.postId !== null) {
+            message.postId = Number(object.postId);
+        }
+        else {
+            message.postId = 0;
+        }
+        if (object.amount !== undefined && object.amount !== null) {
+            message.amount = Number(object.amount);
+        }
+        else {
+            message.amount = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.id !== undefined && (obj.id = message.id);
+        message.postId !== undefined && (obj.postId = message.postId);
+        message.amount !== undefined && (obj.amount = message.amount);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgUpdateTip };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        if (object.postId !== undefined && object.postId !== null) {
+            message.postId = object.postId;
+        }
+        else {
+            message.postId = 0;
+        }
+        if (object.amount !== undefined && object.amount !== null) {
+            message.amount = object.amount;
+        }
+        else {
+            message.amount = 0;
+        }
+        return message;
+    },
+};
+const baseMsgUpdateTipResponse = {};
+export const MsgUpdateTipResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgUpdateTipResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = { ...baseMsgUpdateTipResponse };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = { ...baseMsgUpdateTipResponse };
+        return message;
+    },
+};
+const baseMsgDeleteTip = { creator: "", id: 0 };
+export const MsgDeleteTip = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.id !== 0) {
+            writer.uint32(16).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgDeleteTip };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgDeleteTip };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgDeleteTip };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+};
+const baseMsgDeleteTipResponse = {};
+export const MsgDeleteTipResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgDeleteTipResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = { ...baseMsgDeleteTipResponse };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = { ...baseMsgDeleteTipResponse };
+        return message;
+    },
+};
 const baseMsgCreateUsername = { creator: "", name: "" };
 export const MsgCreateUsername = {
     encode(message, writer = Writer.create()) {
@@ -1078,6 +1460,21 @@ export const MsgDeletePostResponse = {
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
+    }
+    CreateTip(request) {
+        const data = MsgCreateTip.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Msg", "CreateTip", data);
+        return promise.then((data) => MsgCreateTipResponse.decode(new Reader(data)));
+    }
+    UpdateTip(request) {
+        const data = MsgUpdateTip.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Msg", "UpdateTip", data);
+        return promise.then((data) => MsgUpdateTipResponse.decode(new Reader(data)));
+    }
+    DeleteTip(request) {
+        const data = MsgDeleteTip.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Msg", "DeleteTip", data);
+        return promise.then((data) => MsgDeleteTipResponse.decode(new Reader(data)));
     }
     CreateUsername(request) {
         const data = MsgCreateUsername.encode(request).finish();

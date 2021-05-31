@@ -5,5 +5,5 @@ pushd vue/node_modules/@starport
 popd
 
 pushd vue/src/store/generated
-find . -type f -name '*.js' -exec sed -i '' 's/5000000/50000000/g' {} \;
+find . -type f -name '*.js' -exec sed -i '' 's/200000/50000000/g' {} \;
 popd

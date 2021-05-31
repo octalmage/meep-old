@@ -5,6 +5,32 @@ import * as Long from "long";
 export const protobufPackage = "octalmage.meep.meep";
 
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgCreateTip {
+  creator: string;
+  postId: number;
+  amount: number;
+}
+
+export interface MsgCreateTipResponse {
+  id: number;
+}
+
+export interface MsgUpdateTip {
+  creator: string;
+  id: number;
+  postId: number;
+  amount: number;
+}
+
+export interface MsgUpdateTipResponse {}
+
+export interface MsgDeleteTip {
+  creator: string;
+  id: number;
+}
+
+export interface MsgDeleteTipResponse {}
+
 export interface MsgCreateUsername {
   creator: string;
   name: string;
@@ -76,6 +102,407 @@ export interface MsgDeletePost {
 }
 
 export interface MsgDeletePostResponse {}
+
+const baseMsgCreateTip: object = { creator: "", postId: 0, amount: 0 };
+
+export const MsgCreateTip = {
+  encode(message: MsgCreateTip, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.postId !== 0) {
+      writer.uint32(16).uint64(message.postId);
+    }
+    if (message.amount !== 0) {
+      writer.uint32(24).int32(message.amount);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateTip {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreateTip } as MsgCreateTip;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.postId = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.amount = reader.int32();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateTip {
+    const message = { ...baseMsgCreateTip } as MsgCreateTip;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.postId !== undefined && object.postId !== null) {
+      message.postId = Number(object.postId);
+    } else {
+      message.postId = 0;
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Number(object.amount);
+    } else {
+      message.amount = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreateTip): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.postId !== undefined && (obj.postId = message.postId);
+    message.amount !== undefined && (obj.amount = message.amount);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgCreateTip>): MsgCreateTip {
+    const message = { ...baseMsgCreateTip } as MsgCreateTip;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.postId !== undefined && object.postId !== null) {
+      message.postId = object.postId;
+    } else {
+      message.postId = 0;
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = object.amount;
+    } else {
+      message.amount = 0;
+    }
+    return message;
+  },
+};
+
+const baseMsgCreateTipResponse: object = { id: 0 };
+
+export const MsgCreateTipResponse = {
+  encode(
+    message: MsgCreateTipResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.id !== 0) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateTipResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreateTipResponse } as MsgCreateTipResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateTipResponse {
+    const message = { ...baseMsgCreateTipResponse } as MsgCreateTipResponse;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreateTipResponse): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = message.id);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgCreateTipResponse>): MsgCreateTipResponse {
+    const message = { ...baseMsgCreateTipResponse } as MsgCreateTipResponse;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateTip: object = { creator: "", id: 0, postId: 0, amount: 0 };
+
+export const MsgUpdateTip = {
+  encode(message: MsgUpdateTip, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.id !== 0) {
+      writer.uint32(16).uint64(message.id);
+    }
+    if (message.postId !== 0) {
+      writer.uint32(24).uint64(message.postId);
+    }
+    if (message.amount !== 0) {
+      writer.uint32(32).int32(message.amount);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateTip {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdateTip } as MsgUpdateTip;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.postId = longToNumber(reader.uint64() as Long);
+          break;
+        case 4:
+          message.amount = reader.int32();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdateTip {
+    const message = { ...baseMsgUpdateTip } as MsgUpdateTip;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    if (object.postId !== undefined && object.postId !== null) {
+      message.postId = Number(object.postId);
+    } else {
+      message.postId = 0;
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Number(object.amount);
+    } else {
+      message.amount = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdateTip): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = message.id);
+    message.postId !== undefined && (obj.postId = message.postId);
+    message.amount !== undefined && (obj.amount = message.amount);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgUpdateTip>): MsgUpdateTip {
+    const message = { ...baseMsgUpdateTip } as MsgUpdateTip;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    if (object.postId !== undefined && object.postId !== null) {
+      message.postId = object.postId;
+    } else {
+      message.postId = 0;
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = object.amount;
+    } else {
+      message.amount = 0;
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateTipResponse: object = {};
+
+export const MsgUpdateTipResponse = {
+  encode(_: MsgUpdateTipResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateTipResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdateTipResponse } as MsgUpdateTipResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgUpdateTipResponse {
+    const message = { ...baseMsgUpdateTipResponse } as MsgUpdateTipResponse;
+    return message;
+  },
+
+  toJSON(_: MsgUpdateTipResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgUpdateTipResponse>): MsgUpdateTipResponse {
+    const message = { ...baseMsgUpdateTipResponse } as MsgUpdateTipResponse;
+    return message;
+  },
+};
+
+const baseMsgDeleteTip: object = { creator: "", id: 0 };
+
+export const MsgDeleteTip = {
+  encode(message: MsgDeleteTip, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.id !== 0) {
+      writer.uint32(16).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteTip {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteTip } as MsgDeleteTip;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteTip {
+    const message = { ...baseMsgDeleteTip } as MsgDeleteTip;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgDeleteTip): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = message.id);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgDeleteTip>): MsgDeleteTip {
+    const message = { ...baseMsgDeleteTip } as MsgDeleteTip;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+};
+
+const baseMsgDeleteTipResponse: object = {};
+
+export const MsgDeleteTipResponse = {
+  encode(_: MsgDeleteTipResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteTipResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteTipResponse } as MsgDeleteTipResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteTipResponse {
+    const message = { ...baseMsgDeleteTipResponse } as MsgDeleteTipResponse;
+    return message;
+  },
+
+  toJSON(_: MsgDeleteTipResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgDeleteTipResponse>): MsgDeleteTipResponse {
+    const message = { ...baseMsgDeleteTipResponse } as MsgDeleteTipResponse;
+    return message;
+  },
+};
 
 const baseMsgCreateUsername: object = { creator: "", name: "" };
 
@@ -1251,6 +1678,9 @@ export const MsgDeletePostResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   /** this line is used by starport scaffolding # proto/tx/rpc */
+  CreateTip(request: MsgCreateTip): Promise<MsgCreateTipResponse>;
+  UpdateTip(request: MsgUpdateTip): Promise<MsgUpdateTipResponse>;
+  DeleteTip(request: MsgDeleteTip): Promise<MsgDeleteTipResponse>;
   CreateUsername(
     request: MsgCreateUsername
   ): Promise<MsgCreateUsernameResponse>;
@@ -1273,6 +1703,42 @@ export class MsgClientImpl implements Msg {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
   }
+  CreateTip(request: MsgCreateTip): Promise<MsgCreateTipResponse> {
+    const data = MsgCreateTip.encode(request).finish();
+    const promise = this.rpc.request(
+      "octalmage.meep.meep.Msg",
+      "CreateTip",
+      data
+    );
+    return promise.then((data) =>
+      MsgCreateTipResponse.decode(new Reader(data))
+    );
+  }
+
+  UpdateTip(request: MsgUpdateTip): Promise<MsgUpdateTipResponse> {
+    const data = MsgUpdateTip.encode(request).finish();
+    const promise = this.rpc.request(
+      "octalmage.meep.meep.Msg",
+      "UpdateTip",
+      data
+    );
+    return promise.then((data) =>
+      MsgUpdateTipResponse.decode(new Reader(data))
+    );
+  }
+
+  DeleteTip(request: MsgDeleteTip): Promise<MsgDeleteTipResponse> {
+    const data = MsgDeleteTip.encode(request).finish();
+    const promise = this.rpc.request(
+      "octalmage.meep.meep.Msg",
+      "DeleteTip",
+      data
+    );
+    return promise.then((data) =>
+      MsgDeleteTipResponse.decode(new Reader(data))
+    );
+  }
+
   CreateUsername(
     request: MsgCreateUsername
   ): Promise<MsgCreateUsernameResponse> {

@@ -35,3 +35,8 @@ const (
 	UsernameKey      = "Username-value-"
 	UsernameCountKey = "Username-count-"
 )
+
+const (
+	TipKey      = "Tip-value-"
+	TipCountKey = "Tip-count-"
+)

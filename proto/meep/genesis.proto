@@ -2,6 +2,7 @@ syntax = "proto3";
 package octalmage.meep.meep;
 
 // this line is used by starport scaffolding # genesis/proto/import
+import "meep/tip.proto";
 import "meep/username.proto";
 import "meep/thread.proto";
 import "meep/post.proto";
@@ -11,6 +12,7 @@ option go_package = "github.com/octalmage/meep/x/meep/types";
 // GenesisState defines the capability module's genesis state.
 message GenesisState {
     // this line is used by starport scaffolding # genesis/proto/state
+		repeated Tip tipList = 4; // this line is used by starport scaffolding # genesis/proto/stateField
 		repeated Username usernameList = 3; // this line is used by starport scaffolding # genesis/proto/stateField
 		repeated Thread threadList = 2; // this line is used by starport scaffolding # genesis/proto/stateField
 		repeated Post postList = 1; // this line is used by starport scaffolding # genesis/proto/stateField

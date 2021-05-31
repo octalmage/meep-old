@@ -194,6 +194,34 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
+         * @name QueryTipAll
+         * @request GET:/octalmage/meep/meep/tip
+         */
+        this.queryTipAll = (query, params = {}) => this.request({
+            path: `/octalmage/meep/meep/tip`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryTip
+         * @summary this line is used by starport scaffolding # 2
+         * @request GET:/octalmage/meep/meep/tip/{id}
+         */
+        this.queryTip = (id, params = {}) => this.request({
+            path: `/octalmage/meep/meep/tip/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
          * @name QueryUsernameAll
          * @request GET:/octalmage/meep/meep/username
          */
@@ -209,7 +237,6 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryUsername
-         * @summary this line is used by starport scaffolding # 2
          * @request GET:/octalmage/meep/meep/username/{id}
          */
         this.queryUsername = (id, params = {}) => this.request({

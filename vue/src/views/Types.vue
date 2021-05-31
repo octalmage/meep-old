@@ -2,6 +2,7 @@
   <div>
     <div class="container">
       <!-- this line is used by starport scaffolding # 4 -->
+
       <!-- <SpType modulePath="octalmage.meep.meep" moduleType="Thread"  /> -->
       <h3>MEEP</h3>
       <div class="sp-voter__main sp-box sp-shadow sp-form-group">
@@ -10,8 +11,22 @@
           v-show="!hasFunds && currentAccount"
         >
           <sp-button :disabled="submitting" @click="getMEEP"
-            >Get 5 MEEP for free!</sp-button
+            >Get 100 MEEP for free!</sp-button
           >
+        </div>
+         <div
+          class="sp-voter__main sp-box sp-shadow sp-form-group"
+          v-show="hasFunds && currentAccount && username === ''"
+        >
+          <input
+            :disabled="submitting"
+            class="sp-input"
+            placeholder=""
+            v-model="name"
+          /><br />
+          <sp-button :disabled="submitting" @click="createUsername">
+            Claim username (1 MEEP)
+          </sp-button>
         </div>
         <form class="sp-voter__main__form">
           <div class="sp-voter__main__rcpt__header sp-box-header">
@@ -61,8 +76,12 @@
                   <img @click="openImage(post.image)" style="max-width: 100%;" :src="post.image" v-show="post.image" />
                 </div>
               <div class="sp-type-list__item__details">
+                                <div style="float: right">
+                <strong>TIPS:</strong> {{tipsForPost(post.id)}} MEEP <br /><br />
+                <button v-show="post.creator !== currentAccount" :disabled="tipSubmitting" @click="createTip(post.id)">Tip 1 MEEP</button>
+                </div>
                 User
-                <strong>{{ post.creator.substr(-8) }}</strong> said:<br /><br />
+                <strong>{{ usernameForAddress(post.creator, post.creator.substr(-8)) }}</strong> said:<br /><br />
                 <div class="sp-type-list__item__details__field">
                   {{ post.body }}
                 </div>
@@ -85,7 +104,7 @@
               placeholder=""
               v-model="body"
             />
-
+            <input ref="inputFile" type="file" @change="onFileChanged" /> <br /><br />
             <sp-button
               v-show="hasFunds"
               :disabled="submitting"
@@ -114,6 +133,7 @@ export default {
       balances: [],
       selectedFile: '',
       name: '',
+      tipSubmitting: false,
     };
   },
   watch: {
@@ -127,6 +147,9 @@ export default {
   computed: {
     postsForThread() {
       return (threadId) => this.posts.filter((p) => p.thread === threadId);
+    },
+    tipsForPost() {
+      return (postId) => this.tips.filter((p) => p.postId === postId).map(p => p.amount).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     },
     hasFunds() {
       return this.balances.length > 0;
@@ -146,6 +169,11 @@ export default {
       threads.reverse();
       return threads;
     },
+    tips() {
+      return this.$store.getters["octalmage.meep.meep/getTipAll"]({
+          params: {},
+        })?.Tip ?? [];
+    },
     posts() {
       const posts =
         this.$store.getters["octalmage.meep.meep/getPostAll"]({
@@ -153,6 +181,14 @@ export default {
         })?.Post ?? [];
       // console.log(posts);
       return posts;
+    },
+    usernames() {
+      return this.$store.getters["octalmage.meep.meep/getUsernameAll"]({
+          params: {},
+        })?.Username ?? [];
+    },
+    username() {
+      return this.usernameForAddress(this.currentAccount);
     },
     currentAccount() {
       if (this._depsLoaded) {
@@ -174,6 +210,10 @@ export default {
     },
   },
   methods: {
+    usernameForAddress(address, def) {
+      const username = this.usernames.filter(u => u.creator === address);
+      return username.length > 0 ? username[0].name : (def || '');
+    },
     onFileChanged(event) {
       console.log('changed');
       const file = event.target.files[0];
@@ -202,7 +242,7 @@ export default {
       this.submitting = true;
       const options = {
         address: this.currentAccount,
-        coins: ["5meep"],
+        coins: ["100meep"],
       };
 
       await fetch(
@@ -241,7 +281,28 @@ export default {
       
       this.submitting = false;
     },
-    async createUsername(username) {
+    async createTip(postId) {
+      if (!this.loggedIn) {
+        alert("Unlock your wallet!");
+        return;
+      }
+      this.tipSubmitting = true;
+      // this.submitting = true;
+      const value = {
+        postId,
+        creator: this.currentAccount,
+        amount: 1,
+      };
+
+      const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateTip", {
+        value,
+        fee: [],
+      });
+
+      console.log(response);
+      this.tipSubmitting = false;
+    },
+    async createUsername() {
       if (!this.loggedIn) {
         alert("Unlock your wallet!");
         return;
@@ -261,6 +322,7 @@ export default {
       console.log(response);
       
       this.name = "";
+      this.submitting = false;
     },
     async createPost(threadId) {
       console.log("threadID", threadId);

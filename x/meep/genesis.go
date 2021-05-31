@@ -10,6 +10,14 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	// this line is used by starport scaffolding # genesis/module/init
+	// Set all the tip
+	for _, elem := range genState.TipList {
+		k.SetTip(ctx, *elem)
+	}
+
+	// Set tip count
+	k.SetTipCount(ctx, uint64(len(genState.TipList)))
+
 	// Set all the username
 	for _, elem := range genState.UsernameList {
 		k.SetUsername(ctx, *elem)
@@ -41,6 +49,13 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis := types.DefaultGenesis()
 
 	// this line is used by starport scaffolding # genesis/module/export
+	// Get all tip
+	tipList := k.GetAllTip(ctx)
+	for _, elem := range tipList {
+		elem := elem
+		genesis.TipList = append(genesis.TipList, &elem)
+	}
+
 	// Get all username
 	usernameList := k.GetAllUsername(ctx)
 	for _, elem := range usernameList {

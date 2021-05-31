@@ -1,9 +1,10 @@
 import { txClient, queryClient } from './module';
 // @ts-ignore
 import { SpVuexError } from '@starport/vuex';
-import { Thread } from "./module/types/meep/thread";
-import { Post } from "./module/types/meep/post";
 import { Username } from "./module/types/meep/username";
+import { Post } from "./module/types/meep/post";
+import { Tip } from "./module/types/meep/tip";
+import { Thread } from "./module/types/meep/thread";
 async function initTxClient(vuexGetters) {
     return await txClient(vuexGetters['common/wallet/signer'], {
         addr: vuexGetters['common/env/apiTendermint']
@@ -26,6 +27,8 @@ function getStructure(template) {
 }
 const getDefaultState = () => {
     return {
+        Tip: {},
+        TipAll: {},
         Username: {},
         UsernameAll: {},
         Thread: {},
@@ -33,9 +36,10 @@ const getDefaultState = () => {
         Post: {},
         PostAll: {},
         _Structure: {
-            Thread: getStructure(Thread.fromPartial({})),
-            Post: getStructure(Post.fromPartial({})),
             Username: getStructure(Username.fromPartial({})),
+            Post: getStructure(Post.fromPartial({})),
+            Tip: getStructure(Tip.fromPartial({})),
+            Thread: getStructure(Thread.fromPartial({})),
         },
         _Subscriptions: new Set(),
     };
@@ -60,6 +64,18 @@ export default {
         }
     },
     getters: {
+        getTip: (state) => (params = {}) => {
+            if (!params.query) {
+                params.query = null;
+            }
+            return state.Tip[JSON.stringify(params)] ?? {};
+        },
+        getTipAll: (state) => (params = {}) => {
+            if (!params.query) {
+                params.query = null;
+            }
+            return state.TipAll[JSON.stringify(params)] ?? {};
+        },
         getUsername: (state) => (params = {}) => {
             if (!params.query) {
                 params.query = null;
@@ -119,6 +135,43 @@ export default {
             state._Subscriptions.forEach((subscription) => {
                 dispatch(subscription.action, subscription.payload);
             });
+        },
+        async QueryTip({ commit, rootGetters, getters }, { options: { subscribe = false, all = false }, params: { ...key }, query = null }) {
+            try {
+                let value = query ? (await (await initQueryClient(rootGetters)).queryTip(key.id, query)).data : (await (await initQueryClient(rootGetters)).queryTip(key.id)).data;
+                commit('QUERY', { query: 'Tip', key: { params: { ...key }, query }, value });
+                if (subscribe)
+                    commit('SUBSCRIBE', { action: 'QueryTip', payload: { options: { all }, params: { ...key }, query } });
+                return getters['getTip']({ params: { ...key }, query }) ?? {};
+            }
+            catch (e) {
+                console.error(new SpVuexError('QueryClient:QueryTip', 'API Node Unavailable. Could not perform query.'));
+                return {};
+            }
+        },
+        async QueryTipAll({ commit, rootGetters, getters }, { options: { subscribe = false, all = false }, params: { ...key }, query = null }) {
+            try {
+                let value = query ? (await (await initQueryClient(rootGetters)).queryTipAll(query)).data : (await (await initQueryClient(rootGetters)).queryTipAll()).data;
+                while (all && value.pagination && value.pagination.nextKey != null) {
+                    let next_values = (await (await initQueryClient(rootGetters)).queryTipAll({ ...query, 'pagination.key': value.pagination.nextKey })).data;
+                    for (let prop of Object.keys(next_values)) {
+                        if (Array.isArray(next_values[prop])) {
+                            value[prop] = [...value[prop], ...next_values[prop]];
+                        }
+                        else {
+                            value[prop] = next_values[prop];
+                        }
+                    }
+                }
+                commit('QUERY', { query: 'TipAll', key: { params: { ...key }, query }, value });
+                if (subscribe)
+                    commit('SUBSCRIBE', { action: 'QueryTipAll', payload: { options: { all }, params: { ...key }, query } });
+                return getters['getTipAll']({ params: { ...key }, query }) ?? {};
+            }
+            catch (e) {
+                console.error(new SpVuexError('QueryClient:QueryTipAll', 'API Node Unavailable. Could not perform query.'));
+                return {};
+            }
         },
         async QueryUsername({ commit, rootGetters, getters }, { options: { subscribe = false, all = false }, params: { ...key }, query = null }) {
             try {
@@ -231,22 +284,6 @@ export default {
                 return {};
             }
         },
-        async sendMsgCreateThread({ rootGetters }, { value, fee, memo }) {
-            try {
-                const msg = await (await initTxClient(rootGetters)).msgCreateThread(value);
-                const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
-                return result;
-            }
-            catch (e) {
-                if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgCreateThread:Init', 'Could not initialize signing client. Wallet is required.');
-                }
-                else {
-                    throw new SpVuexError('TxClient:MsgCreateThread:Send', 'Could not broadcast Tx.');
-                }
-            }
-        },
         async sendMsgDeleteUsername({ rootGetters }, { value, fee, memo }) {
             try {
                 const msg = await (await initTxClient(rootGetters)).msgDeleteUsername(value);
@@ -263,19 +300,67 @@ export default {
                 }
             }
         },
-        async sendMsgCreatePost({ rootGetters }, { value, fee, memo }) {
+        async sendMsgUpdateUsername({ rootGetters }, { value, fee, memo }) {
             try {
-                const msg = await (await initTxClient(rootGetters)).msgCreatePost(value);
+                const msg = await (await initTxClient(rootGetters)).msgUpdateUsername(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
                         gas: "200000" }, memo });
                 return result;
             }
             catch (e) {
                 if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgCreatePost:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgUpdateUsername:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgCreatePost:Send', 'Could not broadcast Tx.');
+                    throw new SpVuexError('TxClient:MsgUpdateUsername:Send', 'Could not broadcast Tx.');
+                }
+            }
+        },
+        async sendMsgCreateThread({ rootGetters }, { value, fee, memo }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgCreateThread(value);
+                const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgCreateThread:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgCreateThread:Send', 'Could not broadcast Tx.');
+                }
+            }
+        },
+        async sendMsgUpdateTip({ rootGetters }, { value, fee, memo }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgUpdateTip(value);
+                const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgUpdateTip:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgUpdateTip:Send', 'Could not broadcast Tx.');
+                }
+            }
+        },
+        async sendMsgUpdateThread({ rootGetters }, { value, fee, memo }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgUpdateThread(value);
+                const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgUpdateThread:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgUpdateThread:Send', 'Could not broadcast Tx.');
                 }
             }
         },
@@ -295,19 +380,51 @@ export default {
                 }
             }
         },
-        async sendMsgDeleteThread({ rootGetters }, { value, fee, memo }) {
+        async sendMsgCreateTip({ rootGetters }, { value, fee, memo }) {
             try {
-                const msg = await (await initTxClient(rootGetters)).msgDeleteThread(value);
+                const msg = await (await initTxClient(rootGetters)).msgCreateTip(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
                         gas: "200000" }, memo });
                 return result;
             }
             catch (e) {
                 if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgDeleteThread:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgCreateTip:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgDeleteThread:Send', 'Could not broadcast Tx.');
+                    throw new SpVuexError('TxClient:MsgCreateTip:Send', 'Could not broadcast Tx.');
+                }
+            }
+        },
+        async sendMsgCreatePost({ rootGetters }, { value, fee, memo }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgCreatePost(value);
+                const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgCreatePost:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgCreatePost:Send', 'Could not broadcast Tx.');
+                }
+            }
+        },
+        async sendMsgDeleteTip({ rootGetters }, { value, fee, memo }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgDeleteTip(value);
+                const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgDeleteTip:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgDeleteTip:Send', 'Could not broadcast Tx.');
                 }
             }
         },
@@ -343,49 +460,19 @@ export default {
                 }
             }
         },
-        async sendMsgUpdateThread({ rootGetters }, { value, fee, memo }) {
+        async sendMsgDeleteThread({ rootGetters }, { value, fee, memo }) {
             try {
-                const msg = await (await initTxClient(rootGetters)).msgUpdateThread(value);
+                const msg = await (await initTxClient(rootGetters)).msgDeleteThread(value);
                 const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
                         gas: "200000" }, memo });
                 return result;
             }
             catch (e) {
                 if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgUpdateThread:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgDeleteThread:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgUpdateThread:Send', 'Could not broadcast Tx.');
-                }
-            }
-        },
-        async sendMsgUpdateUsername({ rootGetters }, { value, fee, memo }) {
-            try {
-                const msg = await (await initTxClient(rootGetters)).msgUpdateUsername(value);
-                const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
-                return result;
-            }
-            catch (e) {
-                if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgUpdateUsername:Init', 'Could not initialize signing client. Wallet is required.');
-                }
-                else {
-                    throw new SpVuexError('TxClient:MsgUpdateUsername:Send', 'Could not broadcast Tx.');
-                }
-            }
-        },
-        async MsgCreateThread({ rootGetters }, { value }) {
-            try {
-                const msg = await (await initTxClient(rootGetters)).msgCreateThread(value);
-                return msg;
-            }
-            catch (e) {
-                if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgCreateThread:Init', 'Could not initialize signing client. Wallet is required.');
-                }
-                else {
-                    throw new SpVuexError('TxClient:MsgCreateThread:Create', 'Could not create message.');
+                    throw new SpVuexError('TxClient:MsgDeleteThread:Send', 'Could not broadcast Tx.');
                 }
             }
         },
@@ -403,17 +490,59 @@ export default {
                 }
             }
         },
-        async MsgCreatePost({ rootGetters }, { value }) {
+        async MsgUpdateUsername({ rootGetters }, { value }) {
             try {
-                const msg = await (await initTxClient(rootGetters)).msgCreatePost(value);
+                const msg = await (await initTxClient(rootGetters)).msgUpdateUsername(value);
                 return msg;
             }
             catch (e) {
                 if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgCreatePost:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgUpdateUsername:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgCreatePost:Create', 'Could not create message.');
+                    throw new SpVuexError('TxClient:MsgUpdateUsername:Create', 'Could not create message.');
+                }
+            }
+        },
+        async MsgCreateThread({ rootGetters }, { value }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgCreateThread(value);
+                return msg;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgCreateThread:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgCreateThread:Create', 'Could not create message.');
+                }
+            }
+        },
+        async MsgUpdateTip({ rootGetters }, { value }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgUpdateTip(value);
+                return msg;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgUpdateTip:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgUpdateTip:Create', 'Could not create message.');
+                }
+            }
+        },
+        async MsgUpdateThread({ rootGetters }, { value }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgUpdateThread(value);
+                return msg;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgUpdateThread:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgUpdateThread:Create', 'Could not create message.');
                 }
             }
         },
@@ -431,17 +560,45 @@ export default {
                 }
             }
         },
-        async MsgDeleteThread({ rootGetters }, { value }) {
+        async MsgCreateTip({ rootGetters }, { value }) {
             try {
-                const msg = await (await initTxClient(rootGetters)).msgDeleteThread(value);
+                const msg = await (await initTxClient(rootGetters)).msgCreateTip(value);
                 return msg;
             }
             catch (e) {
                 if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgDeleteThread:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgCreateTip:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgDeleteThread:Create', 'Could not create message.');
+                    throw new SpVuexError('TxClient:MsgCreateTip:Create', 'Could not create message.');
+                }
+            }
+        },
+        async MsgCreatePost({ rootGetters }, { value }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgCreatePost(value);
+                return msg;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgCreatePost:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgCreatePost:Create', 'Could not create message.');
+                }
+            }
+        },
+        async MsgDeleteTip({ rootGetters }, { value }) {
+            try {
+                const msg = await (await initTxClient(rootGetters)).msgDeleteTip(value);
+                return msg;
+            }
+            catch (e) {
+                if (e.toString() == 'wallet is required') {
+                    throw new SpVuexError('TxClient:MsgDeleteTip:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgDeleteTip:Create', 'Could not create message.');
                 }
             }
         },
@@ -473,31 +630,17 @@ export default {
                 }
             }
         },
-        async MsgUpdateThread({ rootGetters }, { value }) {
+        async MsgDeleteThread({ rootGetters }, { value }) {
             try {
-                const msg = await (await initTxClient(rootGetters)).msgUpdateThread(value);
+                const msg = await (await initTxClient(rootGetters)).msgDeleteThread(value);
                 return msg;
             }
             catch (e) {
                 if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgUpdateThread:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgDeleteThread:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgUpdateThread:Create', 'Could not create message.');
-                }
-            }
-        },
-        async MsgUpdateUsername({ rootGetters }, { value }) {
-            try {
-                const msg = await (await initTxClient(rootGetters)).msgUpdateUsername(value);
-                return msg;
-            }
-            catch (e) {
-                if (e.toString() == 'wallet is required') {
-                    throw new SpVuexError('TxClient:MsgUpdateUsername:Init', 'Could not initialize signing client. Wallet is required.');
-                }
-                else {
-                    throw new SpVuexError('TxClient:MsgUpdateUsername:Create', 'Could not create message.');
+                    throw new SpVuexError('TxClient:MsgDeleteThread:Create', 'Could not create message.');
                 }
             }
         },

@@ -14,3 +14,8 @@ const (
 	QueryGetUsername  = "get-username"
 	QueryListUsername = "list-username"
 )
+
+const (
+	QueryGetTip  = "get-tip"
+	QueryListTip = "list-tip"
+)

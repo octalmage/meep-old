@@ -1,6 +1,28 @@
 import { Reader, Writer } from "protobufjs/minimal";
 export declare const protobufPackage = "octalmage.meep.meep";
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgCreateTip {
+    creator: string;
+    postId: number;
+    amount: number;
+}
+export interface MsgCreateTipResponse {
+    id: number;
+}
+export interface MsgUpdateTip {
+    creator: string;
+    id: number;
+    postId: number;
+    amount: number;
+}
+export interface MsgUpdateTipResponse {
+}
+export interface MsgDeleteTip {
+    creator: string;
+    id: number;
+}
+export interface MsgDeleteTipResponse {
+}
 export interface MsgCreateUsername {
     creator: string;
     name: string;
@@ -61,6 +83,48 @@ export interface MsgDeletePost {
 }
 export interface MsgDeletePostResponse {
 }
+export declare const MsgCreateTip: {
+    encode(message: MsgCreateTip, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateTip;
+    fromJSON(object: any): MsgCreateTip;
+    toJSON(message: MsgCreateTip): unknown;
+    fromPartial(object: DeepPartial<MsgCreateTip>): MsgCreateTip;
+};
+export declare const MsgCreateTipResponse: {
+    encode(message: MsgCreateTipResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateTipResponse;
+    fromJSON(object: any): MsgCreateTipResponse;
+    toJSON(message: MsgCreateTipResponse): unknown;
+    fromPartial(object: DeepPartial<MsgCreateTipResponse>): MsgCreateTipResponse;
+};
+export declare const MsgUpdateTip: {
+    encode(message: MsgUpdateTip, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateTip;
+    fromJSON(object: any): MsgUpdateTip;
+    toJSON(message: MsgUpdateTip): unknown;
+    fromPartial(object: DeepPartial<MsgUpdateTip>): MsgUpdateTip;
+};
+export declare const MsgUpdateTipResponse: {
+    encode(_: MsgUpdateTipResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateTipResponse;
+    fromJSON(_: any): MsgUpdateTipResponse;
+    toJSON(_: MsgUpdateTipResponse): unknown;
+    fromPartial(_: DeepPartial<MsgUpdateTipResponse>): MsgUpdateTipResponse;
+};
+export declare const MsgDeleteTip: {
+    encode(message: MsgDeleteTip, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeleteTip;
+    fromJSON(object: any): MsgDeleteTip;
+    toJSON(message: MsgDeleteTip): unknown;
+    fromPartial(object: DeepPartial<MsgDeleteTip>): MsgDeleteTip;
+};
+export declare const MsgDeleteTipResponse: {
+    encode(_: MsgDeleteTipResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeleteTipResponse;
+    fromJSON(_: any): MsgDeleteTipResponse;
+    toJSON(_: MsgDeleteTipResponse): unknown;
+    fromPartial(_: DeepPartial<MsgDeleteTipResponse>): MsgDeleteTipResponse;
+};
 export declare const MsgCreateUsername: {
     encode(message: MsgCreateUsername, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreateUsername;
@@ -190,6 +254,9 @@ export declare const MsgDeletePostResponse: {
 /** Msg defines the Msg service. */
 export interface Msg {
     /** this line is used by starport scaffolding # proto/tx/rpc */
+    CreateTip(request: MsgCreateTip): Promise<MsgCreateTipResponse>;
+    UpdateTip(request: MsgUpdateTip): Promise<MsgUpdateTipResponse>;
+    DeleteTip(request: MsgDeleteTip): Promise<MsgDeleteTipResponse>;
     CreateUsername(request: MsgCreateUsername): Promise<MsgCreateUsernameResponse>;
     UpdateUsername(request: MsgUpdateUsername): Promise<MsgUpdateUsernameResponse>;
     DeleteUsername(request: MsgDeleteUsername): Promise<MsgDeleteUsernameResponse>;
@@ -203,6 +270,9 @@ export interface Msg {
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
+    CreateTip(request: MsgCreateTip): Promise<MsgCreateTipResponse>;
+    UpdateTip(request: MsgUpdateTip): Promise<MsgUpdateTipResponse>;
+    DeleteTip(request: MsgDeleteTip): Promise<MsgDeleteTipResponse>;
     CreateUsername(request: MsgCreateUsername): Promise<MsgCreateUsernameResponse>;
     UpdateUsername(request: MsgUpdateUsername): Promise<MsgUpdateUsernameResponse>;
     DeleteUsername(request: MsgDeleteUsername): Promise<MsgDeleteUsernameResponse>;

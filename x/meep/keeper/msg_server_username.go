@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"regexp"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -19,6 +20,23 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 			// Return an error when username is already claimed.
 			return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "User already has a username.")
 		}
+	}
+
+	if len(msg.Name) < 4 {
+		// Return an error when username is too short.
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Username must be at least 4 characters.")
+	}
+
+	if len(msg.Name) > 12 {
+		// Return an error when username is too short.
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Username can be no more than 12 characters.")
+	}
+
+	// https://socketloop.com/tutorials/golang-regular-expression-alphanumeric-underscore
+	re := regexp.MustCompile("^[a-zA-Z0-9_]*$")
+
+	if !re.MatchString(msg.Name) {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Username invalid")
 	}
 
 	// Transfer 1 meep to the meep module.

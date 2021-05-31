@@ -1,11 +1,248 @@
 /* eslint-disable */
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
-import { Username } from "../meep/username";
+import { Tip } from "../meep/tip";
 import { PageRequest, PageResponse, } from "../cosmos/base/query/v1beta1/pagination";
+import { Username } from "../meep/username";
 import { Thread } from "../meep/thread";
 import { Post } from "../meep/post";
 export const protobufPackage = "octalmage.meep.meep";
+const baseQueryGetTipRequest = { id: 0 };
+export const QueryGetTipRequest = {
+    encode(message, writer = Writer.create()) {
+        if (message.id !== 0) {
+            writer.uint32(8).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryGetTipRequest };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryGetTipRequest };
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryGetTipRequest };
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+};
+const baseQueryGetTipResponse = {};
+export const QueryGetTipResponse = {
+    encode(message, writer = Writer.create()) {
+        if (message.Tip !== undefined) {
+            Tip.encode(message.Tip, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryGetTipResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.Tip = Tip.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryGetTipResponse };
+        if (object.Tip !== undefined && object.Tip !== null) {
+            message.Tip = Tip.fromJSON(object.Tip);
+        }
+        else {
+            message.Tip = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.Tip !== undefined &&
+            (obj.Tip = message.Tip ? Tip.toJSON(message.Tip) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryGetTipResponse };
+        if (object.Tip !== undefined && object.Tip !== null) {
+            message.Tip = Tip.fromPartial(object.Tip);
+        }
+        else {
+            message.Tip = undefined;
+        }
+        return message;
+    },
+};
+const baseQueryAllTipRequest = {};
+export const QueryAllTipRequest = {
+    encode(message, writer = Writer.create()) {
+        if (message.pagination !== undefined) {
+            PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryAllTipRequest };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.pagination = PageRequest.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryAllTipRequest };
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageRequest.fromJSON(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.pagination !== undefined &&
+            (obj.pagination = message.pagination
+                ? PageRequest.toJSON(message.pagination)
+                : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryAllTipRequest };
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageRequest.fromPartial(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+};
+const baseQueryAllTipResponse = {};
+export const QueryAllTipResponse = {
+    encode(message, writer = Writer.create()) {
+        for (const v of message.Tip) {
+            Tip.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.pagination !== undefined) {
+            PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryAllTipResponse };
+        message.Tip = [];
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.Tip.push(Tip.decode(reader, reader.uint32()));
+                    break;
+                case 2:
+                    message.pagination = PageResponse.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryAllTipResponse };
+        message.Tip = [];
+        if (object.Tip !== undefined && object.Tip !== null) {
+            for (const e of object.Tip) {
+                message.Tip.push(Tip.fromJSON(e));
+            }
+        }
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageResponse.fromJSON(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.Tip) {
+            obj.Tip = message.Tip.map((e) => (e ? Tip.toJSON(e) : undefined));
+        }
+        else {
+            obj.Tip = [];
+        }
+        message.pagination !== undefined &&
+            (obj.pagination = message.pagination
+                ? PageResponse.toJSON(message.pagination)
+                : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryAllTipResponse };
+        message.Tip = [];
+        if (object.Tip !== undefined && object.Tip !== null) {
+            for (const e of object.Tip) {
+                message.Tip.push(Tip.fromPartial(e));
+            }
+        }
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageResponse.fromPartial(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+};
 const baseQueryGetUsernameRequest = { id: 0 };
 export const QueryGetUsernameRequest = {
     encode(message, writer = Writer.create()) {
@@ -762,6 +999,16 @@ export const QueryAllPostResponse = {
 export class QueryClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
+    }
+    Tip(request) {
+        const data = QueryGetTipRequest.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Query", "Tip", data);
+        return promise.then((data) => QueryGetTipResponse.decode(new Reader(data)));
+    }
+    TipAll(request) {
+        const data = QueryAllTipRequest.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Query", "TipAll", data);
+        return promise.then((data) => QueryAllTipResponse.decode(new Reader(data)));
     }
     Username(request) {
         const data = QueryGetUsernameRequest.encode(request).finish();

@@ -28,8 +28,8 @@ genesis:
             denom: "meep" 
 faucet:
   name: octalmage 
-  coins: ["5meep"]
-  coins_max: ["10meep"]
+  coins: ["100meep"]
+  coins_max: ["100meep"]
   host: "159.65.103.150:4500"
 host:
   rpc: "159.65.103.150:26657"

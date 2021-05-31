@@ -4,6 +4,7 @@ package octalmage.meep.meep;
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
+import "meep/tip.proto";
 import "meep/username.proto";
 import "meep/thread.proto";
 import "meep/post.proto";
@@ -13,6 +14,13 @@ option go_package = "github.com/octalmage/meep/x/meep/types";
 // Query defines the gRPC querier service.
 service Query {
     // this line is used by starport scaffolding # 2
+	rpc Tip(QueryGetTipRequest) returns (QueryGetTipResponse) {
+		option (google.api.http).get = "/octalmage/meep/meep/tip/{id}";
+	}
+	rpc TipAll(QueryAllTipRequest) returns (QueryAllTipResponse) {
+		option (google.api.http).get = "/octalmage/meep/meep/tip";
+	}
+
 	rpc Username(QueryGetUsernameRequest) returns (QueryGetUsernameResponse) {
 		option (google.api.http).get = "/octalmage/meep/meep/username/{id}";
 	}
@@ -37,6 +45,22 @@ service Query {
 }
 
 // this line is used by starport scaffolding # 3
+message QueryGetTipRequest {
+	uint64 id = 1;
+}
+
+message QueryGetTipResponse {
+	Tip Tip = 1;
+}
+
+message QueryAllTipRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTipResponse {
+	repeated Tip Tip = 1;
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
 message QueryGetUsernameRequest {
 	uint64 id = 1;
 }

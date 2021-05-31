@@ -454,19 +454,26 @@ func (app *App) Name() string { return app.BaseApp.Name() }
 func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
 	threads := app.meepKeeper.GetAllThread(ctx)
 	posts := app.meepKeeper.GetAllPost(ctx)
+	tips := app.meepKeeper.GetAllTip(ctx)
 	logger := app.meepKeeper.Logger(ctx)
 
 	if len(threads) > 0 {
 		for _, s := range threads {
 			timeToDelete := time.Unix(s.CreatedAt, 0)
 			// t := time.Unix(s.CreatedAt, 0)
-			if timeToDelete.Unix()+(60*60*23) < time.Now().Unix() {
+			// if timeToDelete.Unix()+(60*60*23) < time.Now().Unix() {
+			if timeToDelete.Unix()+(60) < time.Now().Unix() {
 				logger.Info(fmt.Sprintf(" Time to delete %d", s.Id))
 				app.meepKeeper.RemoveThread(ctx, s.Id)
 
 				for _, p := range posts {
 					if p.Thread == s.Id {
 						app.meepKeeper.RemovePost(ctx, p.Id)
+						for _, t := range tips {
+							if t.PostId == p.Id {
+								app.meepKeeper.RemoveTip(ctx, t.Id)
+							}
+						}
 					}
 				}
 			}

@@ -6,15 +6,21 @@ export interface MeepMsgCreateThreadResponse {
     /** @format uint64 */
     id?: string;
 }
+export interface MeepMsgCreateTipResponse {
+    /** @format uint64 */
+    id?: string;
+}
 export interface MeepMsgCreateUsernameResponse {
     /** @format uint64 */
     id?: string;
 }
 export declare type MeepMsgDeletePostResponse = object;
 export declare type MeepMsgDeleteThreadResponse = object;
+export declare type MeepMsgDeleteTipResponse = object;
 export declare type MeepMsgDeleteUsernameResponse = object;
 export declare type MeepMsgUpdatePostResponse = object;
 export declare type MeepMsgUpdateThreadResponse = object;
+export declare type MeepMsgUpdateTipResponse = object;
 export declare type MeepMsgUpdateUsernameResponse = object;
 export interface MeepPost {
     creator?: string;
@@ -55,6 +61,19 @@ export interface MeepQueryAllThreadResponse {
     /** @format uint64 */
     count?: string;
 }
+export interface MeepQueryAllTipResponse {
+    Tip?: MeepTip[];
+    /**
+     * PageResponse is to be embedded in gRPC response messages where the
+     * corresponding request message has used PageRequest.
+     *
+     *  message SomeResponse {
+     *          repeated Bar results = 1;
+     *          PageResponse page = 2;
+     *  }
+     */
+    pagination?: V1Beta1PageResponse;
+}
 export interface MeepQueryAllUsernameResponse {
     Username?: MeepUsername[];
     /**
@@ -74,6 +93,9 @@ export interface MeepQueryGetPostResponse {
 export interface MeepQueryGetThreadResponse {
     Thread?: MeepThread;
 }
+export interface MeepQueryGetTipResponse {
+    Tip?: MeepTip;
+}
 export interface MeepQueryGetUsernameResponse {
     Username?: MeepUsername;
 }
@@ -83,6 +105,15 @@ export interface MeepThread {
     id?: string;
     /** @format int64 */
     createdAt?: string;
+}
+export interface MeepTip {
+    creator?: string;
+    /** @format uint64 */
+    id?: string;
+    /** @format uint64 */
+    postId?: string;
+    /** @format int32 */
+    amount?: number;
 }
 export interface MeepUsername {
     creator?: string;
@@ -255,6 +286,28 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * No description
      *
      * @tags Query
+     * @name QueryTipAll
+     * @request GET:/octalmage/meep/meep/tip
+     */
+    queryTipAll: (query?: {
+        "pagination.key"?: string;
+        "pagination.offset"?: string;
+        "pagination.limit"?: string;
+        "pagination.countTotal"?: boolean;
+    }, params?: RequestParams) => Promise<HttpResponse<MeepQueryAllTipResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QueryTip
+     * @summary this line is used by starport scaffolding # 2
+     * @request GET:/octalmage/meep/meep/tip/{id}
+     */
+    queryTip: (id: string, params?: RequestParams) => Promise<HttpResponse<MeepQueryGetTipResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
      * @name QueryUsernameAll
      * @request GET:/octalmage/meep/meep/username
      */
@@ -269,7 +322,6 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @tags Query
      * @name QueryUsername
-     * @summary this line is used by starport scaffolding # 2
      * @request GET:/octalmage/meep/meep/username/{id}
      */
     queryUsername: (id: string, params?: RequestParams) => Promise<HttpResponse<MeepQueryGetUsernameResponse, RpcStatus>>;
