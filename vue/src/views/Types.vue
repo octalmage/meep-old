@@ -135,8 +135,13 @@ export default {
         this.$store.getters["octalmage.meep.meep/getThreadAll"]({
           params: {},
         })?.Thread ?? [];
-
-      console.log(threads);
+      
+      // threads.sort((a, b) => {
+      //   const maxa = Math.max.apply(Math, this.postsForThread(a.id).map(function(o) { return o.createdAt; }))
+      //   const maxb = Math.max.apply(Math, this.postsForThread(b.id).map(function(o) { return o.createdAt; }))
+      //   return maxb - maxa;
+      // });
+      // console.log(threads);
       threads.reverse();
       return threads;
     },
