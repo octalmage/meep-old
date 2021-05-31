@@ -7,6 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/octalmage/meep/x/meep/types"
+	"github.com/tendermint/tendermint/crypto"
 )
 
 func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUsername) (*types.MsgCreateUsernameResponse, error) {
@@ -18,6 +19,21 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 			// Return an error when username is already claimed.
 			return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "User already has a username.")
 		}
+	}
+
+	// Transfer 1 meep to the meep module.
+	moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(types.ModuleName)))
+	feeCoins, err := sdk.ParseCoinsNormalized("1meep")
+	if err != nil {
+		return nil, err
+	}
+
+	creatorAddress, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return nil, err
+	}
+	if err := k.bankKeeper.SendCoins(ctx, creatorAddress, moduleAcct, feeCoins); err != nil {
+		return nil, err
 	}
 
 	id := k.AppendUsername(

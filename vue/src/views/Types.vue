@@ -113,6 +113,7 @@ export default {
       submitting: false,
       balances: [],
       selectedFile: '',
+      name: '',
     };
   },
   watch: {
@@ -239,6 +240,27 @@ export default {
       }
       
       this.submitting = false;
+    },
+    async createUsername(username) {
+      if (!this.loggedIn) {
+        alert("Unlock your wallet!");
+        return;
+      }
+
+      this.submitting = true;
+      const value = {
+        creator: this.currentAccount,
+        name: this.name,
+      };
+
+      const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateUsername", {
+        value,
+        fee: [],
+      });
+
+      console.log(response);
+      
+      this.name = "";
     },
     async createPost(threadId) {
       console.log("threadID", threadId);
