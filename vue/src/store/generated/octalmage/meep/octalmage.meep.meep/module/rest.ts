@@ -19,13 +19,22 @@ export interface MeepMsgCreateThreadResponse {
   id?: string;
 }
 
+export interface MeepMsgCreateUsernameResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
 export type MeepMsgDeletePostResponse = object;
 
 export type MeepMsgDeleteThreadResponse = object;
 
+export type MeepMsgDeleteUsernameResponse = object;
+
 export type MeepMsgUpdatePostResponse = object;
 
 export type MeepMsgUpdateThreadResponse = object;
+
+export type MeepMsgUpdateUsernameResponse = object;
 
 export interface MeepPost {
   creator?: string;
@@ -75,12 +84,31 @@ export interface MeepQueryAllThreadResponse {
   count?: string;
 }
 
+export interface MeepQueryAllUsernameResponse {
+  Username?: MeepUsername[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface MeepQueryGetPostResponse {
   Post?: MeepPost;
 }
 
 export interface MeepQueryGetThreadResponse {
   Thread?: MeepThread;
+}
+
+export interface MeepQueryGetUsernameResponse {
+  Username?: MeepUsername;
 }
 
 export interface MeepThread {
@@ -91,6 +119,14 @@ export interface MeepThread {
 
   /** @format int64 */
   createdAt?: string;
+}
+
+export interface MeepUsername {
+  creator?: string;
+
+  /** @format uint64 */
+  id?: string;
+  name?: string;
 }
 
 export interface ProtobufAny {
@@ -427,12 +463,51 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryThread
-   * @summary this line is used by starport scaffolding # 2
    * @request GET:/octalmage/meep/meep/thread/{id}
    */
   queryThread = (id: string, params: RequestParams = {}) =>
     this.request<MeepQueryGetThreadResponse, RpcStatus>({
       path: `/octalmage/meep/meep/thread/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryUsernameAll
+   * @request GET:/octalmage/meep/meep/username
+   */
+  queryUsernameAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.countTotal"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<MeepQueryAllUsernameResponse, RpcStatus>({
+      path: `/octalmage/meep/meep/username`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryUsername
+   * @summary this line is used by starport scaffolding # 2
+   * @request GET:/octalmage/meep/meep/username/{id}
+   */
+  queryUsername = (id: string, params: RequestParams = {}) =>
+    this.request<MeepQueryGetUsernameResponse, RpcStatus>({
+      path: `/octalmage/meep/meep/username/${id}`,
       method: "GET",
       format: "json",
       ...params,

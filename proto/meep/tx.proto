@@ -8,6 +8,9 @@ option go_package = "github.com/octalmage/meep/x/meep/types";
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreateUsername(MsgCreateUsername) returns (MsgCreateUsernameResponse);
+  rpc UpdateUsername(MsgUpdateUsername) returns (MsgUpdateUsernameResponse);
+  rpc DeleteUsername(MsgDeleteUsername) returns (MsgDeleteUsernameResponse);
   rpc CreateThread(MsgCreateThread) returns (MsgCreateThreadResponse);
   rpc UpdateThread(MsgUpdateThread) returns (MsgUpdateThreadResponse);
   rpc DeleteThread(MsgDeleteThread) returns (MsgDeleteThreadResponse);
@@ -17,6 +20,30 @@ service Msg {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
+message MsgCreateUsername {
+  string creator = 1;
+  string name = 2;
+}
+
+message MsgCreateUsernameResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateUsername {
+  string creator = 1;
+  uint64 id = 2;
+  string name = 3;
+}
+
+message MsgUpdateUsernameResponse { }
+
+message MsgDeleteUsername {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteUsernameResponse { }
+
 message MsgCreateThread {
   string creator = 1;
 }

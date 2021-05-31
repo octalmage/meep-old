@@ -11,8 +11,9 @@ const DefaultIndex uint64 = 1
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		// this line is used by starport scaffolding # genesis/types/default
-		ThreadList: []*Thread{},
-		PostList:   []*Post{},
+		UsernameList: []*Username{},
+		ThreadList:   []*Thread{},
+		PostList:     []*Post{},
 	}
 }
 
@@ -20,6 +21,15 @@ func DefaultGenesis() *GenesisState {
 // failure.
 func (gs GenesisState) Validate() error {
 	// this line is used by starport scaffolding # genesis/types/validate
+	// Check for duplicated ID in username
+	usernameIdMap := make(map[uint64]bool)
+
+	for _, elem := range gs.UsernameList {
+		if _, ok := usernameIdMap[elem.Id]; ok {
+			return fmt.Errorf("duplicated id for username")
+		}
+		usernameIdMap[elem.Id] = true
+	}
 	// Check for duplicated ID in thread
 	threadIdMap := make(map[uint64]bool)
 

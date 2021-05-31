@@ -1,6 +1,26 @@
 import { Reader, Writer } from "protobufjs/minimal";
 export declare const protobufPackage = "octalmage.meep.meep";
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgCreateUsername {
+    creator: string;
+    name: string;
+}
+export interface MsgCreateUsernameResponse {
+    id: number;
+}
+export interface MsgUpdateUsername {
+    creator: string;
+    id: number;
+    name: string;
+}
+export interface MsgUpdateUsernameResponse {
+}
+export interface MsgDeleteUsername {
+    creator: string;
+    id: number;
+}
+export interface MsgDeleteUsernameResponse {
+}
 export interface MsgCreateThread {
     creator: string;
 }
@@ -41,6 +61,48 @@ export interface MsgDeletePost {
 }
 export interface MsgDeletePostResponse {
 }
+export declare const MsgCreateUsername: {
+    encode(message: MsgCreateUsername, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateUsername;
+    fromJSON(object: any): MsgCreateUsername;
+    toJSON(message: MsgCreateUsername): unknown;
+    fromPartial(object: DeepPartial<MsgCreateUsername>): MsgCreateUsername;
+};
+export declare const MsgCreateUsernameResponse: {
+    encode(message: MsgCreateUsernameResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateUsernameResponse;
+    fromJSON(object: any): MsgCreateUsernameResponse;
+    toJSON(message: MsgCreateUsernameResponse): unknown;
+    fromPartial(object: DeepPartial<MsgCreateUsernameResponse>): MsgCreateUsernameResponse;
+};
+export declare const MsgUpdateUsername: {
+    encode(message: MsgUpdateUsername, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateUsername;
+    fromJSON(object: any): MsgUpdateUsername;
+    toJSON(message: MsgUpdateUsername): unknown;
+    fromPartial(object: DeepPartial<MsgUpdateUsername>): MsgUpdateUsername;
+};
+export declare const MsgUpdateUsernameResponse: {
+    encode(_: MsgUpdateUsernameResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateUsernameResponse;
+    fromJSON(_: any): MsgUpdateUsernameResponse;
+    toJSON(_: MsgUpdateUsernameResponse): unknown;
+    fromPartial(_: DeepPartial<MsgUpdateUsernameResponse>): MsgUpdateUsernameResponse;
+};
+export declare const MsgDeleteUsername: {
+    encode(message: MsgDeleteUsername, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeleteUsername;
+    fromJSON(object: any): MsgDeleteUsername;
+    toJSON(message: MsgDeleteUsername): unknown;
+    fromPartial(object: DeepPartial<MsgDeleteUsername>): MsgDeleteUsername;
+};
+export declare const MsgDeleteUsernameResponse: {
+    encode(_: MsgDeleteUsernameResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeleteUsernameResponse;
+    fromJSON(_: any): MsgDeleteUsernameResponse;
+    toJSON(_: MsgDeleteUsernameResponse): unknown;
+    fromPartial(_: DeepPartial<MsgDeleteUsernameResponse>): MsgDeleteUsernameResponse;
+};
 export declare const MsgCreateThread: {
     encode(message: MsgCreateThread, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreateThread;
@@ -128,6 +190,9 @@ export declare const MsgDeletePostResponse: {
 /** Msg defines the Msg service. */
 export interface Msg {
     /** this line is used by starport scaffolding # proto/tx/rpc */
+    CreateUsername(request: MsgCreateUsername): Promise<MsgCreateUsernameResponse>;
+    UpdateUsername(request: MsgUpdateUsername): Promise<MsgUpdateUsernameResponse>;
+    DeleteUsername(request: MsgDeleteUsername): Promise<MsgDeleteUsernameResponse>;
     CreateThread(request: MsgCreateThread): Promise<MsgCreateThreadResponse>;
     UpdateThread(request: MsgUpdateThread): Promise<MsgUpdateThreadResponse>;
     DeleteThread(request: MsgDeleteThread): Promise<MsgDeleteThreadResponse>;
@@ -138,6 +203,9 @@ export interface Msg {
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
+    CreateUsername(request: MsgCreateUsername): Promise<MsgCreateUsernameResponse>;
+    UpdateUsername(request: MsgUpdateUsername): Promise<MsgUpdateUsernameResponse>;
+    DeleteUsername(request: MsgDeleteUsername): Promise<MsgDeleteUsernameResponse>;
     CreateThread(request: MsgCreateThread): Promise<MsgCreateThreadResponse>;
     UpdateThread(request: MsgUpdateThread): Promise<MsgUpdateThreadResponse>;
     DeleteThread(request: MsgDeleteThread): Promise<MsgDeleteThreadResponse>;

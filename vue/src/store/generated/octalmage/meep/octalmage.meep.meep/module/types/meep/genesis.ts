@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { Username } from "../meep/username";
 import { Thread } from "../meep/thread";
 import { Post } from "../meep/post";
 import { Writer, Reader } from "protobufjs/minimal";
@@ -8,6 +9,8 @@ export const protobufPackage = "octalmage.meep.meep";
 /** GenesisState defines the capability module's genesis state. */
 export interface GenesisState {
   /** this line is used by starport scaffolding # genesis/proto/state */
+  usernameList: Username[];
+  /** this line is used by starport scaffolding # genesis/proto/stateField */
   threadList: Thread[];
   /** this line is used by starport scaffolding # genesis/proto/stateField */
   postList: Post[];
@@ -17,6 +20,9 @@ const baseGenesisState: object = {};
 
 export const GenesisState = {
   encode(message: GenesisState, writer: Writer = Writer.create()): Writer {
+    for (const v of message.usernameList) {
+      Username.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
     for (const v of message.threadList) {
       Thread.encode(v!, writer.uint32(18).fork()).ldelim();
     }
@@ -30,11 +36,15 @@ export const GenesisState = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
+    message.usernameList = [];
     message.threadList = [];
     message.postList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 3:
+          message.usernameList.push(Username.decode(reader, reader.uint32()));
+          break;
         case 2:
           message.threadList.push(Thread.decode(reader, reader.uint32()));
           break;
@@ -51,8 +61,14 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
+    message.usernameList = [];
     message.threadList = [];
     message.postList = [];
+    if (object.usernameList !== undefined && object.usernameList !== null) {
+      for (const e of object.usernameList) {
+        message.usernameList.push(Username.fromJSON(e));
+      }
+    }
     if (object.threadList !== undefined && object.threadList !== null) {
       for (const e of object.threadList) {
         message.threadList.push(Thread.fromJSON(e));
@@ -68,6 +84,13 @@ export const GenesisState = {
 
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
+    if (message.usernameList) {
+      obj.usernameList = message.usernameList.map((e) =>
+        e ? Username.toJSON(e) : undefined
+      );
+    } else {
+      obj.usernameList = [];
+    }
     if (message.threadList) {
       obj.threadList = message.threadList.map((e) =>
         e ? Thread.toJSON(e) : undefined
@@ -87,8 +110,14 @@ export const GenesisState = {
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
+    message.usernameList = [];
     message.threadList = [];
     message.postList = [];
+    if (object.usernameList !== undefined && object.usernameList !== null) {
+      for (const e of object.usernameList) {
+        message.usernameList.push(Username.fromPartial(e));
+      }
+    }
     if (object.threadList !== undefined && object.threadList !== null) {
       for (const e of object.threadList) {
         message.threadList.push(Thread.fromPartial(e));

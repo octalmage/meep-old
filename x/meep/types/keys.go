@@ -30,3 +30,8 @@ const (
 	ThreadKey      = "Thread-value-"
 	ThreadCountKey = "Thread-count-"
 )
+
+const (
+	UsernameKey      = "Username-value-"
+	UsernameCountKey = "Username-count-"
+)

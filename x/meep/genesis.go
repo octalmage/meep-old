@@ -10,6 +10,14 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	// this line is used by starport scaffolding # genesis/module/init
+	// Set all the username
+	for _, elem := range genState.UsernameList {
+		k.SetUsername(ctx, *elem)
+	}
+
+	// Set username count
+	k.SetUsernameCount(ctx, uint64(len(genState.UsernameList)))
+
 	// Set all the thread
 	for _, elem := range genState.ThreadList {
 		k.SetThread(ctx, *elem)
@@ -33,6 +41,13 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis := types.DefaultGenesis()
 
 	// this line is used by starport scaffolding # genesis/module/export
+	// Get all username
+	usernameList := k.GetAllUsername(ctx)
+	for _, elem := range usernameList {
+		elem := elem
+		genesis.UsernameList = append(genesis.UsernameList, &elem)
+	}
+
 	// Get all thread
 	threadList := k.GetAllThread(ctx)
 	for _, elem := range threadList {

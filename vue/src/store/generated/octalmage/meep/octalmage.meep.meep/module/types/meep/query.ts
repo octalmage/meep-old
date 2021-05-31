@@ -1,16 +1,34 @@
 /* eslint-disable */
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
-import { Thread } from "../meep/thread";
+import { Username } from "../meep/username";
 import {
   PageRequest,
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
+import { Thread } from "../meep/thread";
 import { Post } from "../meep/post";
 
 export const protobufPackage = "octalmage.meep.meep";
 
 /** this line is used by starport scaffolding # 3 */
+export interface QueryGetUsernameRequest {
+  id: number;
+}
+
+export interface QueryGetUsernameResponse {
+  Username: Username | undefined;
+}
+
+export interface QueryAllUsernameRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllUsernameResponse {
+  Username: Username[];
+  pagination: PageResponse | undefined;
+}
+
 export interface QueryGetThreadRequest {
   id: number;
 }
@@ -45,6 +63,314 @@ export interface QueryAllPostResponse {
   Post: Post[];
   pagination: PageResponse | undefined;
 }
+
+const baseQueryGetUsernameRequest: object = { id: 0 };
+
+export const QueryGetUsernameRequest = {
+  encode(
+    message: QueryGetUsernameRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.id !== 0) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetUsernameRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetUsernameRequest,
+    } as QueryGetUsernameRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetUsernameRequest {
+    const message = {
+      ...baseQueryGetUsernameRequest,
+    } as QueryGetUsernameRequest;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetUsernameRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = message.id);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetUsernameRequest>
+  ): QueryGetUsernameRequest {
+    const message = {
+      ...baseQueryGetUsernameRequest,
+    } as QueryGetUsernameRequest;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+};
+
+const baseQueryGetUsernameResponse: object = {};
+
+export const QueryGetUsernameResponse = {
+  encode(
+    message: QueryGetUsernameResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.Username !== undefined) {
+      Username.encode(message.Username, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetUsernameResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetUsernameResponse,
+    } as QueryGetUsernameResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Username = Username.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetUsernameResponse {
+    const message = {
+      ...baseQueryGetUsernameResponse,
+    } as QueryGetUsernameResponse;
+    if (object.Username !== undefined && object.Username !== null) {
+      message.Username = Username.fromJSON(object.Username);
+    } else {
+      message.Username = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetUsernameResponse): unknown {
+    const obj: any = {};
+    message.Username !== undefined &&
+      (obj.Username = message.Username
+        ? Username.toJSON(message.Username)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetUsernameResponse>
+  ): QueryGetUsernameResponse {
+    const message = {
+      ...baseQueryGetUsernameResponse,
+    } as QueryGetUsernameResponse;
+    if (object.Username !== undefined && object.Username !== null) {
+      message.Username = Username.fromPartial(object.Username);
+    } else {
+      message.Username = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllUsernameRequest: object = {};
+
+export const QueryAllUsernameRequest = {
+  encode(
+    message: QueryAllUsernameRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllUsernameRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllUsernameRequest,
+    } as QueryAllUsernameRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllUsernameRequest {
+    const message = {
+      ...baseQueryAllUsernameRequest,
+    } as QueryAllUsernameRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllUsernameRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllUsernameRequest>
+  ): QueryAllUsernameRequest {
+    const message = {
+      ...baseQueryAllUsernameRequest,
+    } as QueryAllUsernameRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllUsernameResponse: object = {};
+
+export const QueryAllUsernameResponse = {
+  encode(
+    message: QueryAllUsernameResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.Username) {
+      Username.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllUsernameResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllUsernameResponse,
+    } as QueryAllUsernameResponse;
+    message.Username = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Username.push(Username.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllUsernameResponse {
+    const message = {
+      ...baseQueryAllUsernameResponse,
+    } as QueryAllUsernameResponse;
+    message.Username = [];
+    if (object.Username !== undefined && object.Username !== null) {
+      for (const e of object.Username) {
+        message.Username.push(Username.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllUsernameResponse): unknown {
+    const obj: any = {};
+    if (message.Username) {
+      obj.Username = message.Username.map((e) =>
+        e ? Username.toJSON(e) : undefined
+      );
+    } else {
+      obj.Username = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllUsernameResponse>
+  ): QueryAllUsernameResponse {
+    const message = {
+      ...baseQueryAllUsernameResponse,
+    } as QueryAllUsernameResponse;
+    message.Username = [];
+    if (object.Username !== undefined && object.Username !== null) {
+      for (const e of object.Username) {
+        message.Username.push(Username.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
 
 const baseQueryGetThreadRequest: object = { id: 0 };
 
@@ -608,6 +934,10 @@ export const QueryAllPostResponse = {
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** this line is used by starport scaffolding # 2 */
+  Username(request: QueryGetUsernameRequest): Promise<QueryGetUsernameResponse>;
+  UsernameAll(
+    request: QueryAllUsernameRequest
+  ): Promise<QueryAllUsernameResponse>;
   Thread(request: QueryGetThreadRequest): Promise<QueryGetThreadResponse>;
   ThreadAll(request: QueryAllThreadRequest): Promise<QueryAllThreadResponse>;
   Post(request: QueryGetPostRequest): Promise<QueryGetPostResponse>;
@@ -619,6 +949,34 @@ export class QueryClientImpl implements Query {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
   }
+  Username(
+    request: QueryGetUsernameRequest
+  ): Promise<QueryGetUsernameResponse> {
+    const data = QueryGetUsernameRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "octalmage.meep.meep.Query",
+      "Username",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetUsernameResponse.decode(new Reader(data))
+    );
+  }
+
+  UsernameAll(
+    request: QueryAllUsernameRequest
+  ): Promise<QueryAllUsernameResponse> {
+    const data = QueryAllUsernameRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "octalmage.meep.meep.Query",
+      "UsernameAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllUsernameResponse.decode(new Reader(data))
+    );
+  }
+
   Thread(request: QueryGetThreadRequest): Promise<QueryGetThreadResponse> {
     const data = QueryGetThreadRequest.encode(request).finish();
     const promise = this.rpc.request(

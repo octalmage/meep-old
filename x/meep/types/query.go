@@ -9,3 +9,8 @@ const (
 	QueryGetThread  = "get-thread"
 	QueryListThread = "list-thread"
 )
+
+const (
+	QueryGetUsername  = "get-username"
+	QueryListUsername = "list-username"
+)
