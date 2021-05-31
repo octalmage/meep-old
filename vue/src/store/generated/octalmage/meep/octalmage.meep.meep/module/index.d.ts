@@ -3,10 +3,10 @@ import { OfflineSigner, EncodeObject } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgUpdateThread } from "./types/meep/tx";
 import { MsgCreatePost } from "./types/meep/tx";
-import { MsgUpdatePost } from "./types/meep/tx";
-import { MsgDeletePost } from "./types/meep/tx";
 import { MsgDeleteThread } from "./types/meep/tx";
+import { MsgUpdatePost } from "./types/meep/tx";
 import { MsgCreateThread } from "./types/meep/tx";
+import { MsgDeletePost } from "./types/meep/tx";
 interface TxClientOptions {
     addr: string;
 }
@@ -18,10 +18,10 @@ declare const txClient: (wallet: OfflineSigner, { addr: addr }?: TxClientOptions
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions) => Promise<import("@cosmjs/stargate").BroadcastTxResponse>;
     msgUpdateThread: (data: MsgUpdateThread) => EncodeObject;
     msgCreatePost: (data: MsgCreatePost) => EncodeObject;
-    msgUpdatePost: (data: MsgUpdatePost) => EncodeObject;
-    msgDeletePost: (data: MsgDeletePost) => EncodeObject;
     msgDeleteThread: (data: MsgDeleteThread) => EncodeObject;
+    msgUpdatePost: (data: MsgUpdatePost) => EncodeObject;
     msgCreateThread: (data: MsgCreateThread) => EncodeObject;
+    msgDeletePost: (data: MsgDeletePost) => EncodeObject;
 }>;
 interface QueryClientOptions {
     addr: string;
