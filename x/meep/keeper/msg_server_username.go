@@ -12,6 +12,14 @@ import (
 func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUsername) (*types.MsgCreateUsernameResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	usernameList := k.GetAllUsername(ctx)
+	for _, existingUsername := range usernameList {
+		if existingUsername.Creator == msg.Creator {
+			// Return an error when username is already claimed.
+			return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "User already has a username.")
+		}
+	}
+
 	id := k.AppendUsername(
 		ctx,
 		msg.Creator,
