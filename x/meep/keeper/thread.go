@@ -49,7 +49,7 @@ func (k Keeper) AppendThread(
 	var thread = types.Thread{
 		Creator:   creator,
 		Id:        count,
-		CreatedAt: time.Now().UnixNano() / int64(time.Millisecond),
+		CreatedAt: time.Now().Unix(),
 	}
 
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ThreadKey))

@@ -24,7 +24,7 @@
             placeholder=""
             v-model="body"
           />
-          <input ref="inputFile" type="file" @change="onFileChanged" /> <br />
+          <input ref="inputFile" type="file" @change="onFileChanged" /> <br /><br />
           <sp-button
             v-show="hasFunds"
             :disabled="submitting"
@@ -68,7 +68,7 @@
                 </div>
                 <br />
                 <strong>{{
-                  formatTimestamp(Date.now(), post.createdAt)
+                  formatTimestamp(Date.now(), post.createdAt * 1000)
                 }}</strong>
               </div>
             </div>
@@ -136,6 +136,7 @@ export default {
           params: {},
         })?.Thread ?? [];
 
+      console.log(threads);
       threads.reverse();
       return threads;
     },
@@ -144,7 +145,7 @@ export default {
         this.$store.getters["octalmage.meep.meep/getPostAll"]({
           params: {},
         })?.Post ?? [];
-      console.log(posts);
+      // console.log(posts);
       return posts;
     },
     currentAccount() {
@@ -221,18 +222,18 @@ export default {
         creator: this.currentAccount,
       };
 
-      let threadId = 0;
-
-      if (this.threads.length > 0) {
-        threadId = 1 + Number(this.threads[0].id);
-      }
-
-      await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateThread", {
+      const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateThread", {
         value,
         fee: [],
-      });
+      }); 
 
-      await this.createPost(threadId);
+      if (typeof response.data[0].data === 'undefined') {
+        await this.createPost(0);
+      } else {
+        await this.createPost(response.data[0].data[1]);
+      }
+      
+      this.submitting = false;
     },
     async createPost(threadId) {
       console.log("threadID", threadId);

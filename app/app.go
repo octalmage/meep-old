@@ -1,9 +1,11 @@
 package app
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec/types"
@@ -450,11 +452,31 @@ func (app *App) Name() string { return app.BaseApp.Name() }
 
 // BeginBlocker application updates every begin block
 func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
+	threads := app.meepKeeper.GetAllThread(ctx)
 	posts := app.meepKeeper.GetAllPost(ctx)
 	logger := app.meepKeeper.Logger(ctx)
 
-	if len(posts) > 0 {
-		logger.Info(posts[0].Body)
+	if len(threads) > 0 {
+		for _, s := range threads {
+			timeToDelete := time.Unix(s.CreatedAt, 0)
+			// t := time.Unix(s.CreatedAt, 0)
+			// TODO: Update to 24 hours.
+			// TODO: Currently set to 5 minutes.
+			if timeToDelete.Unix()+(60*5) < time.Now().Unix() {
+				logger.Info(fmt.Sprintf(" Time to delete %d", s.Id))
+				app.meepKeeper.RemoveThread(ctx, s.Id)
+
+				for _, p := range posts {
+					if p.Thread == s.Id {
+						app.meepKeeper.RemovePost(ctx, p.Id)
+					}
+				}
+			}
+			// fmt.Println(i, s)
+		}
+
+	} else {
+		logger.Info("No threads to prune, skipping")
 	}
 
 	return app.mm.BeginBlock(ctx, req)

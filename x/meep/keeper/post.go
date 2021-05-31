@@ -51,7 +51,7 @@ func (k Keeper) AppendPost(
 	count := k.GetPostCount(ctx)
 	var post = types.Post{
 		Creator:   creator,
-		CreatedAt: time.Now().UnixNano() / int64(time.Millisecond),
+		CreatedAt: time.Now().Unix(),
 		Id:        count,
 		Thread:    thread,
 		Body:      body,

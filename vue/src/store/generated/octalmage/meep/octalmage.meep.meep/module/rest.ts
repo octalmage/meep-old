@@ -70,6 +70,9 @@ export interface MeepQueryAllThreadResponse {
    *  }
    */
   pagination?: V1Beta1PageResponse;
+
+  /** @format uint64 */
+  count?: string;
 }
 
 export interface MeepQueryGetPostResponse {

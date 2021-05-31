@@ -44,6 +44,7 @@ message QueryAllThreadRequest {
 message QueryAllThreadResponse {
 	repeated Thread Thread = 1;
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+	uint64 count = 3;
 }
 message QueryGetPostRequest {
 	uint64 id = 1;

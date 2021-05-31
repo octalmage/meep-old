@@ -16,6 +16,7 @@ export interface QueryAllThreadRequest {
 export interface QueryAllThreadResponse {
     Thread: Thread[];
     pagination: PageResponse | undefined;
+    count: number;
 }
 export interface QueryGetPostRequest {
     id: number;

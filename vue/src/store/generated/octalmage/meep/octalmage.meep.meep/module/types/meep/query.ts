@@ -26,6 +26,7 @@ export interface QueryAllThreadRequest {
 export interface QueryAllThreadResponse {
   Thread: Thread[];
   pagination: PageResponse | undefined;
+  count: number;
 }
 
 export interface QueryGetPostRequest {
@@ -229,7 +230,7 @@ export const QueryAllThreadRequest = {
   },
 };
 
-const baseQueryAllThreadResponse: object = {};
+const baseQueryAllThreadResponse: object = { count: 0 };
 
 export const QueryAllThreadResponse = {
   encode(
@@ -244,6 +245,9 @@ export const QueryAllThreadResponse = {
         message.pagination,
         writer.uint32(18).fork()
       ).ldelim();
+    }
+    if (message.count !== 0) {
+      writer.uint32(24).uint64(message.count);
     }
     return writer;
   },
@@ -261,6 +265,9 @@ export const QueryAllThreadResponse = {
           break;
         case 2:
           message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        case 3:
+          message.count = longToNumber(reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -283,6 +290,11 @@ export const QueryAllThreadResponse = {
     } else {
       message.pagination = undefined;
     }
+    if (object.count !== undefined && object.count !== null) {
+      message.count = Number(object.count);
+    } else {
+      message.count = 0;
+    }
     return message;
   },
 
@@ -299,6 +311,7 @@ export const QueryAllThreadResponse = {
       (obj.pagination = message.pagination
         ? PageResponse.toJSON(message.pagination)
         : undefined);
+    message.count !== undefined && (obj.count = message.count);
     return obj;
   },
 
@@ -316,6 +329,11 @@ export const QueryAllThreadResponse = {
       message.pagination = PageResponse.fromPartial(object.pagination);
     } else {
       message.pagination = undefined;
+    }
+    if (object.count !== undefined && object.count !== null) {
+      message.count = object.count;
+    } else {
+      message.count = 0;
     }
     return message;
   },
