@@ -460,12 +460,13 @@ func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.R
 	if len(threads) > 0 {
 		for _, s := range threads {
 			timeToDelete := time.Unix(s.CreatedAt, 0)
-			// t := time.Unix(s.CreatedAt, 0)
-			if timeToDelete.Unix()+(60*60*23) < time.Now().Unix() {
+			if timeToDelete.Unix()+(60*60*11) < time.Now().Unix() {
 				// if timeToDelete.Unix()+(60) < time.Now().Unix() {
 				logger.Info(fmt.Sprintf(" Time to delete %d", s.Id))
 				app.meepKeeper.RemoveThread(ctx, s.Id)
 
+				// Delete all posts and tips related to this thread.
+				// TODO: We only need to loop through all posts and threads once.
 				for _, p := range posts {
 					if p.Thread == s.Id {
 						app.meepKeeper.RemovePost(ctx, p.Id)
@@ -477,7 +478,6 @@ func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.R
 					}
 				}
 			}
-			// fmt.Println(i, s)
 		}
 
 	} else {
