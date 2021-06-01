@@ -79,11 +79,6 @@ func (k msgServer) UpdateUsername(goCtx context.Context, msg *types.MsgUpdateUse
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
 
-	// Checks if the the msg sender is the same as the current owner
-	if msg.Creator != k.GetUsernameOwner(ctx, msg.Id) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
-	}
-
 	k.SetUsername(ctx, username)
 
 	return &types.MsgUpdateUsernameResponse{}, nil

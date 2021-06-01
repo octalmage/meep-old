@@ -41,6 +41,19 @@ func (k msgServer) CreateTip(goCtx context.Context, msg *types.MsgCreateTip) (*t
 		return nil, err
 	}
 
+	// if the user already has a tip for this post, just append the amount.
+	tipList := k.GetAllTip(ctx)
+	for _, existingTip := range tipList {
+		if existingTip.PostId == msg.PostId && existingTip.Creator == msg.Creator {
+			existingTip.Amount = existingTip.Amount + 1
+
+			k.SetTip(ctx, existingTip)
+			return &types.MsgCreateTipResponse{
+				Id: existingTip.Id,
+			}, nil
+		}
+	}
+
 	id := k.AppendTip(
 		ctx,
 		msg.Creator,
