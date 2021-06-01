@@ -82,7 +82,7 @@
                 </div>
                 User
                 <strong>{{ usernameForAddress(post.creator, post.creator.substr(-8)) }}</strong> said:<br /><br />
-                <div class="sp-type-list__item__details__field">
+                <div class="sp-type-list__item__details__field" style="white-space: pre-line">
                   {{ post.body }}
                 </div>
                 <br />
