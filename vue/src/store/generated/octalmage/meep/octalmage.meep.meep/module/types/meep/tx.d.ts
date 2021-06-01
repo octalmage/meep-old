@@ -45,6 +45,8 @@ export interface MsgDeleteUsernameResponse {
 }
 export interface MsgCreateThread {
     creator: string;
+    body: string;
+    image: string;
 }
 export interface MsgCreateThreadResponse {
     id: number;

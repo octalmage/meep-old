@@ -17,6 +17,14 @@ func (k msgServer) CreateThread(goCtx context.Context, msg *types.MsgCreateThrea
 		msg.Creator,
 	)
 
+	k.AppendPost(
+		ctx,
+		msg.Creator,
+		id,
+		msg.Body,
+		msg.Image,
+	)
+
 	return &types.MsgCreateThreadResponse{
 		Id: id,
 	}, nil

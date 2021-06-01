@@ -57,6 +57,8 @@ export interface MsgDeleteUsernameResponse {}
 
 export interface MsgCreateThread {
   creator: string;
+  body: string;
+  image: string;
 }
 
 export interface MsgCreateThreadResponse {
@@ -910,12 +912,18 @@ export const MsgDeleteUsernameResponse = {
   },
 };
 
-const baseMsgCreateThread: object = { creator: "" };
+const baseMsgCreateThread: object = { creator: "", body: "", image: "" };
 
 export const MsgCreateThread = {
   encode(message: MsgCreateThread, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
+    }
+    if (message.body !== "") {
+      writer.uint32(18).string(message.body);
+    }
+    if (message.image !== "") {
+      writer.uint32(26).string(message.image);
     }
     return writer;
   },
@@ -929,6 +937,12 @@ export const MsgCreateThread = {
       switch (tag >>> 3) {
         case 1:
           message.creator = reader.string();
+          break;
+        case 2:
+          message.body = reader.string();
+          break;
+        case 3:
+          message.image = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -945,12 +959,24 @@ export const MsgCreateThread = {
     } else {
       message.creator = "";
     }
+    if (object.body !== undefined && object.body !== null) {
+      message.body = String(object.body);
+    } else {
+      message.body = "";
+    }
+    if (object.image !== undefined && object.image !== null) {
+      message.image = String(object.image);
+    } else {
+      message.image = "";
+    }
     return message;
   },
 
   toJSON(message: MsgCreateThread): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
+    message.body !== undefined && (obj.body = message.body);
+    message.image !== undefined && (obj.image = message.image);
     return obj;
   },
 
@@ -960,6 +986,16 @@ export const MsgCreateThread = {
       message.creator = object.creator;
     } else {
       message.creator = "";
+    }
+    if (object.body !== undefined && object.body !== null) {
+      message.body = object.body;
+    } else {
+      message.body = "";
+    }
+    if (object.image !== undefined && object.image !== null) {
+      message.image = object.image;
+    } else {
+      message.image = "";
     }
     return message;
   },

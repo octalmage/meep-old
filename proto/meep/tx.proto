@@ -75,6 +75,8 @@ message MsgDeleteUsernameResponse { }
 
 message MsgCreateThread {
   string creator = 1;
+  string body = 2;
+  string image = 3;
 }
 
 message MsgCreateThreadResponse {

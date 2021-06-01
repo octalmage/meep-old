@@ -266,6 +266,8 @@ export default {
       this.submitting = true;
       const value = {
         creator: this.currentAccount,
+        body: this.body,
+        image: this.selectedFile,
       };
 
       const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateThread", {
@@ -273,12 +275,11 @@ export default {
         fee: [],
       }); 
 
-      if (typeof response.data[0].data === 'undefined') {
-        await this.createPost(0);
-      } else {
-        await this.createPost(response.data[0].data[1]);
-      }
+      console.log(response);
       
+      this.body = "";
+      this.$refs.inputFile.value = '';
+      this.selectedFile = '';
       this.submitting = false;
     },
     async createTip(postId) {
