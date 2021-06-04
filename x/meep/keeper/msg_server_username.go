@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"regexp"
+	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -14,6 +15,8 @@ import (
 func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUsername) (*types.MsgCreateUsernameResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	username := strings.ToLower(msg.Name)
+
 	usernameList := k.GetAllUsername(ctx)
 	for _, existingUsername := range usernameList {
 		if existingUsername.Creator == msg.Creator {
@@ -22,12 +25,12 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 		}
 	}
 
-	if len(msg.Name) < 4 {
+	if len(username) < 4 {
 		// Return an error when username is too short.
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Username must be at least 4 characters.")
 	}
 
-	if len(msg.Name) > 12 {
+	if len(username) > 16 {
 		// Return an error when username is too short.
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Username can be no more than 12 characters.")
 	}
@@ -35,8 +38,12 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 	// https://socketloop.com/tutorials/golang-regular-expression-alphanumeric-underscore
 	re := regexp.MustCompile("^[a-zA-Z0-9_]*$")
 
-	if !re.MatchString(msg.Name) {
+	if !re.MatchString(username) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Username invalid")
+	}
+
+	if banned(username) {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Username banned")
 	}
 
 	// Transfer 1 meep to the meep module.
@@ -50,6 +57,7 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 	if err != nil {
 		return nil, err
 	}
+
 	if err := k.bankKeeper.SendCoins(ctx, creatorAddress, moduleAcct, feeCoins); err != nil {
 		return nil, err
 	}
@@ -57,7 +65,7 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 	id := k.AppendUsername(
 		ctx,
 		msg.Creator,
-		msg.Name,
+		username,
 	)
 
 	return &types.MsgCreateUsernameResponse{

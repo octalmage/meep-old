@@ -460,7 +460,7 @@ func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.R
 	if len(threads) > 0 {
 		for _, s := range threads {
 			timeToDelete := time.Unix(s.CreatedAt, 0)
-			if timeToDelete.Unix()+(60*60*11) < time.Now().Unix() {
+			if timeToDelete.Unix()+(60*60*24) < time.Now().Unix() {
 				// if timeToDelete.Unix()+(60) < time.Now().Unix() {
 				logger.Info(fmt.Sprintf(" Time to delete %d", s.Id))
 				app.meepKeeper.RemoveThread(ctx, s.Id)

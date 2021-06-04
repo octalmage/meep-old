@@ -1,6 +1,8 @@
 accounts:
   - name: octalmage
-    coins: ["10000000000meep"]
+    coins: ["1000000000meep"]
+  - name: faucet
+    coins: ["1000000000meep"]
     # address: cosmos10tumxa8rsy4lu5q8x6f73wu4s4j7wpkk4mjwcp
 
 validator:
@@ -27,12 +29,12 @@ genesis:
           - amount: "1000"
             denom: "meep" 
 faucet:
-  name: octalmage 
+  name: faucet 
   coins: ["100meep"]
   coins_max: ["100meep"]
-  host: "159.65.103.150:4500"
-host:
-  rpc: "159.65.103.150:26657"
-  api: "159.65.103.150:1317"
-  frontend: "159.65.103.150:8888"
-  dev-ui: "159.65.103.150:12345"
+#   host: "159.65.103.150:4500"
+# host:
+#   rpc: "159.65.103.150:26657"
+#   api: "159.65.103.150:1317"
+#   frontend: "159.65.103.150:8888"
+#   dev-ui: "159.65.103.150:12345"

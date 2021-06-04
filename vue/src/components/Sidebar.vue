@@ -4,8 +4,9 @@
 					v-on:sidebar-close="sidebarOpen = false"
 				>
 					<template v-slot:default>
-						<SpLinkIcon link="/" text="Home" icon="Home" />
-						<SpLinkIcon link="/wallet" text="Wallet" icon="Money" />
+						<SpLinkIcon link="/" text="Home" icon="Docs" />
+						<SpLinkIcon link="/wallet" text="Wallet" icon="Transactions" />
+						<!-- <SpLinkIcon link="/leaderboard" text="Leaderboard" icon="Docs" /> -->
 						<!-- <div class="sp-dash"></div> -->
 						<!-- <SpLinkIcon href="https://github.com/tendermint/starport" target="_blank" text="Documentation" icon="Docs" />-->
 					</template>
