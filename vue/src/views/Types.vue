@@ -22,7 +22,8 @@
             :disabled="submitting"
             class="sp-input"
             placeholder=""
-            v-model="name"
+            :value="name" 
+            @input="name = $event.target.value.toLowerCase()"
           /><br />
           <sp-button :disabled="submitting" @click="createUsername">
             Claim username (1 MEEP)
