@@ -23,6 +23,10 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 			// Return an error when username is already claimed.
 			return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "User already has a username.")
 		}
+
+		if existingUsername.Name == msg.Name {
+			return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "This user is already claimed.")
+		}
 	}
 
 	if len(username) < 4 {
