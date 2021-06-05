@@ -2,10 +2,11 @@ package keeper
 
 import (
 	"encoding/binary"
+	"strconv"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/octalmage/meep/x/meep/types"
-	"strconv"
 )
 
 // GetUsernameCount get the total number of username

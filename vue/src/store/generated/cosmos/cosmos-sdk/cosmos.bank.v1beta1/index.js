@@ -119,7 +119,6 @@ export default {
     },
     actions: {
         init({ dispatch, rootGetters }) {
-            console.log('init');
             if (rootGetters['common/env/client']) {
                 rootGetters['common/env/client'].on('newblock', () => {
                     dispatch('StoreUpdate');
