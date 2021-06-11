@@ -320,6 +320,8 @@ func banned(item string) bool {
 	"master",
 	"me",
 	"media",
+	"meep",
+	"meepadmin",
 	"member",
 	"members",
 	"message",
