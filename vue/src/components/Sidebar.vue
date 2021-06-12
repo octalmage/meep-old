@@ -5,13 +5,12 @@
 				>
 					<template v-slot:default>
 						<SpLinkIcon link="/" text="Home" icon="Dashboard" />
-						<SpLinkIcon link="/wallet" text="Wallet" icon="Transactions" />
+						<!-- <SpLinkIcon link="/wallet" text="Wallet" icon="Transactions" /> -->
 						<SpLinkIcon link="/leaderboard" text="Leaderboard" icon="Docs" />
 						<!-- <div class="sp-dash"></div> -->
 						<!-- <SpLinkIcon href="https://github.com/tendermint/starport" target="_blank" text="Documentation" icon="Docs" />-->
 					</template>
 					<template v-slot:footer>
-						<SpStatusAPI :showText="sidebarOpen" />
 						<SpStatusRPC :showText="sidebarOpen" />
 						<SpStatusWS :showText="sidebarOpen" />
 						<div class="sp-text">Build: v0.3.8</div>

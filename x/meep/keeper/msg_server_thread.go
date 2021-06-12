@@ -7,10 +7,28 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/octalmage/meep/x/meep/types"
+	"github.com/tendermint/tendermint/crypto"
 )
 
 func (k msgServer) CreateThread(goCtx context.Context, msg *types.MsgCreateThread) (*types.MsgCreateThreadResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	feeCoins, err := sdk.ParseCoinsNormalized("100000umeep")
+	if err != nil {
+		return nil, err
+	}
+
+	// Transfer 0.1 meep to the meep module.
+	moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(types.ModuleName)))
+
+	creatorAddress, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := k.bankKeeper.SendCoins(ctx, creatorAddress, moduleAcct, feeCoins); err != nil {
+		return nil, err
+	}
 
 	id := k.AppendThread(
 		ctx,

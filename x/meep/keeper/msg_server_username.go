@@ -52,7 +52,7 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 
 	// Transfer 1 meep to the meep module.
 	moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(types.ModuleName)))
-	feeCoins, err := sdk.ParseCoinsNormalized("1meep")
+	feeCoins, err := sdk.ParseCoinsNormalized("1000000umeep")
 	if err != nil {
 		return nil, err
 	}

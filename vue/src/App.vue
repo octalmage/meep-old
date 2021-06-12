@@ -29,13 +29,38 @@ export default {
 	},
 	data() {
 		return {
-			initialized: false
+			initialized: false,
+			balances: [],
 		}
 	},
+	watch: {
+    // whenever question changes, this function will run
+    currentAccount: async function (newAccount) {
+      if (newAccount) {
+        this.updateBalances();
+      }
+    },
+  },
 	computed: {
 		hasWallet() {
 			return this.$store.hasModule([ 'common', 'wallet'])
 		}
+	},
+	methods: {
+		async updateBalances() {
+      if (this.currentAccount) {
+        await this.$store.dispatch("cosmos.bank.v1beta1/QueryAllBalances", {
+          options: { subscribe: true, all: true },
+          params: { address: this.currentAccount },
+        });
+        this.balances =
+          this.$store.getters["cosmos.bank.v1beta1/getAllBalances"]({
+            params: { address: this.currentAccount },
+          })?.balances ?? [];
+      } else {
+        this.balances = [];
+      }
+    },
 	},
 	async created() {
 		await this.$store.dispatch('common/env/init', {  chainId: 'meep-1',

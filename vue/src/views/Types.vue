@@ -4,7 +4,7 @@
       <!-- this line is used by starport scaffolding # 4 -->
 
       <!-- <SpType modulePath="octalmage.meep.meep" moduleType="Thread"  /> -->
-      <h3>MEEP</h3>
+      <h3>MEEP <span style="color: green">({{balances.length > 0 ? Number(balances[0].amount) / 1000000 : 0}})</span></h3>
       <div class="sp-voter__main sp-box sp-shadow sp-form-group">
         <div
           class="sp-voter__main sp-box sp-shadow sp-form-group"
@@ -45,7 +45,7 @@
             v-show="hasFunds"
             :disabled="submitting"
             @click="createThread"
-            >Create</sp-button
+            >Create (0.1 MEEP)</sp-button
           >
           <sp-button v-show="!currentAccount" disabled>Sign in</sp-button>
           <sp-button v-show="!hasFunds && currentAccount" disabled
@@ -110,7 +110,7 @@
               v-show="hasFunds"
               :disabled="submitting"
               @click="createPost(thread.id)"
-              >Post</sp-button
+              >Post (0.1 MEEP)</sp-button
             >
             <sp-button v-show="!currentAccount" disabled>Sign in</sp-button>
             <sp-button v-show="!hasFunds && currentAccount" disabled
@@ -150,7 +150,7 @@ export default {
       return (threadId) => this.posts.filter((p) => p.thread === threadId);
     },
     tipsForPost() {
-      return (postId) => this.tips.filter((p) => p.postId === postId).map(p => p.amount).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      return (postId) => this.tips.filter((p) => p.postId === postId).map(p => p.amount).reduce((accumulator, currentValue) => accumulator + currentValue, 0) / 1000000;
     },
     hasFunds() {
       return this.balances.length > 0;
@@ -238,12 +238,14 @@ export default {
       } else {
         this.balances = [];
       }
+
+      console.log(this.balances);
     },
     async getMEEP() {
       this.submitting = true;
       const options = {
         address: this.currentAccount,
-        coins: ["100meep"],
+        coins: ["100000000umeep"],
       };
 
       await fetch(
@@ -282,8 +284,11 @@ export default {
       this.$refs.inputFile.value = '';
       this.selectedFile = '';
       this.submitting = false;
+
+      this.updateBalances();
     },
     async createTip(postId) {
+      // 1000000000000000000
       if (!this.loggedIn) {
         alert("Unlock your wallet!");
         return;
@@ -293,7 +298,7 @@ export default {
       const value = {
         postId,
         creator: this.currentAccount,
-        amount: 1,
+        amount: 1 * 1000000,
       };
 
       const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateTip", {
@@ -303,6 +308,7 @@ export default {
 
       console.log(response);
       this.tipSubmitting = false;
+      this.updateBalances();
     },
     async createUsername() {
       if (!this.loggedIn) {
@@ -325,6 +331,7 @@ export default {
       
       this.name = "";
       this.submitting = false;
+      this.updateBalances();
     },
     async createPost(threadId) {
       console.log("threadID", threadId);
@@ -352,6 +359,7 @@ export default {
       this.$refs.inputFile.value = '';
       this.submitting = false;
       this.selectedFile = '';
+      this.updateBalances();
     },
     formatTimestamp(current, previous) {
       var msPerMinute = 60 * 1000;

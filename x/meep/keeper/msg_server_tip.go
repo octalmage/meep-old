@@ -12,7 +12,7 @@ import (
 func (k msgServer) CreateTip(goCtx context.Context, msg *types.MsgCreateTip) (*types.MsgCreateTipResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	feeCoins, err := sdk.ParseCoinsNormalized(fmt.Sprintf("%dmeep", msg.Amount))
+	feeCoins, err := sdk.ParseCoinsNormalized(fmt.Sprintf("%dumeep", msg.Amount))
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (k msgServer) CreateTip(goCtx context.Context, msg *types.MsgCreateTip) (*t
 	tipList := k.GetAllTip(ctx)
 	for _, existingTip := range tipList {
 		if existingTip.PostId == msg.PostId && existingTip.Creator == msg.Creator {
-			existingTip.Amount = existingTip.Amount + 1
+			existingTip.Amount = existingTip.Amount + msg.Amount
 
 			k.SetTip(ctx, existingTip)
 			return &types.MsgCreateTipResponse{
