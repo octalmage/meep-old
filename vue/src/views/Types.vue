@@ -88,9 +88,7 @@
                 </div>
                 User
                 <strong>{{ usernameForAddress(post.creator, post.creator.substr(-8)) }}</strong> said:<br /><br />
-                <div class="sp-type-list__item__details__field" style="white-space: pre-line">
-                  {{ post.body }}
-                </div>
+                <div v-html="post.body" v-linkified class="sp-type-list__item__details__field" style="white-space: pre-line" />
                 <br />
                 <strong>{{
                   formatTimestamp(Date.now(), post.createdAt * 1000)
@@ -249,8 +247,6 @@ export default {
       } else {
         this.balances = [];
       }
-
-      console.log(this.balances);
     },
     async getMEEP() {
       this.submitting = true;

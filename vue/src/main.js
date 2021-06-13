@@ -3,7 +3,9 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import vueLib from '@starport/vue'
+import linkify from 'vue-linkify'
 
 const app = createApp(App)
+app.directive('linkified', linkify)
 app.config.globalProperties._depsLoaded = true
 app.use(store).use(router).use(vueLib).mount('#app')

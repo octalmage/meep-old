@@ -22,6 +22,7 @@
     "ipfs-http-client": "^50.1.1",
     "moment": "^2.29.1",
     "vue": "^3.0.10",
+    "vue-linkify": "^1.0.1",
     "vue-router": "^4.0.3",
     "vue-uuid": "^2.0.2",
     "vuex": "^4.0.0"
