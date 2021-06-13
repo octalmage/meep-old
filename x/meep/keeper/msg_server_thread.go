@@ -30,6 +30,10 @@ func (k msgServer) CreateThread(goCtx context.Context, msg *types.MsgCreateThrea
 		return nil, err
 	}
 
+	if !allowedImageURL(msg.Image) {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "invalid image url")
+	}
+
 	id := k.AppendThread(
 		ctx,
 		msg.Creator,

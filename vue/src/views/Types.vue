@@ -40,7 +40,12 @@
             placeholder=""
             v-model="body"
           />
-          <input ref="inputFile" type="file" @change="onFileChanged" /> <br /><br />
+          <input
+            :disabled="submitting"
+            class="sp-input"
+            placeholder="Image URL (optional)"
+            v-model="image"
+          /> <br /><br />
           <sp-button
             v-show="hasFunds"
             :disabled="submitting"
@@ -105,7 +110,12 @@
               placeholder=""
               v-model="body"
             />
-            <input ref="inputFile" type="file" @change="onFileChanged" /> <br /><br />
+          <input
+            :disabled="submitting"
+            class="sp-input"
+            placeholder="Image URL (optional)"
+            v-model="image"
+          /> <br /><br />
             <sp-button
               v-show="hasFunds"
               :disabled="submitting"
@@ -130,6 +140,7 @@ export default {
   data() {
     return {
       body: "",
+      image: "",
       submitting: false,
       balances: [],
       selectedFile: '',
@@ -251,6 +262,7 @@ export default {
       await fetch(
         `http://${window.location.host
           .replace("8081", "4500")
+          .replace("8080", "4500")
           .replace("8888", "4500")}`,
         {
           method: "post",
@@ -270,7 +282,7 @@ export default {
       const value = {
         creator: this.currentAccount,
         body: this.body,
-        image: this.selectedFile,
+        image: this.image,
       };
 
       const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateThread", {
@@ -281,8 +293,7 @@ export default {
       console.log(response);
       
       this.body = "";
-      this.$refs.inputFile.value = '';
-      this.selectedFile = '';
+      this.image = "";
       this.submitting = false;
 
       this.updateBalances();
@@ -345,7 +356,7 @@ export default {
         creator: this.currentAccount,
         body: this.body,
         thread: Number(threadId),
-        image: this.selectedFile,
+        image: this.image,
       };
 
       const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreatePost", {
@@ -356,9 +367,8 @@ export default {
       console.log(response);
       
       this.body = "";
-      this.$refs.inputFile.value = '';
+      this.image = "";
       this.submitting = false;
-      this.selectedFile = '';
       this.updateBalances();
     },
     formatTimestamp(current, previous) {

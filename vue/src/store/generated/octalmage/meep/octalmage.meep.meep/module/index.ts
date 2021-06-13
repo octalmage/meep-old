@@ -6,31 +6,31 @@ import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "
 import { Api } from "./rest";
 import { MsgCreateThread } from "./types/meep/tx";
 import { MsgDeletePost } from "./types/meep/tx";
-import { MsgUpdateThread } from "./types/meep/tx";
-import { MsgCreatePost } from "./types/meep/tx";
-import { MsgUpdateTip } from "./types/meep/tx";
 import { MsgUpdateUsername } from "./types/meep/tx";
-import { MsgDeleteUsername } from "./types/meep/tx";
-import { MsgDeleteThread } from "./types/meep/tx";
+import { MsgCreateTip } from "./types/meep/tx";
+import { MsgCreatePost } from "./types/meep/tx";
+import { MsgUpdateThread } from "./types/meep/tx";
 import { MsgUpdatePost } from "./types/meep/tx";
 import { MsgCreateUsername } from "./types/meep/tx";
+import { MsgDeleteThread } from "./types/meep/tx";
+import { MsgUpdateTip } from "./types/meep/tx";
 import { MsgDeleteTip } from "./types/meep/tx";
-import { MsgCreateTip } from "./types/meep/tx";
+import { MsgDeleteUsername } from "./types/meep/tx";
 
 
 const types = [
   ["/octalmage.meep.meep.MsgCreateThread", MsgCreateThread],
   ["/octalmage.meep.meep.MsgDeletePost", MsgDeletePost],
-  ["/octalmage.meep.meep.MsgUpdateThread", MsgUpdateThread],
-  ["/octalmage.meep.meep.MsgCreatePost", MsgCreatePost],
-  ["/octalmage.meep.meep.MsgUpdateTip", MsgUpdateTip],
   ["/octalmage.meep.meep.MsgUpdateUsername", MsgUpdateUsername],
-  ["/octalmage.meep.meep.MsgDeleteUsername", MsgDeleteUsername],
-  ["/octalmage.meep.meep.MsgDeleteThread", MsgDeleteThread],
+  ["/octalmage.meep.meep.MsgCreateTip", MsgCreateTip],
+  ["/octalmage.meep.meep.MsgCreatePost", MsgCreatePost],
+  ["/octalmage.meep.meep.MsgUpdateThread", MsgUpdateThread],
   ["/octalmage.meep.meep.MsgUpdatePost", MsgUpdatePost],
   ["/octalmage.meep.meep.MsgCreateUsername", MsgCreateUsername],
+  ["/octalmage.meep.meep.MsgDeleteThread", MsgDeleteThread],
+  ["/octalmage.meep.meep.MsgUpdateTip", MsgUpdateTip],
   ["/octalmage.meep.meep.MsgDeleteTip", MsgDeleteTip],
-  ["/octalmage.meep.meep.MsgCreateTip", MsgCreateTip],
+  ["/octalmage.meep.meep.MsgDeleteUsername", MsgDeleteUsername],
   
 ];
 
@@ -60,16 +60,16 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     signAndBroadcast: (msgs: EncodeObject[], { fee=defaultFee, memo=null }: SignAndBroadcastOptions) => memo?client.signAndBroadcast(address, msgs, fee,memo):client.signAndBroadcast(address, msgs, fee),
     msgCreateThread: (data: MsgCreateThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreateThread", value: data }),
     msgDeletePost: (data: MsgDeletePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgDeletePost", value: data }),
-    msgUpdateThread: (data: MsgUpdateThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdateThread", value: data }),
-    msgCreatePost: (data: MsgCreatePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreatePost", value: data }),
-    msgUpdateTip: (data: MsgUpdateTip): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdateTip", value: data }),
     msgUpdateUsername: (data: MsgUpdateUsername): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdateUsername", value: data }),
-    msgDeleteUsername: (data: MsgDeleteUsername): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgDeleteUsername", value: data }),
-    msgDeleteThread: (data: MsgDeleteThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgDeleteThread", value: data }),
+    msgCreateTip: (data: MsgCreateTip): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreateTip", value: data }),
+    msgCreatePost: (data: MsgCreatePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreatePost", value: data }),
+    msgUpdateThread: (data: MsgUpdateThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdateThread", value: data }),
     msgUpdatePost: (data: MsgUpdatePost): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdatePost", value: data }),
     msgCreateUsername: (data: MsgCreateUsername): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreateUsername", value: data }),
+    msgDeleteThread: (data: MsgDeleteThread): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgDeleteThread", value: data }),
+    msgUpdateTip: (data: MsgUpdateTip): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgUpdateTip", value: data }),
     msgDeleteTip: (data: MsgDeleteTip): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgDeleteTip", value: data }),
-    msgCreateTip: (data: MsgCreateTip): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgCreateTip", value: data }),
+    msgDeleteUsername: (data: MsgDeleteUsername): EncodeObject => ({ typeUrl: "/octalmage.meep.meep.MsgDeleteUsername", value: data }),
     
   };
 };

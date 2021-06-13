@@ -30,6 +30,10 @@ func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (
 		return nil, err
 	}
 
+	if !allowedImageURL(msg.Image) {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "invalid image url")
+	}
+
 	id := k.AppendPost(
 		ctx,
 		msg.Creator,
