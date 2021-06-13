@@ -12,6 +12,7 @@ import (
 	"github.com/spf13/cast"
 
 	abci "github.com/tendermint/tendermint/abci/types"
+	"github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/libs/log"
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
@@ -456,12 +457,14 @@ func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.R
 	posts := app.meepKeeper.GetAllPost(ctx)
 	tips := app.meepKeeper.GetAllTip(ctx)
 	logger := app.meepKeeper.Logger(ctx)
+	moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(meeptypes.ModuleName)))
 
 	if len(threads) > 0 {
 		for _, s := range threads {
 			timeToDelete := time.Unix(s.CreatedAt, 0)
 			if timeToDelete.Unix()+(60*60*24) < time.Now().Unix() {
-				// if timeToDelete.Unix()+(60) < time.Now().Unix() {
+				totalReward := 0
+
 				logger.Info(fmt.Sprintf(" Time to delete %d", s.Id))
 				app.meepKeeper.RemoveThread(ctx, s.Id)
 
@@ -469,11 +472,28 @@ func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.R
 				// TODO: We only need to loop through all posts and threads once.
 				for _, p := range posts {
 					if p.Thread == s.Id {
+						// Don't reward thread creator for their own posts.
+						if p.Creator != s.Creator {
+							totalReward += 100000
+						}
+
 						app.meepKeeper.RemovePost(ctx, p.Id)
 						for _, t := range tips {
 							if t.PostId == p.Id {
 								app.meepKeeper.RemoveTip(ctx, t.Id)
 							}
+						}
+					}
+				}
+
+				// Distribute 0.1 meep for each post to thread creator.
+				if totalReward > 0 {
+					creatorAddress, err := sdk.AccAddressFromBech32(s.Creator)
+					if err == nil {
+						feeCoins, err := sdk.ParseCoinsNormalized(fmt.Sprintf("%dumeep", totalReward))
+
+						if err == nil {
+							app.BankKeeper.SendCoins(ctx, moduleAcct, creatorAddress, feeCoins)
 						}
 					}
 				}
