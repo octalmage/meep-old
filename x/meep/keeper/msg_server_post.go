@@ -26,12 +26,12 @@ func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (
 		return nil, err
 	}
 
-	if err := k.bankKeeper.SendCoins(ctx, creatorAddress, moduleAcct, feeCoins); err != nil {
-		return nil, err
-	}
-
 	if !allowedImageURL(msg.Image) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "invalid image url")
+	}
+
+	if err := k.bankKeeper.SendCoins(ctx, creatorAddress, moduleAcct, feeCoins); err != nil {
+		return nil, err
 	}
 
 	id := k.AppendPost(
