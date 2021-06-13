@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"encoding/json"
+	"strings"
 )
 
 func contains(slice []string, item string) bool {
@@ -15,6 +16,11 @@ func contains(slice []string, item string) bool {
 }
 
 func banned(item string) bool {
+	// No usernames should contain meep.
+	if strings.Contains(item, "meep") {
+		return true
+	}
+
 	var banList []string
 	banListJSON := `[
 	".git",
