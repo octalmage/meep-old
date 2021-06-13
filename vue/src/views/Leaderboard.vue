@@ -56,7 +56,7 @@ export default {
 		const usernames = this.usernames;
 		for (let username of usernames) {
 			const balance = await this.balanceForUser(username.creator);
-			leaderboard[username.creator] = Number(balance.balances[0].amount);
+			leaderboard[username.creator] = Number(balance.balances[0].amount) / 1000000;
 		}
 		const sortable = Object.entries(leaderboard).sort(([,a],[,b]) => b-a)
 		this.leaderboard = sortable;
