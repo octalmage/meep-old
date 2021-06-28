@@ -130,7 +130,7 @@ export class HttpClient {
     }
 }
 /**
- * @title meep/tx.proto
+ * @title meep/genesis.proto
  * @version version not set
  */
 export class Api extends HttpClient {

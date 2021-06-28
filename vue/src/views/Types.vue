@@ -79,7 +79,9 @@
       
               </div>
               <div style="width: 300px;  margin-right: 12px;" v-show="post.image" >
-                  <img @click="openImage(post.image)" style="max-width: 100%;" :src="post.image" v-show="post.image" />
+                  <a :href="post.image" target="_blank">
+                    <img style="max-width: 100%;" :src="post.image" v-show="post.image" />
+                  </a>
                 </div>
               <div class="sp-type-list__item__details">
                                 <div style="float: right">
@@ -269,10 +271,6 @@ export default {
       await this.updateBalances();
       this.submitting = false;
     },
-    async openImage(image) {
-      const newTab = window.open();
-      newTab.document.body.innerHTML = `<img src="${image}">`;
-    },  
     async createThread() {
       this.submitting = true;
       const value = {

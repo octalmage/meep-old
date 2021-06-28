@@ -17,24 +17,29 @@ genesis:
     staking:
       params:
         bond_denom: "umeep"
+        max_validators: 5
     mint:
       params:
         mint_denom: "umeep"
     # crisis:
     #   constant_fee:
     #     denom: "meep"
-    gov:
-      deposit_params:
-        min_deposit:
-          - amount: "100000000"
-            denom: "umeep" 
+    # gov:
+    #   deposit_params:
+    #     # max_deposit_period: "3600000000000"
+    #     # voting_period: "3600000000000"
+    #     quorum: "0.001000000000000000"
+    #     threshold: "0.01000000000000000"
+    #     min_deposit:
+    #       - amount: "10000000"
+    #         denom: "umeep" 
 faucet:
   name: faucet 
   coins: ["100000000umeep"]
   coins_max: ["100000000umeep"]
-  host: "159.65.103.150:4500"
-host:
-  rpc: "159.65.103.150:26657"
-  api: "159.65.103.150:1317"
-  frontend: "159.65.103.150:8888"
-  dev-ui: "159.65.103.150:12345"
+#   host: "159.65.103.150:4500"
+# host:
+#   rpc: "159.65.103.150:26657"
+#   api: "159.65.103.150:1317"
+#   frontend: "159.65.103.150:8888"
+#   dev-ui: "159.65.103.150:12345"
