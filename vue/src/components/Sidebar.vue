@@ -5,8 +5,9 @@
 				>
 					<template v-slot:default>
 						<SpLinkIcon link="/" text="Home" icon="Dashboard" />
-						<!-- <SpLinkIcon link="/wallet" text="Wallet" icon="Transactions" /> -->
 						<SpLinkIcon link="/leaderboard" text="Leaderboard" icon="Docs" />
+						<SpLinkIcon link="/wallet" text="Wallet" icon="Transactions" />
+						<SpLinkIcon link="/relayers" text="Relayers" icon="Modules" />
 						<!-- <div class="sp-dash"></div> -->
 						<!-- <SpLinkIcon href="https://github.com/tendermint/starport" target="_blank" text="Documentation" icon="Docs" />-->
 					</template>
