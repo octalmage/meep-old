@@ -6,22 +6,23 @@ import { MsgUnjail } from "./types/cosmos/slashing/v1beta1/tx";
 const types = [
     ["/cosmos.slashing.v1beta1.MsgUnjail", MsgUnjail],
 ];
+export const MissingWalletError = new Error("wallet is required");
 const registry = new Registry(types);
 const defaultFee = {
     amount: [],
-    gas: "5000000",
+    gas: "200000",
 };
-const txClient = async (wallet, { addr: addr } = { addr: "http://159.65.103.150:26657" }) => {
+const txClient = async (wallet, { addr: addr } = { addr: "http://localhost:26657" }) => {
     if (!wallet)
-        throw new Error("wallet is required");
+        throw MissingWalletError;
     const client = await SigningStargateClient.connectWithSigner(addr, wallet, { registry });
     const { address } = (await wallet.getAccounts())[0];
     return {
-        signAndBroadcast: (msgs, { fee = defaultFee, memo = null }) => memo ? client.signAndBroadcast(address, msgs, fee, memo) : client.signAndBroadcast(address, msgs, fee),
+        signAndBroadcast: (msgs, { fee, memo } = { fee: defaultFee, memo: "" }) => client.signAndBroadcast(address, msgs, fee, memo),
         msgUnjail: (data) => ({ typeUrl: "/cosmos.slashing.v1beta1.MsgUnjail", value: data }),
     };
 };
-const queryClient = async ({ addr: addr } = { addr: "http://159.65.103.150:1317" }) => {
+const queryClient = async ({ addr: addr } = { addr: "http://localhost:1317" }) => {
     return new Api({ baseUrl: addr });
 };
 export { txClient, queryClient, };

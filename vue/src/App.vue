@@ -66,18 +66,18 @@ export default {
 		window.store = this.$store;
 		
     await this.$store.dispatch("common/env/init", {  
-			apiNode: 'https://api.meep.social',
-  rpcNode: 'https://rpc.meep.social',
-  wsNode: 'wss://rpc.meep.social/websocket',
-	// 		apiNode: 'http://localhost:1317',
-  // rpcNode: 'http://localhost:26657',
-  // wsNode: 'ws://localhost:26657/websocket',
+	// 		apiNode: 'https://api.meep.social',
+  // rpcNode: 'https://rpc.meep.social',
+  // wsNode: 'wss://rpc.meep.social/websocket',
+			apiNode: 'http://localhost:1317',
+  rpcNode: 'http://localhost:26657',
+  wsNode: 'ws://localhost:26657/websocket',
   chainId: 'meep-1',
   addrPrefix: 'meep',
   sdkVersion: 'Stargate',} );
 
 
-		await this.$store.dispatch('cosmos.staking.v1beta1/init');
+		// await this.$store.dispatch('cosmos.staking.v1beta1/init');
 
     await this.$store.dispatch("octalmage.meep.meep/QueryPostAll", {
       options: { subscribe: true, all: true },

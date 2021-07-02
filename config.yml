@@ -24,15 +24,17 @@ genesis:
     # crisis:
     #   constant_fee:
     #     denom: "meep"
-    # gov:
-    #   deposit_params:
-    #     # max_deposit_period: "3600000000000"
-    #     # voting_period: "3600000000000"
-    #     quorum: "0.001000000000000000"
-    #     threshold: "0.01000000000000000"
-    #     min_deposit:
-    #       - amount: "10000000"
-    #         denom: "umeep" 
+    gov:
+      voting_params: 
+        voting_period: "3600s"
+      tally_params: 
+        quorum: "0.001000000000000000"
+        threshold: "0.01000000000000000"
+      deposit_params:
+        max_deposit_period: "3600s"
+        min_deposit:
+          - amount: "10000000"
+            denom: "umeep" 
 faucet:
   name: faucet 
   coins: ["100000000umeep"]

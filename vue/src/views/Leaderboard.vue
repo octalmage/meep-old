@@ -52,7 +52,7 @@ export default {
     },
 		async balanceForUser(address) {
 			  return this.$store.dispatch("cosmos.bank.v1beta1/QueryAllBalances", {
-          options: { subscribe: false, all: true },
+          options: { subscribe: false, all: false },
           params: { address },
         });
 		}

@@ -17,6 +17,8 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgUpdateUsername{}, "meep/UpdateUsername", nil)
 	cdc.RegisterConcrete(&MsgDeleteUsername{}, "meep/DeleteUsername", nil)
 
+	cdc.RegisterConcrete(BanUserProposal{}, "meep/BanUserProposal", nil)
+
 	cdc.RegisterConcrete(&MsgCreateThread{}, "meep/CreateThread", nil)
 	cdc.RegisterConcrete(&MsgUpdateThread{}, "meep/UpdateThread", nil)
 	cdc.RegisterConcrete(&MsgDeleteThread{}, "meep/DeleteThread", nil)

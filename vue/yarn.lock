@@ -1491,10 +1491,10 @@
   resolved "https://registry.yarnpkg.com/@sovpro/delimited-stream/-/delimited-stream-1.1.0.tgz#4334bba7ee241036e580fdd99c019377630d26b4"
   integrity sha512-kQpk267uxB19X3X2T1mvNMjyvIEonpNSHrMlK5ZaBU6aZxw7wPbpgKJOjHN3+/GPVpXgAV9soVT2oyHpLkLtyw==
 
-"@starport/client-js@^0.1.51":
-  version "0.1.51"
-  resolved "https://registry.yarnpkg.com/@starport/client-js/-/client-js-0.1.51.tgz#889320ec73a13d0f2471e888e687a594218a1b3a"
-  integrity sha512-SI7cN3t+18UpJ6GUYRD2qDfqdHhOvB0m9CtfUEtSmQ2dl+wiacKMSQoX6y8uiufSVT/pB8r2F3O4GMzESC2liA==
+"@starport/client-js@^0.1.52":
+  version "0.1.52"
+  resolved "https://registry.yarnpkg.com/@starport/client-js/-/client-js-0.1.52.tgz#4a2f7d6ad155be7124e7e37b3ac385da6713c627"
+  integrity sha512-6pStHzI9Qx4V4R1KyAOFdvWqN9KU+68d26J9ju4+FIY/qufcl4GjQthDW6yrA1DFfX9PoUOPTG+HHoANojAQcA==
   dependencies:
     "@cosmjs/proto-signing" "0.25.0"
     "@cosmjs/stargate" "0.25.0"
@@ -1502,10 +1502,10 @@
     axios "^0.21.1"
     reconnecting-websocket "^4.4.0"
 
-"@starport/vue@^0.1.51":
-  version "0.1.51"
-  resolved "https://registry.yarnpkg.com/@starport/vue/-/vue-0.1.51.tgz#bfe38c456359f977c02f143455313115a6cc108f"
-  integrity sha512-FgH7GSNfXThyexcM7JpERuF/bE8zwclQ6FBNpktEp6xyi+wxYSXQYUonRGkZBrnQAGCz5NK9V1IGIFMeVFCRGw==
+"@starport/vue@0.1.52":
+  version "0.1.52"
+  resolved "https://registry.yarnpkg.com/@starport/vue/-/vue-0.1.52.tgz#e1436a446aedcfe858aff284a63b5656964b1c1c"
+  integrity sha512-U9ymyy6gcZuLiwbwusUMytAtAF9WFQ5Kzyfj1rh7relTKK0zAUyFdPe+0+X7+USI3/18NvO5U0X4SrEYupNbRA==
   dependencies:
     bip39 "^3.0.4"
     core-js "^3.11.2"
@@ -1515,10 +1515,10 @@
     gradient-avatar "^1.0.2"
     js-base64 "^3.6.0"
 
-"@starport/vuex@^0.1.51":
-  version "0.1.51"
-  resolved "https://registry.yarnpkg.com/@starport/vuex/-/vuex-0.1.51.tgz#51a9517549ee92bc49b9f189f31fb5bbcb963c5a"
-  integrity sha512-A35Puhd6hlj2leW9fnG+GQDI/X9WNuM38F0y9ril3SpzDSHJ4gzFivfWGA5WXhjpnclQpJt5Iszb7QOANyT0ew==
+"@starport/vuex@0.1.52":
+  version "0.1.52"
+  resolved "https://registry.yarnpkg.com/@starport/vuex/-/vuex-0.1.52.tgz#d5ef2e89494d3b3d819a02fdf5615bbe47119387"
+  integrity sha512-iGhj3NQabxuzdibn/RZgjAMVarZ5Iumqtg9ZddZWgdihCpu5ZvoHRXylA5VtgxKeGdWWCrZ2vof/1UgnhHi4vg==
   dependencies:
     "@confio/relayer" "^0.1.4"
     "@cosmjs/crypto" "0.25.0"
@@ -1528,7 +1528,7 @@
     "@cosmjs/stargate" "0.25.0"
     "@cosmjs/tendermint-rpc" "0.25.0"
     "@cosmjs/utils" "0.25.0"
-    "@starport/client-js" "^0.1.51"
+    "@starport/client-js" "^0.1.52"
     axios "^0.21.1"
     bs58 "^4.0.1"
     crypto-js "^4.0.0"

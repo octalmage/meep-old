@@ -11,12 +11,13 @@ const types = [
   ["/cosmos.slashing.v1beta1.MsgUnjail", MsgUnjail],
   
 ];
+export const MissingWalletError = new Error("wallet is required");
 
 const registry = new Registry(<any>types);
 
 const defaultFee = {
   amount: [],
-  gas: "5000000",
+  gas: "200000",
 };
 
 interface TxClientOptions {
@@ -28,14 +29,14 @@ interface SignAndBroadcastOptions {
   memo?: string
 }
 
-const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions = { addr: "http://159.65.103.150:26657" }) => {
-  if (!wallet) throw new Error("wallet is required");
+const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions = { addr: "http://localhost:26657" }) => {
+  if (!wallet) throw MissingWalletError;
 
   const client = await SigningStargateClient.connectWithSigner(addr, wallet, { registry });
   const { address } = (await wallet.getAccounts())[0];
 
   return {
-    signAndBroadcast: (msgs: EncodeObject[], { fee=defaultFee, memo=null }: SignAndBroadcastOptions) => memo?client.signAndBroadcast(address, msgs, fee,memo):client.signAndBroadcast(address, msgs, fee),
+    signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgUnjail: (data: MsgUnjail): EncodeObject => ({ typeUrl: "/cosmos.slashing.v1beta1.MsgUnjail", value: data }),
     
   };
@@ -45,7 +46,7 @@ interface QueryClientOptions {
   addr: string
 }
 
-const queryClient = async ({ addr: addr }: QueryClientOptions = { addr: "http://159.65.103.150:1317" }) => {
+const queryClient = async ({ addr: addr }: QueryClientOptions = { addr: "http://localhost:1317" }) => {
   return new Api({ baseUrl: addr });
 };
 
