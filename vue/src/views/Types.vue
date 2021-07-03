@@ -258,7 +258,7 @@ export default {
       };
 
       await fetch(
-        'http://localhost:4500',
+        'https://faucet.meep.social',
         {
           method: "post",
           body: JSON.stringify(options),
