@@ -49,10 +49,6 @@ func (k msgServer) CreateUsername(goCtx context.Context, msg *types.MsgCreateUse
 	if banned(username) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Username banned")
 	}
-	var one interface{}
-	k.paramsKeeper.Get(ctx, []byte("BannedUsers"), &one)
-
-	fmt.Println(one)
 
 	// Transfer 1 meep to the meep module.
 	moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(types.ModuleName)))
