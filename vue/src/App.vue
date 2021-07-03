@@ -63,18 +63,17 @@ export default {
     },
   },
   async created() {
-    window.store = this.$store;
-
     await this.$store.dispatch("common/env/init", {
       apiNode: "https://api.meep.social",
       rpcNode: "https://rpc.meep.social",
       wsNode: "wss://rpc.meep.social/websocket",
-      // 		apiNode: 'http://localhost:1317',
+      // apiNode: 'http://localhost:1317',
       // rpcNode: 'http://localhost:26657',
       // wsNode: 'ws://localhost:26657/websocket',
       chainId: "meep-1",
       addrPrefix: "meep",
       sdkVersion: "Stargate",
+			refresh: 10000,
     });
 
     // await this.$store.dispatch('cosmos.staking.v1beta1/init');
