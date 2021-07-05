@@ -9,30 +9,21 @@
       
         <form class="sp-voter__main__form">
           <div class="sp-voter__main__rcpt__header sp-box-header">
-            Create a new thread
+            Vote to ban a user!
           </div>
 
-          <textarea
-            :disabled="submitting"
-            class="sp-input"
-            placeholder=""
-            v-model="body"
-          />
           <input
             :disabled="submitting"
             class="sp-input"
-            placeholder="Image URL (optional)"
-            v-model="image"
-          /> <br /><br />
+            placeholder=""
+            v-model="address"
+          />
+         
           <sp-button
             v-show="hasFunds"
             :disabled="submitting"
-            @click="createThread"
-            >Create (0.1 MEEP)</sp-button
-          >
-          <sp-button v-show="!currentAccount" disabled>Sign in</sp-button>
-          <sp-button v-show="!hasFunds && currentAccount" disabled
-            >You need MEEP</sp-button
+            @click="createProposal"
+            >Create (100 MEEP)</sp-button
           >
         </form>
       </div>
@@ -119,6 +110,7 @@ export default {
     return {
       body: "",
       image: "",
+      address: "",
       submitting: false,
       balances: [],
       selectedFile: '',
@@ -222,22 +214,18 @@ export default {
       this.submitting = true;
       const value = {
         creator: this.currentAccount,
-        body: this.body,
-        image: this.image,
+        address: this.address,
       };
 
-      const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgCreateThread", {
+      const response = await this.$store.dispatch("octalmage.meep.meep/sendMsgSubmitBanUserProposal", {
         value,
         fee: [],
       }); 
 
       console.log(response);
       
-      this.body = "";
-      this.image = "";
+      this.address = "";
       this.submitting = false;
-
-      this.updateBalances();
     },
     async createTip(postId) {
       // 1000000000000000000

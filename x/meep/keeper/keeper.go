@@ -12,21 +12,21 @@ import (
 
 type (
 	Keeper struct {
-		cdc          codec.Marshaler
-		storeKey     sdk.StoreKey
-		memKey       sdk.StoreKey
-		bankKeeper   types.BankKeeper
-		paramsKeeper types.ParamsKeeper
+		cdc        codec.Marshaler
+		storeKey   sdk.StoreKey
+		memKey     sdk.StoreKey
+		bankKeeper types.BankKeeper
+		govKeeper  types.GovKeeper
 	}
 )
 
-func NewKeeper(cdc codec.Marshaler, storeKey, memKey sdk.StoreKey, bankKeeper types.BankKeeper, paramsKeeper types.ParamsKeeper) *Keeper {
+func NewKeeper(cdc codec.Marshaler, storeKey, memKey sdk.StoreKey, bankKeeper types.BankKeeper, govKeeper types.GovKeeper) *Keeper {
 	return &Keeper{
-		cdc:          cdc,
-		storeKey:     storeKey,
-		memKey:       memKey,
-		bankKeeper:   bankKeeper,
-		paramsKeeper: paramsKeeper,
+		cdc:        cdc,
+		storeKey:   storeKey,
+		memKey:     memKey,
+		bankKeeper: bankKeeper,
+		govKeeper:  govKeeper,
 	}
 }
 

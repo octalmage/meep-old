@@ -1,6 +1,7 @@
 package types
 
 import sdk "github.com/cosmos/cosmos-sdk/types"
+import govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 // BankKeeper defines the expected bank keeper
 type BankKeeper interface {
@@ -11,6 +12,7 @@ type BankKeeper interface {
 	SendCoinsFromAccountToModule(ctx sdk.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error
 }
 
-type ParamsKeeper interface {
-	Get(ctx sdk.Context, key []byte, ptr interface{})
+type GovKeeper interface {
+	SubmitProposal(ctx sdk.Context, content govtypes.Content) (govtypes.Proposal, error)
+	AddDeposit(ctx sdk.Context, proposalID uint64, depositorAddr sdk.AccAddress, depositAmount sdk.Coins) (bool, error)
 }

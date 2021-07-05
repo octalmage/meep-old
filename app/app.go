@@ -323,7 +323,7 @@ func New(
 	app.EvidenceKeeper = *evidenceKeeper
 
 	app.meepKeeper = *meepkeeper.NewKeeper(
-		appCodec, keys[meeptypes.StoreKey], keys[meeptypes.MemStoreKey], app.BankKeeper, app.GetSubspace(meeptypes.ModuleName),
+		appCodec, keys[meeptypes.StoreKey], keys[meeptypes.MemStoreKey], app.BankKeeper, app.GovKeeper,
 	)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition

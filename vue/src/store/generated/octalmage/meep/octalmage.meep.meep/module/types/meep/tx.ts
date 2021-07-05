@@ -5,6 +5,13 @@ import * as Long from "long";
 export const protobufPackage = "octalmage.meep.meep";
 
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgSubmitBanUserProposal {
+  creator: string;
+  address: string;
+}
+
+export interface MsgSubmitBanUserProposalResponse {}
+
 export interface MsgCreateTip {
   creator: string;
   postId: number;
@@ -104,6 +111,144 @@ export interface MsgDeletePost {
 }
 
 export interface MsgDeletePostResponse {}
+
+const baseMsgSubmitBanUserProposal: object = { creator: "", address: "" };
+
+export const MsgSubmitBanUserProposal = {
+  encode(
+    message: MsgSubmitBanUserProposal,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.address !== "") {
+      writer.uint32(18).string(message.address);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgSubmitBanUserProposal {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgSubmitBanUserProposal,
+    } as MsgSubmitBanUserProposal;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.address = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgSubmitBanUserProposal {
+    const message = {
+      ...baseMsgSubmitBanUserProposal,
+    } as MsgSubmitBanUserProposal;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.address !== undefined && object.address !== null) {
+      message.address = String(object.address);
+    } else {
+      message.address = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgSubmitBanUserProposal): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.address !== undefined && (obj.address = message.address);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgSubmitBanUserProposal>
+  ): MsgSubmitBanUserProposal {
+    const message = {
+      ...baseMsgSubmitBanUserProposal,
+    } as MsgSubmitBanUserProposal;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.address !== undefined && object.address !== null) {
+      message.address = object.address;
+    } else {
+      message.address = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgSubmitBanUserProposalResponse: object = {};
+
+export const MsgSubmitBanUserProposalResponse = {
+  encode(
+    _: MsgSubmitBanUserProposalResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgSubmitBanUserProposalResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgSubmitBanUserProposalResponse,
+    } as MsgSubmitBanUserProposalResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgSubmitBanUserProposalResponse {
+    const message = {
+      ...baseMsgSubmitBanUserProposalResponse,
+    } as MsgSubmitBanUserProposalResponse;
+    return message;
+  },
+
+  toJSON(_: MsgSubmitBanUserProposalResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgSubmitBanUserProposalResponse>
+  ): MsgSubmitBanUserProposalResponse {
+    const message = {
+      ...baseMsgSubmitBanUserProposalResponse,
+    } as MsgSubmitBanUserProposalResponse;
+    return message;
+  },
+};
 
 const baseMsgCreateTip: object = { creator: "", postId: 0, amount: 0 };
 
@@ -1714,6 +1859,9 @@ export const MsgDeletePostResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   /** this line is used by starport scaffolding # proto/tx/rpc */
+  SubmitBanUserProposal(
+    request: MsgSubmitBanUserProposal
+  ): Promise<MsgSubmitBanUserProposalResponse>;
   CreateTip(request: MsgCreateTip): Promise<MsgCreateTipResponse>;
   UpdateTip(request: MsgUpdateTip): Promise<MsgUpdateTipResponse>;
   DeleteTip(request: MsgDeleteTip): Promise<MsgDeleteTipResponse>;
@@ -1739,6 +1887,20 @@ export class MsgClientImpl implements Msg {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
   }
+  SubmitBanUserProposal(
+    request: MsgSubmitBanUserProposal
+  ): Promise<MsgSubmitBanUserProposalResponse> {
+    const data = MsgSubmitBanUserProposal.encode(request).finish();
+    const promise = this.rpc.request(
+      "octalmage.meep.meep.Msg",
+      "SubmitBanUserProposal",
+      data
+    );
+    return promise.then((data) =>
+      MsgSubmitBanUserProposalResponse.decode(new Reader(data))
+    );
+  }
+
   CreateTip(request: MsgCreateTip): Promise<MsgCreateTipResponse> {
     const data = MsgCreateTip.encode(request).finish();
     const promise = this.rpc.request(

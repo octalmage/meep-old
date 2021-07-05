@@ -37,6 +37,8 @@ export type MeepMsgDeleteTipResponse = object;
 
 export type MeepMsgDeleteUsernameResponse = object;
 
+export type MeepMsgSubmitBanUserProposalResponse = object;
+
 export type MeepMsgUpdatePostResponse = object;
 
 export type MeepMsgUpdateThreadResponse = object;

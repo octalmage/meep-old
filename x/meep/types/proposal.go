@@ -16,7 +16,7 @@ var _ govtypes.Content = BanUserProposal{}
 
 func init() {
 	govtypes.RegisterProposalType(ProposalTypeBanUser)
-	govtypes.RegisterProposalTypeCodec(BanUserProposal{}, "octalmage/meep/DisableTokenProposal")
+	govtypes.RegisterProposalTypeCodec(BanUserProposal{}, "octalmage/meep/BanUserProposal")
 }
 
 // BanUserProposal modify a token's variable parameter

@@ -9,6 +9,8 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	// this line is used by starport scaffolding # 2
+	cdc.RegisterConcrete(&MsgSubmitBanUserProposal{}, "meep/SubmitBanUserProposal", nil)
+
 	cdc.RegisterConcrete(&MsgCreateTip{}, "meep/CreateTip", nil)
 	cdc.RegisterConcrete(&MsgUpdateTip{}, "meep/UpdateTip", nil)
 	cdc.RegisterConcrete(&MsgDeleteTip{}, "meep/DeleteTip", nil)
@@ -31,6 +33,9 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	// this line is used by starport scaffolding # 3
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgSubmitBanUserProposal{},
+	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateTip{},
 		&MsgUpdateTip{},

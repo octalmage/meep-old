@@ -1,6 +1,12 @@
 import { Reader, Writer } from "protobufjs/minimal";
 export declare const protobufPackage = "octalmage.meep.meep";
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgSubmitBanUserProposal {
+    creator: string;
+    address: string;
+}
+export interface MsgSubmitBanUserProposalResponse {
+}
 export interface MsgCreateTip {
     creator: string;
     postId: number;
@@ -85,6 +91,20 @@ export interface MsgDeletePost {
 }
 export interface MsgDeletePostResponse {
 }
+export declare const MsgSubmitBanUserProposal: {
+    encode(message: MsgSubmitBanUserProposal, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSubmitBanUserProposal;
+    fromJSON(object: any): MsgSubmitBanUserProposal;
+    toJSON(message: MsgSubmitBanUserProposal): unknown;
+    fromPartial(object: DeepPartial<MsgSubmitBanUserProposal>): MsgSubmitBanUserProposal;
+};
+export declare const MsgSubmitBanUserProposalResponse: {
+    encode(_: MsgSubmitBanUserProposalResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSubmitBanUserProposalResponse;
+    fromJSON(_: any): MsgSubmitBanUserProposalResponse;
+    toJSON(_: MsgSubmitBanUserProposalResponse): unknown;
+    fromPartial(_: DeepPartial<MsgSubmitBanUserProposalResponse>): MsgSubmitBanUserProposalResponse;
+};
 export declare const MsgCreateTip: {
     encode(message: MsgCreateTip, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreateTip;
@@ -256,6 +276,7 @@ export declare const MsgDeletePostResponse: {
 /** Msg defines the Msg service. */
 export interface Msg {
     /** this line is used by starport scaffolding # proto/tx/rpc */
+    SubmitBanUserProposal(request: MsgSubmitBanUserProposal): Promise<MsgSubmitBanUserProposalResponse>;
     CreateTip(request: MsgCreateTip): Promise<MsgCreateTipResponse>;
     UpdateTip(request: MsgUpdateTip): Promise<MsgUpdateTipResponse>;
     DeleteTip(request: MsgDeleteTip): Promise<MsgDeleteTipResponse>;
@@ -272,6 +293,7 @@ export interface Msg {
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
+    SubmitBanUserProposal(request: MsgSubmitBanUserProposal): Promise<MsgSubmitBanUserProposalResponse>;
     CreateTip(request: MsgCreateTip): Promise<MsgCreateTipResponse>;
     UpdateTip(request: MsgUpdateTip): Promise<MsgUpdateTipResponse>;
     DeleteTip(request: MsgDeleteTip): Promise<MsgDeleteTipResponse>;

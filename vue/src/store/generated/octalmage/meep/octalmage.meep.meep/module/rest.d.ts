@@ -18,6 +18,7 @@ export declare type MeepMsgDeletePostResponse = object;
 export declare type MeepMsgDeleteThreadResponse = object;
 export declare type MeepMsgDeleteTipResponse = object;
 export declare type MeepMsgDeleteUsernameResponse = object;
+export declare type MeepMsgSubmitBanUserProposalResponse = object;
 export declare type MeepMsgUpdatePostResponse = object;
 export declare type MeepMsgUpdateThreadResponse = object;
 export declare type MeepMsgUpdateTipResponse = object;

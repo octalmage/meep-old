@@ -2,6 +2,120 @@
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
 export const protobufPackage = "octalmage.meep.meep";
+const baseMsgSubmitBanUserProposal = { creator: "", address: "" };
+export const MsgSubmitBanUserProposal = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.address !== "") {
+            writer.uint32(18).string(message.address);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgSubmitBanUserProposal,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.address = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = {
+            ...baseMsgSubmitBanUserProposal,
+        };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.address !== undefined && object.address !== null) {
+            message.address = String(object.address);
+        }
+        else {
+            message.address = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.address !== undefined && (obj.address = message.address);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = {
+            ...baseMsgSubmitBanUserProposal,
+        };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.address !== undefined && object.address !== null) {
+            message.address = object.address;
+        }
+        else {
+            message.address = "";
+        }
+        return message;
+    },
+};
+const baseMsgSubmitBanUserProposalResponse = {};
+export const MsgSubmitBanUserProposalResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgSubmitBanUserProposalResponse,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = {
+            ...baseMsgSubmitBanUserProposalResponse,
+        };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = {
+            ...baseMsgSubmitBanUserProposalResponse,
+        };
+        return message;
+    },
+};
 const baseMsgCreateTip = { creator: "", postId: 0, amount: 0 };
 export const MsgCreateTip = {
     encode(message, writer = Writer.create()) {
@@ -1498,6 +1612,11 @@ export const MsgDeletePostResponse = {
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
+    }
+    SubmitBanUserProposal(request) {
+        const data = MsgSubmitBanUserProposal.encode(request).finish();
+        const promise = this.rpc.request("octalmage.meep.meep.Msg", "SubmitBanUserProposal", data);
+        return promise.then((data) => MsgSubmitBanUserProposalResponse.decode(new Reader(data)));
     }
     CreateTip(request) {
         const data = MsgCreateTip.encode(request).finish();
